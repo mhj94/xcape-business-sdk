@@ -1,19 +1,21 @@
 package com.chadev.xcape.admin.service;
 
-import com.chadev.xcape.admin.repository.BannerRepository;
-import com.chadev.xcape.admin.repository.MerchantRepository;
 import com.chadev.xcape.admin.util.S3Uploader;
 import com.chadev.xcape.core.domain.converter.DtoConverter;
 import com.chadev.xcape.core.domain.dto.BannerDto;
 import com.chadev.xcape.core.domain.entity.Banner;
 import com.chadev.xcape.core.domain.entity.Merchant;
+import com.chadev.xcape.core.repository.BannerRepository;
+import com.chadev.xcape.core.repository.MerchantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -80,5 +82,13 @@ public class BannerService {
         }
         banner.setDescription(bannerDto.getDescription());
         banner.setLink(bannerDto.getLink());
+    }
+
+    public List<BannerDto> getAllBanners() {
+        List<Banner> bannerList = bannerRepository.findAll();
+        if (CollectionUtils.isEmpty(bannerList)) {
+            return new ArrayList<>();
+        }
+        return bannerList.stream().map(dtoConverter::toBannerDto).toList();
     }
 }

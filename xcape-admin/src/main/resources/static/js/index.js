@@ -1,21 +1,4 @@
-// (function () {
 let merchantId = document.getElementById('merchantId');
-const themeId = document.getElementById('themeId');
-const themeNameKo = document.getElementById('themeNameKo');
-const themeNameEn = document.getElementById('themeNameEn');
-const difficulty = document.getElementById('difficulty');
-const description = document.getElementById('description');
-const minParticipantCount = document.getElementById('minParticipantCount');
-const maxParticipantCount = document.getElementById('maxParticipantCount');
-const genre = document.getElementById('genre');
-const point = document.getElementById('point');
-const mainImagePreview = document.getElementById('mainImagePreview');
-const bgImagePreview = document.getElementById('bgImagePreview');
-const hasXKit = document.themeInfo.hasXKit;
-const isCrimeScene = document.themeInfo.isCrimeScene;
-const youtubeLink = document.getElementById('youtubeLink');
-const colorCode = document.getElementById('colorCode');
-const priceTemplate = document.querySelector('#priceTemplate').innerHTML;
 
 const deletedPriceArr = [];
 const deletedTimetableArr = [];
@@ -27,22 +10,23 @@ const getThemeInformation = (e) => {
         const theme = res.data.result;
         if (resultCode === SUCCESS) {
             document.themeInfo.action = `/themes/${theme.id}`;
-            merchantId.value = theme.merchantId;
-            themeId.value = theme.id;
-            themeNameKo.value = theme.nameKo;
-            themeNameEn.value = theme.nameEn;
-            difficulty.value = theme.difficulty;
-            description.value = theme.description;
-            minParticipantCount.value = theme.minParticipantCount;
-            maxParticipantCount.value = theme.maxParticipantCount;
-            genre.value = theme.genre;
-            point.value = theme.point;
-            hasXKit.value = theme.hasXKit;
-            isCrimeScene.value = theme.isCrimeScene;
-            mainImagePreview.src = theme.mainImagePath || '/images/noPhoto.jpg';
-            bgImagePreview.src = theme.bgImagePath || '/images/noPhoto.jpg';
-            youtubeLink.value = theme.youtubeLink;
-            colorCode.value = theme.colorCode || '#242424';
+            document.querySelector('#merchantId').value = theme.merchantId;
+            document.querySelector('#themeId').value = theme.id;
+            document.querySelector('#themeNameKo').value = theme.nameKo;
+            document.querySelector('#themeNameEn').value = theme.nameEn;
+            document.querySelector('#difficulty').value = theme.difficulty;
+            document.querySelector('#description').value = theme.description;
+            document.querySelector('#minParticipantCount').value = theme.minParticipantCount;
+            document.querySelector('#maxParticipantCount').value = theme.maxParticipantCount;
+            document.querySelector('#genre').value = theme.genre;
+            document.querySelector('#point').value = theme.point;
+            document.querySelector('input[name="hasXKit"]').value = theme.hasXKit;
+            document.querySelector('input[name="isCrimeScene"]').value = theme.isCrimeScene;
+            document.querySelector('#mainImagePreview').src = theme.mainImagePath || '/images/noPhoto.jpg';
+            document.querySelector('#bgImagePreview').src = theme.bgImagePath || '/images/noPhoto.jpg';
+            document.querySelector('#youtubeLink').value = theme.youtubeLink;
+            document.querySelector('#colorCode').value = theme.colorCode || '#242424';
+            document.querySelector('#runningTime').value = theme.runningTime;
             bindAbility(theme.abilityList);
             // bindTimetableInputs(theme.timetable);
         }
@@ -80,8 +64,9 @@ document.querySelector('#saveThemeButton').addEventListener('click', () => {
                          <span>저장 중입니다...</span>`;
         saveThemeButton.disabled = true;
         saveThemeButton.innerHTML = spinner;
+        const themeId = document.querySelector('#themeId').value
 
-        axios.put(`/themes/${themeId.value}`, formData, {
+        axios.put(`/themes/${themeId}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -150,6 +135,7 @@ document.querySelector('#addPriceButton').addEventListener('click', () => {
 });
 
 const createPriceInputs = () => {
+    const priceTemplate = document.querySelector('#priceTemplate').innerHTML;
     const priceDomCount = document.querySelectorAll('.person').length;
     const priceAreaId = `priceAreaId-${priceDomCount}`;
     const priceId = '';
@@ -173,7 +159,7 @@ const deletePrice = (priceAreaId) => {
             id: priceDom.dataset.priceId,
             person: document.querySelector(`#${priceAreaId} .person`).value,
             price: document.querySelector(`#${priceAreaId} .price`).value.replace(/,/g, ""),
-            themeId: themeId.value,
+            themeId: document.querySelector('#themeId').value,
 
         });
     }
@@ -212,8 +198,9 @@ const bindPriceInputs = (priceList) => {
 
 const bindPriceDetail = () => {
     deletedPriceArr.length = 0;
+    const themeId = document.querySelector('#themeId').value;
 
-    axios.get(`/themes/${themeId.value}/price`).then(res => {
+    axios.get(`/themes/${themeId}/price`).then(res => {
         const {resultCode, result} = res.data;
         if (resultCode === SUCCESS) {
             bindPriceInputs(result);
@@ -223,9 +210,10 @@ const bindPriceDetail = () => {
 
 const savePrice = () => {
     const params = makePriceParameter();
+    const themeId = document.querySelector('#themeId').value;
 
     if (params.length > 0) {
-        axios.put(`/themes/${themeId.value}/price`, params).then(res => {
+        axios.put(`/themes/${themeId}/price`, params).then(res => {
             const {resultCode} = res.data;
             if (resultCode === SUCCESS) {
                 const priceDetailModal = document.querySelector('#priceDetailModal');
@@ -292,8 +280,9 @@ const bindTimetableInputs = (timetableList) => {
 
 const bindTimetableDetail = () => {
     deletedTimetableArr.length = 0;
+    const themeId = document.querySelector('#themeId').value;
 
-    axios.get(`/themes/${themeId.value}/timetable`).then(res => {
+    axios.get(`/themes/${themeId}/timetable`).then(res => {
         const {resultCode, result} = res.data;
         if (resultCode === SUCCESS) {
             result.sort((a, b) => {
@@ -327,7 +316,8 @@ document.getElementById('youtubeLink').addEventListener('change', () => {
     const youtubeArea = document.getElementById('youtubeArea');
     let urlParams;
     try {
-        urlParams = new URL(youtubeLink.value).searchParams;
+        const youtubeLink = document.querySelector('#youtubeLink').value;
+        urlParams = new URL(youtubeLink).searchParams;
     } catch (e) {
         youtubeArea.innerHTML = '';
         return;
@@ -459,7 +449,8 @@ document.querySelector('#timetableSaveButton').addEventListener('click', () => {
     const params = makeTimetableParameter();
 
     if (params.length > 0) {
-        axios.put(`/themes/${themeId.value}/timetable`, params).then(res => {
+        const themeId = document.querySelector('#themeId').value
+        axios.put(`/themes/${themeId}/timetable`, params).then(res => {
             const {resultCode} = res.data;
             if (resultCode === SUCCESS) {
                 const timetableModal = document.querySelector('#timetableDetailModal');
@@ -475,11 +466,125 @@ document.querySelector('#timetableSaveButton').addEventListener('click', () => {
     }
 });
 
+document.querySelector('#jsonPublishButton').addEventListener('click', () => {
+    axios.get('/merchants')
+        .then(res => {
+            const {resultCode, result} = res.data;
+            if (resultCode === SUCCESS) {
+                const merchantList = result;
+                const themeList = [];
+                merchantList.forEach(merchant => {
+                    merchant.themeList.forEach(theme => {
+                        themeList.push(theme);
+                    });
+                    delete merchant.themeList;
+                    delete merchant.bannerList;
+                });
+
+                let form = new FormData();
+                form.append('file', new File([JSON.stringify(merchantList)], JSON_FILE_NAME));
+                form.append('type', JSON_FILE_TYPE.MERCHANT);
+
+                let merchantPath;
+                let themePath;
+                axios.putForm('/json', form)
+                    .then(res => {
+                        merchantPath = res.data;
+                    })
+                    .then(() => {
+                        form = new FormData();
+                        form.append('file', new File([JSON.stringify(themeList)], JSON_FILE_NAME));
+                        form.append('type', JSON_FILE_TYPE.THEME);
+                        axios.putForm('/json', form)
+                            .then(res => {
+                                themePath = res.data;
+                                if (merchantPath && themePath) {
+                                    alert(`지점 정보 주소: ${merchantPath}\n테마 정보 주소: ${themePath}\n 발행 완료되었습니다.`);
+                                    return;
+                                }
+                                alert('발행에 실패했습니다.')
+                            });
+                    });
+            }
+
+        });
+});
+
+const removeRow = element => {
+    element.closest('.create-row').remove();
+};
+
+document.querySelector('#themeCreateButton').addEventListener('click', () => {
+    const themeCreateModal = document.querySelector('#themeCreateModal');
+    const form = new FormData(themeCreateModal.querySelector('form[name="theme"]'));
+    const _merchantId = themeCreateModal.querySelector('select[name=merchantId]').value;
+
+    if (!_merchantId) {
+        alert('지점을 선택해주세요');
+        return;
+    }
+
+    // image
+    const mainImage = themeCreateModal.querySelector('input[name=mainImage]').files[0];
+    const bgImage = themeCreateModal.querySelector('input[name=bgImage]').files[0];
+    if (!mainImage || !bgImage) {
+        alert('이미지가 누락되었습니다.')
+        return;
+    }
+    form.append('mainImage', mainImage);
+    form.append('bgImage', bgImage);
+
+    // theme > abilityList
+    const abilityList = [];
+    themeCreateModal.querySelectorAll('#abilityList select[data-code]').forEach(select => {
+        const ability = {...select.dataset, value: select.value};
+        abilityList.push(ability);
+    });
+    abilityList.forEach((ability, index) => {
+        form.append(`abilityList[${index}].code`, ability.code);
+        form.append(`abilityList[${index}].name`, ability.name);
+        form.append(`abilityList[${index}].value`, ability.value);
+    });
+
+    // theme > priceList
+    // const priceList = [];
+    // themeCreateModal.querySelectorAll('#createPriceArea .create-row').forEach(row => {
+    //     priceList.push({
+    //         price: row.querySelector('.price').value,
+    //         person: row.querySelector('.person').value
+    //     });
+    // });
+    // theme.priceList = [...priceList];
+    //
+    // // theme > timetable
+    // const timetableList = [];
+    // themeCreateModal.querySelectorAll('#createTimeTableArea .create-row').forEach(row => {
+    //     const hour = row.querySelector('select.hour').value;
+    //     const minute = row.querySelector('select.minute').value;
+    //     timetableList.push({
+    //         type: GENERAL,
+    //         time: `${hour}:${minute}`
+    //     });
+    // });
+    // theme.timetableList = [...timetableList];
+
+    console.log('form', Object.fromEntries(form));
+    axios.post(
+        `/merchants/${_merchantId}/themes`,
+        form,
+        {headers: {"Content-Type": "multipart/form-data"}}
+    ).then(res => {
+        const {resultCode} = res.data;
+        if (SUCCESS === resultCode) {
+            alert('정상적으로 저장되었습니다.');
+            location.reload();
+        }
+    });
+});
+
 const init = () => {
     addClickEventToAccordion();
     selectFirstTheme();
 }
 
 init();
-
-// })();

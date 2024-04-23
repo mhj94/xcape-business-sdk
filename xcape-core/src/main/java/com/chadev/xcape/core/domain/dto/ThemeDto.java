@@ -35,10 +35,12 @@ public class ThemeDto {
     private Boolean hasXKit;
     private Boolean isCrimeScene;
     private Boolean useYn;
+    private Integer runningTime;
     private List<TimetableDto> timeTableList;
     private List<PriceDto> priceList;
     private List<AbilityDto> abilityList;
     private List<ReservationDto> reservationList;
+    private List<HintDto> hintList;
 
     public ThemeDto(Theme entity) {
         this.id = entity.getId();
@@ -58,6 +60,7 @@ public class ThemeDto {
         this.hasXKit = entity.getHasXKit();
         this.isCrimeScene = entity.getIsCrimeScene();
         this.useYn = entity.getUseYn();
+        this.runningTime = entity.getRunningTime();
     }
 
     @Override
