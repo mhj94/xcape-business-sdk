@@ -4,6 +4,7 @@ import com.chadev.xcape.core.domain.converter.DtoConverter;
 import com.chadev.xcape.core.domain.dto.MerchantDto;
 import com.chadev.xcape.core.domain.entity.Merchant;
 import com.chadev.xcape.core.repository.MerchantRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,29 @@ public class MerchantService {
     public List<MerchantDto> getMerchantIdAndNameList() {
         return merchantRepository.findAll().stream()
                 .map(entity -> new MerchantDto(entity.getId(), entity.getName())).toList();
+    }
+
+    @Transactional
+    public void createMerchant(MerchantDto requestDto) {
+        int merchantSize = merchantRepository.findAll().size();
+
+        Merchant newMerchant = Merchant.builder()
+                .name(requestDto.getName())
+                .telNumber(requestDto.getTelNumber())
+                .address(requestDto.getAddress())
+                .businessHour(requestDto.getBusinessHour())
+                .ceoName(requestDto.getCeoName())
+                .businessRegistrationNumber(requestDto.getBusinessRegistrationNumber())
+                .email(requestDto.getEmail())
+                .code(requestDto.getCode())
+                .useYn(requestDto.getUseYn())
+                .parkingYn(requestDto.getParkingYn())
+                .brandInfoNotionId(requestDto.getBrandInfoNotionId())
+                .usingInfoNotionId(requestDto.getUsingInfoNotionId())
+                .addressInfoNotionId(requestDto.getAddressInfoNotionId())
+                .order(merchantSize + 1)
+                .build();
+
+        merchantRepository.save(newMerchant);
     }
 }
