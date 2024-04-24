@@ -6,6 +6,9 @@
     <div class="container mb-3">
         <div class="row mt-2">
             <div class="col text-start">
+                <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                        data-bs-target="#merchantCreateModal">가맹점 만들기
+                </button>
                 <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#themeCreateModal">테마 만들기</button>
             </div>
             <div class="col text-end">
@@ -267,12 +270,12 @@
                         <div class="col">
                             <div>
                                 <div class="row justify-content-center mx-0 mb-3 border p-1 text-center">
-                                    <h5>메인 이미지</h5>
+                                    <h5><span class="requiredMark">*</span>메인 이미지</h5>
                                     <img id="createMainImagePreview" class="mb-1" width="250" height="250" src="" style="object-fit: contain;" alt="">
                                     <input id="createMainImage" accept="image/*" class="form-control" name="mainImage" onchange="imagePreview(this)" required="" type="file">
                                 </div>
                                 <div class="row justify-content-center mx-0 mb-3 border p-1 text-center">
-                                    <h5>배경 이미지</h5>
+                                    <h5><span class="requiredMark">*</span>배경 이미지</h5>
                                     <img id="createBgImagePreview" class="mb-1" width="250" height="250" src="" style="object-fit: contain;" alt="">
                                     <input id="createBgImage" class="form-control" type="file" name="bgImage" accept="image/*" onchange="imagePreview(this)" required="">
                                 </div>
@@ -285,13 +288,13 @@
                                         <div class="col ps-0">
                                             <div class="form-floating">
                                                 <input id="createThemeNameKo" class="form-control" name="nameKo" required="" type="text">
-                                                <label for="createThemeNameKo">테마명 (한글)</label>
+                                                <label for="createThemeNameKo"><span class="requiredMark">*</span>테마명 (한글)</label>
                                             </div>
                                         </div>
                                         <div class="col pe-0">
                                             <div class="form-floating">
                                                 <input id="createThemeNameEn" class="form-control" name="nameEn" type="text" required="">
-                                                <label for="createThemeNameEn">테마명 (영문)</label>
+                                                <label for="createThemeNameEn"><span class="requiredMark">*</span>테마명 (영문)</label>
                                             </div>
                                         </div>
                                     </div>
@@ -305,8 +308,8 @@
                                     </div>
                                     <div class="row m-0">
                                         <div class="col-lg px-0 form-floating">
-                                            <textarea class="form-control" id="createDescription" name="description" rows="6"></textarea>
-                                            <label for="createDescription">테마 소개</label>
+                                            <textarea class="form-control" id="createDescription" name="description" rows="6" required></textarea>
+                                            <label for="createDescription"><span class="requiredMark">*</span>테마 소개</label>
                                         </div>
                                     </div>
                                     <div id="abilityList" class="row">
@@ -369,7 +372,7 @@
                                     <div class="row mx-0 mt-3">
                                         <div class="col px-0">
                                             <div class="input-group p-0">
-                                                <span class="input-group-text">인원 수</span>
+                                                <span class="input-group-text"><span class="requiredMark">*</span>인원 수</span>
                                                 <input class="form-control" aria-label="minParticipantCount" id="createMinParticipantCount" name="minParticipantCount" type="number" min="0" max="5" placeholder="최소 인원" required="">
                                                 <span class="input-group-text">~</span>
                                                 <input class="form-control" aria-label="maxParticipantCount" id="createMaxParticipantCount" name="maxParticipantCount" type="number" min="2" max="8" placeholder="최대 인원" required="">
@@ -378,28 +381,28 @@
                                     </div>
                                     <div class="row mx-0 mt-3">
                                         <div class="col ps-0 form-floating">
-                                            <input class="form-control" id="createGenre" name="genre" type="text">
-                                            <label for="createGenre">장르</label>
+                                            <input class="form-control" id="createGenre" name="genre" type="text" required>
+                                            <label for="createGenre"><span class="requiredMark">*</span>장르</label>
                                         </div>
                                         <div class="col ps-0 form-floating">
                                             <input type="color" class="form-control form-control-color" id="createColorCode" name="colorCode">
-                                            <label for="createColorCode">색상</label>
+                                            <label for="createColorCode"><span class="requiredMark">*</span>색상</label>
                                         </div>
                                         <div class="col ps-0 form-floating">
-                                            <input class="form-control" id="createRunningTime" name="runningTime" type="text">
-                                            <label for="createRunningTime">플레이타임</label>
+                                            <input class="form-control" id="createRunningTime" name="runningTime" type="text" required>
+                                            <label for="createRunningTime"><span class="requiredMark">*</span>플레이타임</label>
                                         </div>
                                     </div>
                                     <div class="row mx-0 mt-3">
                                         <div class="col ps-0 form-floating">
                                             <input class="form-control" id="createPoint" name="point" type="text">
-                                            <label for="createPoint">포인트</label>
+                                            <label for="createPoint"><span class="requiredMark">*</span>포인트</label>
                                         </div>
                                     </div>
                                     <div class="row mx-0 mt-3">
                                         <div class="col ps-0 form-floating">
                                             <input class="form-control" id="createYoutubeLink" name="youtubeLink" type="text">
-                                            <label for="createYoutubeLink">소개영상 링크</label>
+                                            <label for="createYoutubeLink"><span class="requiredMark">*</span>소개영상 링크</label>
                                         </div>
                                     </div>
                                     <div class="row mx-0 mt-3">
@@ -433,6 +436,139 @@
                 </div>
                 <div class="modal-footer">
                     <button id="themeCreateButton" type="button" class="btn btn-primary">저장</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="merchantCreateModal" class="modal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">가맹점 만들기</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-3">
+                    <form name="merchant" class="needs-validation">
+                        <div class="mb-3 row">
+                            <div class="col">
+                                <label for="merchantName" class="form-label"><span class="requiredMark">*</span>가맹점 이름</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="name"
+                                       id="merchantName"
+                                       required />
+                            </div>
+                            <div class="col">
+                                <label for="telNumber" class="form-label">전화번호</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="telNumber"
+                                       id="telNumber" />
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col">
+                                <label for="address" class="form-label">주소</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="address"
+                                       id="address" />
+                            </div>
+                            <div class="col">
+                                <label for="businessHour" class="form-label">영업시간</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="businessHour"
+                                       name="businessHour"
+                                       placeholder="10:00~01:00" />
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col">
+                                <label for="ceoName" class="form-label">대표자 성명</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="ceoName"
+                                       id="ceoName" />
+                            </div>
+                            <div class="col">
+                                <label for="businessRegistrationNumber" class="form-label">사업자 번호</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="businessRegistrationNumber"
+                                       id="businessRegistrationNumber" />
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col">
+                                <label for="email" class="form-label">E-Mail</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="email"
+                                       id="email" />
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label for="code" class="form-label"><span class="requiredMark">*</span>가맹점 코드</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               name="code"
+                                               id="code"
+                                               placeholder="xc"
+                                               required />
+                                    </div>
+                                    <div class="col mt-4">
+                                        <div class="form-switch">
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   role="switch"
+                                                   name="parkingYn"
+                                                   id="parkingYn" />
+                                            <label class="form-check-label overflow" for="parkingYn">주차가능 여부</label>
+                                        </div>
+                                        <div class="form-switch">
+                                            <input class="form-check-input"
+                                                   type="checkbox"
+                                                   role="switch"
+                                                   name="useYn"
+                                                   id="useYn" />
+                                            <label class="form-check-label" for="useYn">사용 여부</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col">
+                                <label for="brandInfoNotionId" class="form-label"><span class="requiredMark">*</span>브랜드 소개(노션 페이지 ID)</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="brandInfoNotionId"
+                                       id="brandInfoNotionId"
+                                       required />
+                            </div>
+                            <div class="col">
+                                <label for="usingInfoNotionId" class="form-label"><span class="requiredMark">*</span>이용안내(노션 페이지 ID)</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="usingInfoNotionId"
+                                       id="usingInfoNotionId"
+                                       required />
+                            </div>
+                            <div class="col">
+                                <label for="addressInfoNotionId" class="form-label"><span class="requiredMark">*</span>오시는 길(노션 페이지 ID)</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="addressInfoNotionId"
+                                       id="addressInfoNotionId"
+                                       required />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="merchantCreateButton" type="button" class="btn btn-primary">저장</button>
                 </div>
             </div>
         </div>

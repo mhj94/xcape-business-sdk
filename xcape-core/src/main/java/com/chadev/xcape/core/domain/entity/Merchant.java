@@ -1,10 +1,7 @@
 package com.chadev.xcape.core.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +13,9 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "merchant")
 public class Merchant extends AuditingFields {
 
@@ -73,9 +72,12 @@ public class Merchant extends AuditingFields {
     @Column(name = "using_info_notion_id")
     private String usingInfoNotionId;
 
-    @Column(name = "address_notion_id")
-    private String addressNotionId;
+    @Column(name = "address_info_notion_id")
+    private String addressInfoNotionId;
 
     @OneToMany(mappedBy = "merchant")
     private List<Banner> bannerList = new ArrayList<>();
+
+    @Column(name = "use_yn", length = 1)
+    private Boolean useYn;
 }

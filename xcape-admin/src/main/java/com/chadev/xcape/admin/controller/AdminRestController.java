@@ -180,4 +180,11 @@ public class AdminRestController {
         List<ReservationHistoryDto> reservationHistoryList = reservationHistoryService.getReservationHistoryListByReservationSeq(reservationSeq);
         return Response.success(reservationHistoryList);
     }
+
+    // 가맹점 등록
+    @PostMapping("/merchants")
+    public Response<Void> createMerchant(MerchantDto merchantDto) {
+        merchantService.createMerchant(merchantDto);
+        return Response.success();
+    }
 }
