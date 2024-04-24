@@ -516,7 +516,8 @@ const removeRow = element => {
 
 document.querySelector('#themeCreateButton').addEventListener('click', () => {
     const themeCreateModal = document.querySelector('#themeCreateModal');
-    const form = new FormData(themeCreateModal.querySelector('form[name="theme"]'));
+    const form = document.querySelector('form[name="theme"]');
+    const formData = new FormData(themeCreateModal.querySelector('form[name="theme"]'));
     const _merchantId = themeCreateModal.querySelector('select[name=merchantId]').value;
 
     if (!_merchantId) {
@@ -531,56 +532,87 @@ document.querySelector('#themeCreateButton').addEventListener('click', () => {
         alert('이미지가 누락되었습니다.')
         return;
     }
-    form.append('mainImage', mainImage);
-    form.append('bgImage', bgImage);
+    formData.append('mainImage', mainImage);
+    formData.append('bgImage', bgImage);
 
-    // theme > abilityList
-    const abilityList = [];
-    themeCreateModal.querySelectorAll('#abilityList select[data-code]').forEach(select => {
-        const ability = {...select.dataset, value: select.value};
-        abilityList.push(ability);
-    });
-    abilityList.forEach((ability, index) => {
-        form.append(`abilityList[${index}].code`, ability.code);
-        form.append(`abilityList[${index}].name`, ability.name);
-        form.append(`abilityList[${index}].value`, ability.value);
-    });
 
-    // theme > priceList
-    // const priceList = [];
-    // themeCreateModal.querySelectorAll('#createPriceArea .create-row').forEach(row => {
-    //     priceList.push({
-    //         price: row.querySelector('.price').value,
-    //         person: row.querySelector('.person').value
-    //     });
-    // });
-    // theme.priceList = [...priceList];
-    //
-    // // theme > timetable
-    // const timetableList = [];
-    // themeCreateModal.querySelectorAll('#createTimeTableArea .create-row').forEach(row => {
-    //     const hour = row.querySelector('select.hour').value;
-    //     const minute = row.querySelector('select.minute').value;
-    //     timetableList.push({
-    //         type: GENERAL,
-    //         time: `${hour}:${minute}`
-    //     });
-    // });
-    // theme.timetableList = [...timetableList];
+    if (form.checkValidity()) {
+        // theme > abilityList
+        const abilityList = [];
+        themeCreateModal.querySelectorAll('#abilityList select[data-code]').forEach(select => {
+            const ability = {...select.dataset, value: select.value};
+            abilityList.push(ability);
+        });
+        abilityList.forEach((ability, index) => {
+            formData.append(`abilityList[${index}].code`, ability.code);
+            formData.append(`abilityList[${index}].name`, ability.name);
+            formData.append(`abilityList[${index}].value`, ability.value);
+        });
 
-    console.log('form', Object.fromEntries(form));
-    axios.post(
-        `/merchants/${_merchantId}/themes`,
-        form,
-        {headers: {"Content-Type": "multipart/form-data"}}
-    ).then(res => {
-        const {resultCode} = res.data;
-        if (SUCCESS === resultCode) {
-            alert('정상적으로 저장되었습니다.');
-            location.reload();
-        }
-    });
+        // theme > priceList
+        // const priceList = [];
+        // themeCreateModal.querySelectorAll('#createPriceArea .create-row').forEach(row => {
+        //     priceList.push({
+        //         price: row.querySelector('.price').value,
+        //         person: row.querySelector('.person').value
+        //     });
+        // });
+        // theme.priceList = [...priceList];
+        //
+        // // theme > timetable
+        // const timetableList = [];
+        // themeCreateModal.querySelectorAll('#createTimeTableArea .create-row').forEach(row => {
+        //     const hour = row.querySelector('select.hour').value;
+        //     const minute = row.querySelector('select.minute').value;
+        //     timetableList.push({
+        //         type: GENERAL,
+        //         time: `${hour}:${minute}`
+        //     });
+        // });
+        // theme.timetableList = [...timetableList];
+
+        // console.log('form', Object.fromEntries(form));
+        axios.post(
+            `/merchants/${_merchantId}/themes`,
+            formData,
+            {headers: {"Content-Type": "multipart/form-data"}}
+        ).then(res => {
+            const {resultCode} = res.data;
+            if (SUCCESS === resultCode) {
+                alert(SAVE_SUCCESS);
+                location.reload();
+            } else {
+                alert(SAVE_FAIL)
+            }
+        });
+    } else {
+        form.classList.add('was-validated')
+    }
 });
+
+document.querySelector('#merchantCreateButton').addEventListener('click', () => {
+    const merchantCreateForm = document.querySelector('form[name="merchant"]');
+    const form = new FormData(merchantCreateForm);
+
+    if (merchantCreateForm.checkValidity()) {
+        form.set('useYn', document.querySelector('#useYn').checked);
+        form.set('parkingYn', document.querySelector('#parkingYn').checked);
+        axios.post('/merchants', form)
+            .then((res) => {
+                const {resultCode} = res.data;
+                if (SUCCESS === resultCode) {
+                    alert(SAVE_SUCCESS);
+                    location.reload();
+                } else {
+                    alert(SAVE_FAIL)
+                }
+            })
+            .catch(console.error);
+    } else {
+        merchantCreateForm.classList.add('was-validated')
+    }
+});
+
 
 const init = () => {
     addClickEventToAccordion();
