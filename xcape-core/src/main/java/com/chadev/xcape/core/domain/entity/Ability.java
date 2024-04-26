@@ -3,6 +3,8 @@ package com.chadev.xcape.core.domain.entity;
 import com.chadev.xcape.core.domain.dto.AbilityDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +12,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "ability")
 public class Ability extends AuditingFields {
