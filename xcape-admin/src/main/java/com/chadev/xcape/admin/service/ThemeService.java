@@ -52,6 +52,7 @@ public class ThemeService {
                 .genre(requestDto.getGenre())
                 .hasXKit(requestDto.getHasXKit())
                 .isCrimeScene(requestDto.getIsCrimeScene())
+                .useYn(requestDto.getUseYn())
                 .mainImagePath(requestDto.getMainImagePath())
                 .minParticipantCount(requestDto.getMinParticipantCount())
                 .maxParticipantCount(requestDto.getMaxParticipantCount())

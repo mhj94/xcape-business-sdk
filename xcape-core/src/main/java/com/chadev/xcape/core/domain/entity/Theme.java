@@ -110,6 +110,7 @@ public class Theme extends AuditingFields {
         this.colorCode = requestDto.getColorCode();
         this.hasXKit = requestDto.getHasXKit();
         this.isCrimeScene = requestDto.getIsCrimeScene();
+        this.useYn = requestDto.getUseYn();
         this.runningTime = requestDto.getRunningTime();
     }
 }

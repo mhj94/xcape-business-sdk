@@ -38,7 +38,7 @@ document.querySelectorAll('#treeArea .accordion-body button').forEach((button) =
 });
 
 document.querySelector('#saveThemeButton').addEventListener('click', () => {
-    const form = document.querySelector('.needs-validation');
+    const form = document.querySelector('form[name="themeInfo"]');
 
     if (form.checkValidity()) {
         const formData = new FormData(form);
@@ -400,7 +400,7 @@ const bindAbility = (abilityList) => {
 
 const makeAbilityParameter = () => {
     const abilityParameter = [];
-    document.querySelectorAll('.ability').forEach((ability) => {
+    document.querySelectorAll('form[name="themeInfo"] .ability').forEach((ability) => {
         abilityParameter.push({
             id: ability.dataset.abilityId,
             code: ability.id,
