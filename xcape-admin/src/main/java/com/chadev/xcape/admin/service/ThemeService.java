@@ -3,9 +3,11 @@ package com.chadev.xcape.admin.service;
 import com.chadev.xcape.admin.util.S3Uploader;
 import com.chadev.xcape.core.domain.converter.DtoConverter;
 import com.chadev.xcape.core.domain.dto.ThemeDto;
+import com.chadev.xcape.core.domain.entity.Ability;
 import com.chadev.xcape.core.domain.entity.Merchant;
 import com.chadev.xcape.core.domain.entity.Theme;
 import com.chadev.xcape.core.domain.request.ThemeModifyRequestDto;
+import com.chadev.xcape.core.repository.AbilityRepository;
 import com.chadev.xcape.core.repository.MerchantRepository;
 import com.chadev.xcape.core.repository.PriceRepository;
 import com.chadev.xcape.core.repository.ThemeRepository;
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -28,6 +31,7 @@ public class ThemeService {
 
     private final MerchantRepository merchantRepository;
     private final ThemeRepository themeRepository;
+    private final AbilityRepository abilityRepository;
     private final PriceRepository priceRepository;
     private final AbilityService abilityService;
     private final S3Uploader s3Uploader;
@@ -57,6 +61,16 @@ public class ThemeService {
                 .youtubeLink(requestDto.getYoutubeLink())
                 .runningTime(requestDto.getRunningTime())
                 .build();
+
+       requestDto.getAbilityList().stream().map(abilityDto -> Ability.builder()
+           .code(abilityDto.getCode())
+           .name(abilityDto.getName())
+           .value(abilityDto.getValue())
+           .merchant(merchant)
+           .theme(newTheme)
+           .build())
+           .forEach(abilityRepository::save);
+
         Theme savedTheme = themeRepository.save(newTheme);
 
         String mainImageURL = s3Uploader.upload(mainImage, Long.toString(savedTheme.getId()));
