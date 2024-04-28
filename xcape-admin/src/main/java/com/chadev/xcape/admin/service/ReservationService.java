@@ -148,6 +148,10 @@ public class ReservationService {
         reservation.setUnreservedTime(null);
         reservationRepository.save(reservation);
 
+        if (reservation.getRoomType().is(RoomType.OPEN_ROOM)) {
+            reservationDto.setPrice(0);
+        }
+
         NotificationTemplateEnum.ReservationCancelParam reservationCancelParam = reservationDto.getReservationCancelParam(objectMapper);
         KakaoTalkResponse kakaoTalkResponse = kakaoTalkNotification.sendMessage(CANCEL_RESERVATION.getKakaoTalkRequest(reservationCancelParam));
         if (!kakaoTalkResponse.getHeader().isSuccessful) {
