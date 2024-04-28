@@ -148,7 +148,7 @@ public class ReservationService {
         reservation.setUnreservedTime(null);
         reservationRepository.save(reservation);
 
-        if (reservation.getRoomType().is(RoomType.OPEN_ROOM)) {
+        if (reservation.getRoomType() != null && reservation.getRoomType().is(RoomType.OPEN_ROOM)) {
             reservationDto.setPrice(0);
         }
 
