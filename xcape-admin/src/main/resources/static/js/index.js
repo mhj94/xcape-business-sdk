@@ -590,30 +590,6 @@ document.querySelector('#themeCreateButton').addEventListener('click', () => {
     }
 });
 
-document.querySelector('#merchantCreateButton').addEventListener('click', () => {
-    const merchantCreateForm = document.querySelector('form[name="merchant"]');
-    const form = new FormData(merchantCreateForm);
-
-    if (merchantCreateForm.checkValidity()) {
-        form.set('useYn', document.querySelector('#useYn').checked);
-        form.set('parkingYn', document.querySelector('#parkingYn').checked);
-        axios.post('/merchants', form)
-            .then((res) => {
-                const {resultCode} = res.data;
-                if (SUCCESS === resultCode) {
-                    alert(SAVE_SUCCESS);
-                    location.reload();
-                } else {
-                    alert(SAVE_FAIL)
-                }
-            })
-            .catch(console.error);
-    } else {
-        merchantCreateForm.classList.add('was-validated')
-    }
-});
-
-
 const init = () => {
     addClickEventToAccordion();
     selectFirstTheme();
