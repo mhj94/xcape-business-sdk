@@ -34,6 +34,20 @@ public class AdminViewController {
         return "login";
     }
 
+    @GetMapping("/merchant-settings")
+    public String merchant(Model model, Authentication authentication){
+        AccountDto accountDto = (AccountDto) authentication.getPrincipal();
+        List<MerchantDto> merchantList = new ArrayList<>();
+        if (accountDto.getType() == AccountType.MASTER) {
+            merchantList = merchantService.getAllMerchantList();
+        }
+
+        if (accountDto.getType() == AccountType.MANAGER) {
+            merchantList.add(merchantService.getMerchant(accountDto.getMerchantId()));
+        }
+        model.addAttribute("merchantList", merchantList);
+        return "merchant";
+    }
     @GetMapping("/theme-settings")
     public String themeSettings(Model model, Authentication authentication) {
         AccountDto account = (AccountDto) authentication.getPrincipal();
