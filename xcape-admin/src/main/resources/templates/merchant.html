@@ -20,6 +20,7 @@
         <tr>
             <th scope="col">지점</th>
             <th scope="col">지점코드</th>
+            <th scope="col">순서</th>
             <th scope="col">주소</th>
             <th scope="col">전화번호</th>
             <th scope="col">운영시간</th>
@@ -27,6 +28,9 @@
             <th scope="col">대표</th>
             <th scope="col">사업자번호</th>
             <th scope="col">이메일</th>
+            <th scope="col">브랜드 소개(노션아이디)</th>
+            <th scope="col">이용안내(노션아이디)</th>
+            <th scope="col">오시는길(노션아이디)</th>
             <th scope="col">사용여부</th>
         </tr>
         </thead>
@@ -34,6 +38,7 @@
         <tr th:each="merchant : ${merchantList}" th:data-merchant-id="${merchant.id}">
             <td th:text="${merchant.name}"></td>
             <td th:text="${merchant.code}"></td>
+            <td th:text="${merchant.order}"></td>
             <td th:text="${merchant.address}"></td>
             <td th:text="${merchant.telNumber}"></td>
             <td th:text="${merchant.businessHour}"></td>
@@ -41,6 +46,9 @@
             <td th:text="${merchant.ceoName}"></td>
             <td th:text="${merchant.businessRegistrationNumber}"></td>
             <td th:text="${merchant.email}"></td>
+            <td th:text="${merchant.brandInfoNotionId}"></td>
+            <td th:text="${merchant.usingInfoNotionId}"></td>
+            <td th:text="${merchant.addressInfoNotionId}"></td>
             <td th:text="${merchant.useYn}"></td>
         </tr>
         </tbody>
@@ -192,7 +200,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body py-3">
-                <form name="merchant" class="needs-validation">
+                <form action="#" name="merchantInfo" class="needs-validation">
                     <div class="mb-3 row">
                         <div class="col">
                             <label for="merchantName" class="form-label"><span class="requiredMark">*</span>가맹점
