@@ -187,4 +187,11 @@ public class AdminRestController {
         merchantService.createMerchant(merchantDto);
         return Response.success();
     }
+
+    // 가맹점 수정
+    @PutMapping("/merchants/{merchantId}")
+    public Response<Void> modifyMerchant(@PathVariable Long merchantId, MerchantDto merchantDto) {
+        merchantService.modifyMerchant(merchantId, merchantDto);
+        return Response.success();
+    }
 }

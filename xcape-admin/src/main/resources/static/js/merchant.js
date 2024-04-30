@@ -1,10 +1,11 @@
 const getMerchantInformation = (e) => {
     const id = e.currentTarget.dataset.merchantId;
-    axios.get(`/merchants/${id}`).then((res)=> {
+    axios.get(`/merchants/${id}`).then((res) => {
         const {resultCode} = res.data;
         const merchant = res.data.result;
         if (resultCode === SUCCESS) {
-            document.merchantInfo.action = `/merchants/${merchant.id}`;
+            document.modifyMerchantInfo.action = `/merchants/${merchant.id}`;
+            document.querySelector('#merchantId').value = merchant.id
             document.querySelector('#modifyMerchantName').value = merchant.name;
             document.querySelector('#modifyTelNumber').value = merchant.telNumber;
             document.querySelector('#modifyAddress').value = merchant.address;
@@ -13,24 +14,21 @@ const getMerchantInformation = (e) => {
             document.querySelector('#modifyBusinessRegistrationNumber').value = merchant.businessRegistrationNumber;
             document.querySelector('#modifyEmail').value = merchant.email;
             document.querySelector('#modifyCode').value = merchant.code;
-            document.querySelector('input[name="modifyParkingYn"]').checked = merchant.parkingYn;
-            document.querySelector('input[name="modifyUseYn"]').checked = merchant.useYn;
+            document.querySelector('form[name="modifyMerchantInfo"] input[name="parkingYn"]').checked = merchant.parkingYn;
+            document.querySelector('form[name="modifyMerchantInfo"] input[name="useYn"]').checked = merchant.useYn;
             document.querySelector('#modifyBrandInfoNotionId').value = merchant.brandInfoNotionId;
             document.querySelector('#modifyUsingInfoNotionId').value = merchant.usingInfoNotionId;
             document.querySelector('#modifyAddressInfoNotionId').value = merchant.addressInfoNotionId;
-
-
         }
     });
 }
 
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function () {
     const tableRowId = document.querySelectorAll('#merchantTable tbody tr');
     tableRowId.forEach(row => {
         row.addEventListener('click', getMerchantInformation);
     });
 });
-
 
 document.addEventListener('DOMContentLoaded', function () {
     // 모달 객체 생성
@@ -65,6 +63,31 @@ document.querySelector('#merchantCreateButton').addEventListener('click', () => 
             })
             .catch(console.error);
     } else {
-        merchantCreateForm.classList.add('was-validated')
+        merchantCreateForm.classList.add('was-validated');
+    }
+});
+
+document.querySelector('#merchantModifyButton').addEventListener('click', () => {
+    const merchantId = document.querySelector('#merchantId').value;
+    const merchantModifyForm = document.querySelector('form[name="modifyMerchantInfo"]')
+    const merchantModifyModal = document.querySelector('#merchantModifyModal');
+    const formData = new FormData(merchantModifyModal.querySelector('form[name="modifyMerchantInfo"]'));
+
+    if(merchantModifyForm.checkValidity()) {
+        formData.set('useYn', document.querySelector('#modifyUseYn').checked);
+        formData.set('parkingYn', document.querySelector('#modifyParkingYn').checked);
+        axios.put(`/merchants/${merchantId}`, formData)
+            .then((res) => {
+                const {resultCode} = res.data;
+                if (resultCode === SUCCESS) {
+                    alert('성공적으로 저장했습니다. 👏');
+                    location.reload();
+                } else {
+                    alert('저장 중 에러가 발생했습니다. 😭')
+                }
+            })
+            .catch(console.error);
+    } else {
+        merchantModifyForm.classList.add('was-validated');
     }
 });

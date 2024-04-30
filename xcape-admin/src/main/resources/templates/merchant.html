@@ -42,14 +42,14 @@
             <td th:text="${merchant.address}"></td>
             <td th:text="${merchant.telNumber}"></td>
             <td th:text="${merchant.businessHour}"></td>
-            <td th:text="${merchant.parkingYn}"></td>
+            <td th:text="${merchant.parkingYn} ? '가능' : '불가능'"></td>
             <td th:text="${merchant.ceoName}"></td>
             <td th:text="${merchant.businessRegistrationNumber}"></td>
             <td th:text="${merchant.email}"></td>
             <td th:text="${merchant.brandInfoNotionId}"></td>
             <td th:text="${merchant.usingInfoNotionId}"></td>
             <td th:text="${merchant.addressInfoNotionId}"></td>
-            <td th:text="${merchant.useYn}"></td>
+            <td th:text="${merchant.useYn} ? '사용' : '미사용'"></td>
         </tr>
         </tbody>
     </table>
@@ -200,74 +200,75 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body py-3">
-                <form action="#" name="merchantInfo" class="needs-validation">
+                <form action="#" name="modifyMerchantInfo" class="needs-validation">
+                    <input id="merchantId" name="merchantId" required type="hidden"/>
                     <div class="mb-3 row">
                         <div class="col">
-                            <label for="merchantName" class="form-label"><span class="requiredMark">*</span>가맹점
+                            <label for="modifyMerchantName" class="form-label"><span class="requiredMark">*</span>가맹점
                                 이름</label>
                             <input type="text"
                                    class="form-control"
-                                   name="modifyName"
+                                   name="name"
                                    id="modifyMerchantName"
                                    required/>
                         </div>
                         <div class="col">
-                            <label for="telNumber" class="form-label">전화번호</label>
+                            <label for="modifyTelNumber" class="form-label">전화번호</label>
                             <input type="text"
                                    class="form-control"
-                                   name="modifyTelNumber"
+                                   name="telNumber"
                                    id="modifyTelNumber"/>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <div class="col">
-                            <label for="address" class="form-label">주소</label>
+                            <label for="modifyAddress" class="form-label">주소</label>
                             <input type="text"
                                    class="form-control"
-                                   name="modifyAddress"
+                                   name="address"
                                    id="modifyAddress"/>
                         </div>
                         <div class="col">
-                            <label for="businessHour" class="form-label">영업시간</label>
+                            <label for="modifyBusinessHour" class="form-label">영업시간</label>
                             <input type="text"
                                    class="form-control"
                                    id="modifyBusinessHour"
-                                   name="modifyBusinessHour"
+                                   name="businessHour"
                                    placeholder="10:00~01:00"/>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <div class="col">
-                            <label for="ceoName" class="form-label">대표자 성명</label>
+                            <label for="modifyCeoName" class="form-label">대표자 성명</label>
                             <input type="text"
                                    class="form-control"
-                                   name="modifyCeoName"
+                                   name="ceoName"
                                    id="modifyCeoName"/>
                         </div>
                         <div class="col">
-                            <label for="businessRegistrationNumber" class="form-label">사업자 번호</label>
+                            <label for="modifyBusinessRegistrationNumber" class="form-label">사업자 번호</label>
                             <input type="text"
                                    class="form-control"
-                                   name="modifyBusinessRegistrationNumber"
+                                   name="businessRegistrationNumber"
                                    id="modifyBusinessRegistrationNumber"/>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <div class="col">
-                            <label for="email" class="form-label">E-Mail</label>
+                            <label for="modifyEmail" class="form-label">E-Mail</label>
                             <input type="text"
                                    class="form-control"
-                                   name="modifyEmail"
+                                   name="email"
                                    id="modifyEmail"/>
                         </div>
                         <div class="col">
                             <div class="row">
                                 <div class="col-4">
-                                    <label for="code" class="form-label"><span class="requiredMark">*</span>가맹점
+                                    <label for="modifyCode" class="form-label"><span class="requiredMark">*</span>가맹점
                                         코드</label>
                                     <input type="text"
                                            class="form-control"
-                                           name="modifyCode"
+                                           name="code"
                                            id="modifyCode"
                                            placeholder="xc"
                                            required/>
@@ -277,17 +278,17 @@
                                         <input class="form-check-input"
                                                type="checkbox"
                                                role="switch"
-                                               name="modifyParkingYn"
+                                               name="parkingYn"
                                                id="modifyParkingYn"/>
-                                        <label class="form-check-label overflow" for="parkingYn">주차가능 여부</label>
+                                        <label class="form-check-label overflow" for="modifyParkingYn">주차가능 여부</label>
                                     </div>
                                     <div class="form-switch">
                                         <input class="form-check-input"
                                                type="checkbox"
                                                role="switch"
-                                               name="modifyUseYn"
+                                               name="useYn"
                                                id="modifyUseYn"/>
-                                        <label class="form-check-label" for="useYn">사용 여부</label>
+                                        <label class="form-check-label" for="modifyUseYn">사용 여부</label>
                                     </div>
                                 </div>
                             </div>
@@ -295,29 +296,29 @@
                     </div>
                     <div class="mb-3 row">
                         <div class="col">
-                            <label for="brandInfoNotionId" class="form-label"><span class="requiredMark">*</span>브랜드
+                            <label for="modifyBrandInfoNotionId" class="form-label"><span class="requiredMark">*</span>브랜드
                                 소개(노션 페이지 ID)</label>
                             <input type="text"
                                    class="form-control"
-                                   name="modifyBrandInfoNotionId"
+                                   name="brandInfoNotionId"
                                    id="modifyBrandInfoNotionId"
                                    required/>
                         </div>
                         <div class="col">
-                            <label for="usingInfoNotionId" class="form-label"><span class="requiredMark">*</span>이용안내(노션
+                            <label for="modifyUsingInfoNotionId" class="form-label"><span class="requiredMark">*</span>이용안내(노션
                                 페이지 ID)</label>
                             <input type="text"
                                    class="form-control"
-                                   name="modifyUsingInfoNotionId"
+                                   name="usingInfoNotionId"
                                    id="modifyUsingInfoNotionId"
                                    required/>
                         </div>
                         <div class="col">
-                            <label for="addressInfoNotionId" class="form-label"><span class="requiredMark">*</span>오시는
+                            <label for="modifyAddressInfoNotionId" class="form-label"><span class="requiredMark">*</span>오시는
                                 길(노션 페이지 ID)</label>
                             <input type="text"
                                    class="form-control"
-                                   name="modifyAddressInfoNotionId"
+                                   name="addressInfoNotionId"
                                    id="modifyAddressInfoNotionId"
                                    required/>
                         </div>

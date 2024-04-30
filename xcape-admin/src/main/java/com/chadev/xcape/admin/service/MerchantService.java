@@ -67,4 +67,10 @@ public class MerchantService {
 
         merchantRepository.save(newMerchant);
     }
+
+    @Transactional
+    public void modifyMerchant(Long merchantId, MerchantDto requestDto) {
+        Merchant merchant = merchantRepository.findById(merchantId).orElseThrow(IllegalArgumentException::new);
+        merchant.update(requestDto);
+    }
 }
