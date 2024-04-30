@@ -31,7 +31,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="merchant : ${merchantList}">
+        <tr th:each="merchant : ${merchantList}" th:data-merchant-id="${merchant.id}">
             <td th:text="${merchant.name}"></td>
             <td th:text="${merchant.code}"></td>
             <td th:text="${merchant.address}"></td>

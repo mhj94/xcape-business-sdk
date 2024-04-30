@@ -1,3 +1,16 @@
+const getMerchantInformation = (e) => {
+    const id = e.currentTarget.dataset.merchantId;
+    console.log(id)
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+    const tableRowId = document.querySelectorAll('#merchantTable tbody tr');
+    tableRowId.forEach(row => {
+        row.addEventListener('click', getMerchantInformation);
+    });
+});
+
+
 document.addEventListener('DOMContentLoaded', function () {
     // 모달 객체 생성
     const createMerchantForm = new bootstrap.Modal(document.getElementById('merchantModifyModal'), {
