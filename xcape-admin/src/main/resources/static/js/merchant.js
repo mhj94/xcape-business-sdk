@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     // 모달 객체 생성
-    const createMerchantForm = new bootstrap.Modal(document.getElementById('merchantModifyModal'), {
+    const merchantModifyForm = new bootstrap.Modal(document.getElementById('merchantModifyModal'), {
         // 모달창 esc 기능 활성화
         keyboard: true
     });
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const modifyMerchantInfo = document.querySelector('form[name="modifyMerchantInfo"]');
             modifyMerchantInfo.classList.remove('was-validated');
-            createMerchantForm.show();
+            merchantModifyForm.show();
         });
     });
 });
