@@ -39,6 +39,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelectorAll('#merchantTable tbody tr').forEach(function (row) {
         row.addEventListener('click', function () {
+
+            const modifyMerchantInfo = document.querySelector('form[name="modifyMerchantInfo"]');
+            modifyMerchantInfo.classList.remove('was-validated');
             createMerchantForm.show();
         });
     });
