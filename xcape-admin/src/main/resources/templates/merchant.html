@@ -4,7 +4,7 @@
 <body class="bg-light">
 <nav th:replace="~{fragments :: navbar (merchantSettings)}"></nav>
 <div class="container mb-3">
-    <div class="row mt-2">
+    <div class="row py-2">
         <div class="col text-start">
             <button class="btn btn-primary" type="button" data-bs-toggle="modal"
                     data-bs-target="#merchantCreateModal">가맹점 만들기
@@ -15,41 +15,41 @@
             <button id="jsonPublishButton" type="button" class="btn btn-success">발행</button>
         </div>
     </div>
-    <table class="table table-hover" id="merchantTable">
+    <table class="table table-hover table-responsive" id="merchantTable">
         <thead>
         <tr>
-            <th scope="col">지점</th>
-            <th scope="col">지점코드</th>
-            <th scope="col">순서</th>
-            <th scope="col">주소</th>
-            <th scope="col">전화번호</th>
-            <th scope="col">운영시간</th>
-            <th scope="col">주차유무</th>
-            <th scope="col">대표</th>
-            <th scope="col">사업자번호</th>
-            <th scope="col">이메일</th>
-            <th scope="col">브랜드 소개(노션아이디)</th>
-            <th scope="col">이용안내(노션아이디)</th>
-            <th scope="col">오시는길(노션아이디)</th>
-            <th scope="col">사용여부</th>
+            <th class="text-truncate" scope="col">지점</th>
+            <th class="text-truncate" scope="col">지점코드</th>
+            <th class="text-truncate" scope="col">순서</th>
+            <th class="text-truncate" scope="col">주소</th>
+            <th class="text-truncate" scope="col">전화번호</th>
+            <th class="text-truncate" scope="col">운영시간</th>
+            <th class="text-truncate" scope="col">주차유무</th>
+            <th class="text-truncate" scope="col">대표</th>
+            <th class="text-truncate" scope="col">사업자번호</th>
+            <th class="text-truncate" scope="col">이메일</th>
+            <th class="text-truncate" scope="col">브랜드 소개(노션아이디)</th>
+            <th class="text-truncate" scope="col">이용안내(노션아이디)</th>
+            <th class="text-truncate" scope="col">오시는길(노션아이디)</th>
+            <th class="text-truncate" scope="col">사용여부</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="merchant : ${merchantList}" th:data-merchant-id="${merchant.id}">
-            <td th:text="${merchant.name}"></td>
-            <td th:text="${merchant.code}"></td>
-            <td th:text="${merchant.order}"></td>
-            <td th:text="${merchant.address}"></td>
-            <td th:text="${merchant.telNumber}"></td>
-            <td th:text="${merchant.businessHour}"></td>
-            <td th:text="${merchant.parkingYn} ? '가능' : '불가능'"></td>
-            <td th:text="${merchant.ceoName}"></td>
-            <td th:text="${merchant.businessRegistrationNumber}"></td>
-            <td th:text="${merchant.email}"></td>
-            <td th:text="${merchant.brandInfoNotionId}"></td>
-            <td th:text="${merchant.usingInfoNotionId}"></td>
-            <td th:text="${merchant.addressInfoNotionId}"></td>
-            <td th:text="${merchant.useYn} ? '사용' : '미사용'"></td>
+            <td class="text-truncate" th:text="${merchant.name}"></td>
+            <td class="text-truncate" th:text="${merchant.code}"></td>
+            <td class="text-truncate" th:text="${merchant.order}"></td>
+            <td class="text-truncate" th:text="${merchant.address}"></td>
+            <td class="text-truncate" th:text="${merchant.telNumber}"></td>
+            <td class="text-truncate" th:text="${merchant.businessHour}"></td>
+            <td class="text-truncate" th:text="${merchant.parkingYn} ? '가능' : '불가능'"></td>
+            <td class="text-truncate" th:text="${merchant.ceoName}"></td>
+            <td class="text-truncate" th:text="${merchant.businessRegistrationNumber}"></td>
+            <td class="text-truncate" th:text="${merchant.email}"></td>
+            <td class="text-truncate" th:text="${merchant.brandInfoNotionId}"></td>
+            <td class="text-truncate" th:text="${merchant.usingInfoNotionId}"></td>
+            <td class="text-truncate" th:text="${merchant.addressInfoNotionId}"></td>
+            <td class="text-truncate" th:text="${merchant.useYn} ? '사용' : '미사용'"></td>
         </tr>
         </tbody>
     </table>
@@ -314,7 +314,8 @@
                                    required/>
                         </div>
                         <div class="col">
-                            <label for="modifyAddressInfoNotionId" class="form-label"><span class="requiredMark">*</span>오시는
+                            <label for="modifyAddressInfoNotionId" class="form-label"><span
+                                    class="requiredMark">*</span>오시는
                                 길(노션 페이지 ID)</label>
                             <input type="text"
                                    class="form-control"

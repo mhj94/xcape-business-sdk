@@ -35,7 +35,7 @@ tableRowId.forEach(row => {
     row.addEventListener('click', getMerchantInformation);
 });
 
-// 모달 객체 생성
+
 const merchantModifyForm = new bootstrap.Modal(document.getElementById('merchantModifyModal'), {
     // 모달창 esc 기능 활성화
     keyboard: true
