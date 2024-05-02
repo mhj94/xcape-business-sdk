@@ -21,6 +21,10 @@ public class MerchantService {
         return merchantRepository.findAll().stream().map(dtoConverter::toMerchantDto).toList();
     }
 
+    public List<MerchantDto> getAllMerchantListOrderByOrder() {
+        return merchantRepository.findAllByOrderByOrderAsc().stream().map(dtoConverter::toMerchantDto).toList();
+    }
+
     public MerchantDto getMerchant(Long merchantId) {
         Merchant merchant = merchantRepository.findById(merchantId).orElseThrow(IllegalArgumentException::new);
         return dtoConverter.toMerchantDto(merchant);
