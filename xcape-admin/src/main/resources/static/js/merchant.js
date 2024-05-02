@@ -23,27 +23,30 @@ const getMerchantInformation = (e) => {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    const tableRowId = document.querySelectorAll('#merchantTable tbody tr');
-    tableRowId.forEach(row => {
-        row.addEventListener('click', getMerchantInformation);
-    });
+const merchantCreateModal = document.querySelector('#merchantCreateModal');
+merchantCreateModal.addEventListener('show.bs.modal', function () {
+
+    const merchantCreateForm = document.querySelector('form[name="merchant"]');
+    merchantCreateForm.classList.remove('was-validated');
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    // 모달 객체 생성
-    const merchantModifyForm = new bootstrap.Modal(document.getElementById('merchantModifyModal'), {
-        // 모달창 esc 기능 활성화
-        keyboard: true
-    });
+const tableRowId = document.querySelectorAll('#merchantTable tbody tr');
+tableRowId.forEach(row => {
+    row.addEventListener('click', getMerchantInformation);
+});
 
-    document.querySelectorAll('#merchantTable tbody tr').forEach(function (row) {
-        row.addEventListener('click', function () {
+// 모달 객체 생성
+const merchantModifyForm = new bootstrap.Modal(document.getElementById('merchantModifyModal'), {
+    // 모달창 esc 기능 활성화
+    keyboard: true
+});
 
-            const modifyMerchantInfo = document.querySelector('form[name="modifyMerchantInfo"]');
-            modifyMerchantInfo.classList.remove('was-validated');
-            merchantModifyForm.show();
-        });
+document.querySelectorAll('#merchantTable tbody tr').forEach(function (row) {
+    row.addEventListener('click', function () {
+
+        const modifyMerchantInfo = document.querySelector('form[name="modifyMerchantInfo"]');
+        modifyMerchantInfo.classList.remove('was-validated');
+        merchantModifyForm.show();
     });
 });
 
@@ -76,7 +79,7 @@ document.querySelector('#merchantModifyButton').addEventListener('click', () => 
     const merchantModifyModal = document.querySelector('#merchantModifyModal');
     const formData = new FormData(merchantModifyModal.querySelector('form[name="modifyMerchantInfo"]'));
 
-    if(merchantModifyForm.checkValidity()) {
+    if (merchantModifyForm.checkValidity()) {
         formData.set('useYn', document.querySelector('#modifyUseYn').checked);
         formData.set('parkingYn', document.querySelector('#modifyParkingYn').checked);
         axios.put(`/merchants/${merchantId}`, formData)
