@@ -525,14 +525,14 @@ document.querySelector('#jsonPublishButton').addEventListener('click', function 
                 const themeList = result;
 
                 let form = new FormData();
-                form.append('file', new File([JSON.stringify(themeList)],JSON_FILE_NAME ))
-                form.append('type', JSON_FILE_TYPE.THEME)
+                form.append('file', new File([JSON.stringify(themeList)], JSON_FILE_NAME));
+                form.append('type', JSON_FILE_TYPE.THEME);
 
                 axios.put('/json', form)
                     .then(res => {
                         const themePath = res.data;
                         if (themePath) {
-                            alert(`테마 정보 주소: ${themePath}\n발행 완료되었습니다.`)
+                            alert(`테마 정보 주소: ${themePath}\n 발행 완료되었습니다.`);
                             return;
                         }
                         alert('발행에 실패했습니다.');

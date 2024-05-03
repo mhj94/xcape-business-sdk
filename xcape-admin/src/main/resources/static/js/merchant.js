@@ -105,12 +105,28 @@ document.querySelector('#jsonPublishButton').addEventListener('click', function 
             if(resultCode === SUCCESS) {
                 const merchantList = result;
                 merchantList.forEach(merchant => {
-                    delete merchant.themeList;
-                    delete merchant.bannerList;
+
+                    if (merchant.hasOwnProperty('themeList')) {
+                        delete merchant.themeList;
+                    }
+                    if (merchant.hasOwnProperty('bannerList')) {
+                        delete merchant.bannerList;
+                    }
                 });
 
                 let form = new FormData();
-                form.append('file', new File([JSON.stringify(merchantList)], 'merchantList.json'));
+                form.append('file', new File([JSON.stringify(merchantList)], JSON_FILE_NAME));
+                form.append('type', JSON_FILE_TYPE.MERCHANT)
+
+                axios.put('/json', form)
+                    .then(res => {
+                        const merchantPath = res.data;
+                        if (merchantPath) {
+                            alert(`가맹점 정보 주소: ${merchantPath}\n 발행 완료되었습니다.`);
+                            return;
+                        }
+                        alert('발행에 실패했습니다.');
+                    })
             }
-        })
-})
+        });
+});
