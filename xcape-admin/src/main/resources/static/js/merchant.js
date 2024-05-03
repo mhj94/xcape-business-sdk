@@ -97,3 +97,20 @@ document.querySelector('#merchantModifyButton').addEventListener('click', () => 
         merchantModifyForm.classList.add('was-validated');
     }
 });
+
+document.querySelector('#jsonPublishButton').addEventListener('click', function () {
+    axios.get('/merchants')
+        .then(res => {
+            const {resultCode, result} = res.data;
+            if(resultCode === SUCCESS) {
+                const merchantList = result;
+                merchantList.forEach(merchant => {
+                    delete merchant.themeList;
+                    delete merchant.bannerList;
+                });
+
+                let form = new FormData();
+                form.append('file', new File([JSON.stringify(merchantList)], 'merchantList.json'));
+            }
+        })
+})

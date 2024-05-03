@@ -42,7 +42,11 @@ public class AdminRestController {
         MerchantDto merchantDto = merchantService.getMerchantWithThemeList(merchantId);
         return Response.success(merchantDto);
     }
-
+    @GetMapping("/themes")
+    public Response<List<ThemeDto>> getAllThemeList() {
+        List<ThemeDto> themeDtoList = themeService.getThemeList();
+        return Response.success(themeDtoList);
+    }
     @GetMapping("/themes/{themeId}")
     public Response<ThemeDto> getThemeDetail(@PathVariable Long themeId) {
         ThemeDto theme = themeService.getThemeDetail(themeId);
