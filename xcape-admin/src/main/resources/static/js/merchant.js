@@ -102,7 +102,7 @@ document.querySelector('#jsonPublishButton').addEventListener('click', function 
     axios.get('/merchants')
         .then(res => {
             const {resultCode, result} = res.data;
-            if(resultCode === SUCCESS) {
+            if (resultCode === SUCCESS) {
                 const merchantList = result;
                 merchantList.forEach(merchant => {
 
