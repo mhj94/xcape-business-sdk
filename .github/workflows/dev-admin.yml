@@ -48,7 +48,7 @@ jobs:
         env:
           S3_BUCKET: ${{ secrets.DEV_ADMIN_S3_BUCKET }}
         run: |
-          aws s3 cp *.jar s3://$S3_BUCKET/
+          aws s3 cp *.jar $S3_BUCKET
 
       - name: Deploy to EC2
         env:
