@@ -46,7 +46,7 @@ public class AdminViewController {
             merchantList.add(merchantService.getMerchant(accountDto.getMerchantId()));
         }
         model.addAttribute("merchantList", merchantList);
-        return "merchant";
+        return "merchant-settings";
     }
     @GetMapping("/theme-settings")
     public String themeSettings(Model model, Authentication authentication) {
@@ -58,7 +58,7 @@ public class AdminViewController {
             merchantList.add(merchantService.getMerchantWithThemeList(account.getMerchantId()));
         }
         model.addAttribute("merchantList", merchantList);
-        return "index";
+        return "theme-settings";
     }
 
     @GetMapping(value = "/reservations")
@@ -90,7 +90,7 @@ public class AdminViewController {
         return "reservation";
     }
 
-    @GetMapping("/banner")
+    @GetMapping("/banner-settings")
     public String banner(Model model, Authentication authentication) {
         AccountDto account = (AccountDto) authentication.getPrincipal();
         List<MerchantDto> merchantList = new ArrayList<>();
@@ -100,7 +100,7 @@ public class AdminViewController {
             merchantList.add(merchantService.getMerchantWithThemeList(account.getMerchantId()));
         }
         model.addAttribute("merchantList", merchantList);
-        return "banner";
+        return "banner-settings";
     }
 
     @GetMapping("/mock-reservations")
