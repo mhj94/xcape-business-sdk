@@ -46,15 +46,15 @@ jobs:
 
       - name: Deploy to S3
         env:
-          S3_BUCKET: ${{ secrets.S3_BUCKET }}
+          S3_BUCKET: ${{ secrets.DEV_ADMIN_S3_BUCKET }}
         run: |
           aws s3 cp xcape-admin/build/libs/*.jar s3://$S3_BUCKET/
 
       - name: Deploy to EC2
         env:
-          HOST: ${{ secrets.EC2_HOST }}
-          USERNAME: ${{ secrets.EC2_USERNAME }}
-          SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          HOST: ${{ secrets.DEV_ADMIN_EC2_HOST }}
+          USERNAME: ${{ secrets.DEV_ADMIN_EC2_USERNAME }}
+          SSH_KEY: ${{ secrets.DEV_ADMIN_EC2_SSH_KEY }}
         run: |
           # SSH into EC2 instance
           ssh -o StrictHostKeyChecking=no -i $SSH_KEY $USERNAME@$HOST
