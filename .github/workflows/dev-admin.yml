@@ -23,7 +23,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: package
-          path: xcape-admin/build/libs/*.jar
+          path: /home/runner/work/xcape-business-sdk/xcape-business-sdk/xcape-admin/build/libs/xcape-admin-1.0-SNAPSHOT.jar
 
   deploy:
     needs: build
@@ -48,7 +48,7 @@ jobs:
         env:
           S3_BUCKET: ${{ secrets.DEV_ADMIN_S3_BUCKET }}
         run: |
-          aws s3 cp xcape-admin/build/libs/*.jar s3://$S3_BUCKET/
+          aws s3 cp /home/runner/work/xcape-business-sdk/xcape-business-sdk/xcape-admin/build/libs/xcape-admin-1.0-SNAPSHOT.jar s3://$S3_BUCKET/
 
       - name: Deploy to EC2
         env:
