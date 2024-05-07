@@ -17,7 +17,7 @@ public class MerchantService {
     private final MerchantRepository merchantRepository;
     private final DtoConverter dtoConverter;
 
-    public List<MerchantDto> getAllMerchantList() {
+    public List<MerchantDto> getMerchantList() {
         return merchantRepository.findAll().stream().map(dtoConverter::toMerchantDto).toList();
     }
 

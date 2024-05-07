@@ -32,8 +32,8 @@ public class AdminRestController {
     private final ReservationHistoryService reservationHistoryService;
 
     @GetMapping("/merchants")
-    public Response<List<MerchantDto>> getAllMerchantsWithThemes() {
-        List<MerchantDto> merchantDtoList = merchantService.getAllMerchantsWithThemes();
+    public Response<List<MerchantDto>> getMerchantList() {
+        List<MerchantDto> merchantDtoList = merchantService.getMerchantList();
         return Response.success(merchantDtoList);
     }
 
@@ -43,7 +43,7 @@ public class AdminRestController {
         return Response.success(merchantDto);
     }
     @GetMapping("/themes")
-    public Response<List<ThemeDto>> getAllThemeList() {
+    public Response<List<ThemeDto>> getThemeList() {
         List<ThemeDto> themeDtoList = themeService.getThemeList();
         return Response.success(themeDtoList);
     }

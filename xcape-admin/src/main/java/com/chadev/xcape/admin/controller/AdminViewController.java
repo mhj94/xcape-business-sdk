@@ -108,7 +108,7 @@ public class AdminViewController {
         AccountDto account = (AccountDto) authentication.getPrincipal();
         List<MerchantDto> merchantList = new ArrayList<>();
         if (account.getType() == AccountType.MASTER) {
-            merchantList = merchantService.getAllMerchantList();
+            merchantList = merchantService.getMerchantList();
         } else {
             merchantList.add(merchantService.getMerchant(account.getMerchantId()));
         }
