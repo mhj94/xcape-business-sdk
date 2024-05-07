@@ -1,4 +1,4 @@
-name: dev-admin-ci-cd
+name: 개발서버 admin 배포
 
 on:
   workflow_dispatch:
