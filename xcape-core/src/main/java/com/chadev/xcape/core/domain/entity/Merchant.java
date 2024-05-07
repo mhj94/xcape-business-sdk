@@ -6,6 +6,8 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.chadev.xcape.core.domain.dto.MerchantDto;
+
 /***
  * TODO: merchant link 추가
  * ku, ku2, gn, sw, hd
@@ -77,4 +79,20 @@ public class Merchant extends AuditingFields {
 
     @Column(name = "use_yn", length = 1)
     private Boolean useYn;
+
+    public void update(MerchantDto requestDto) {
+        this.name = requestDto.getName();
+        this.address = requestDto.getAddress();
+        this.telNumber = requestDto.getTelNumber();
+        this.businessHour = requestDto.getBusinessHour();
+        this.parkingYn = requestDto.getParkingYn();
+        this.ceoName = requestDto.getCeoName();
+        this.businessRegistrationNumber = requestDto.getBusinessRegistrationNumber();
+        this.email = requestDto.getEmail();
+        this.code = requestDto.getCode();
+        this.brandInfoNotionId = requestDto.getBrandInfoNotionId();
+        this.usingInfoNotionId = requestDto.getUsingInfoNotionId();
+        this.addressInfoNotionId = requestDto.getAddressInfoNotionId();
+        this.useYn = requestDto.getUseYn();
+    }
 }

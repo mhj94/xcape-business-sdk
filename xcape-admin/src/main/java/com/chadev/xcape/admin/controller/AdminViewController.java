@@ -34,6 +34,20 @@ public class AdminViewController {
         return "login";
     }
 
+    @GetMapping("/merchant-settings")
+    public String merchant(Model model, Authentication authentication){
+        AccountDto accountDto = (AccountDto) authentication.getPrincipal();
+        List<MerchantDto> merchantList = new ArrayList<>();
+        if (accountDto.getType() == AccountType.MASTER) {
+            merchantList = merchantService.getAllMerchantListOrderByOrder();
+        }
+
+        if (accountDto.getType() == AccountType.MANAGER) {
+            merchantList.add(merchantService.getMerchant(accountDto.getMerchantId()));
+        }
+        model.addAttribute("merchantList", merchantList);
+        return "merchant-settings";
+    }
     @GetMapping("/theme-settings")
     public String themeSettings(Model model, Authentication authentication) {
         AccountDto account = (AccountDto) authentication.getPrincipal();
@@ -44,7 +58,7 @@ public class AdminViewController {
             merchantList.add(merchantService.getMerchantWithThemeList(account.getMerchantId()));
         }
         model.addAttribute("merchantList", merchantList);
-        return "index";
+        return "theme-settings";
     }
 
     @GetMapping(value = "/reservations")
@@ -76,7 +90,7 @@ public class AdminViewController {
         return "reservation";
     }
 
-    @GetMapping("/banner")
+    @GetMapping("/banner-settings")
     public String banner(Model model, Authentication authentication) {
         AccountDto account = (AccountDto) authentication.getPrincipal();
         List<MerchantDto> merchantList = new ArrayList<>();
@@ -86,7 +100,7 @@ public class AdminViewController {
             merchantList.add(merchantService.getMerchantWithThemeList(account.getMerchantId()));
         }
         model.addAttribute("merchantList", merchantList);
-        return "banner";
+        return "banner-settings";
     }
 
     @GetMapping("/mock-reservations")
@@ -94,7 +108,7 @@ public class AdminViewController {
         AccountDto account = (AccountDto) authentication.getPrincipal();
         List<MerchantDto> merchantList = new ArrayList<>();
         if (account.getType() == AccountType.MASTER) {
-            merchantList = merchantService.getAllMerchantList();
+            merchantList = merchantService.getMerchantList();
         } else {
             merchantList.add(merchantService.getMerchant(account.getMerchantId()));
         }

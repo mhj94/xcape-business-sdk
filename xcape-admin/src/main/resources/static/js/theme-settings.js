@@ -264,7 +264,14 @@ const bindTimetableInputs = (timetableList) => {
         const hourId = `hour-${id}`;
         const minute = time.split(':')[1];
         const minuteId = `minute-${id}`;
-        timetableInputs += interpolate(timetableTemplate, {timetableAreaId, timetableId, hour, hourId, minute, minuteId});
+        timetableInputs += interpolate(timetableTemplate, {
+            timetableAreaId,
+            timetableId,
+            hour,
+            hourId,
+            minute,
+            minuteId
+        });
     });
 
     document.querySelector(`#timetableArea`).innerHTML = timetableInputs;
@@ -466,48 +473,73 @@ document.querySelector('#timetableSaveButton').addEventListener('click', () => {
     }
 });
 
-document.querySelector('#jsonPublishButton').addEventListener('click', () => {
-    axios.get('/merchants')
+// document.querySelector('#jsonPublishButton').addEventListener('click', () => {
+//     axios.get('/merchants')
+//         .then(res => {
+//             const {resultCode, result} = res.data;
+//             if (resultCode === SUCCESS) {
+//                 const merchantList = result;
+//                 const themeList = [];
+//                 merchantList.forEach(merchant => {
+//                     merchant.themeList.forEach(theme => {
+//                         themeList.push(theme);
+//                     });
+//                     delete merchant.themeList;
+//                     delete merchant.bannerList;
+//                 });
+//
+//                 let form = new FormData();
+//                 form.append('file', new File([JSON.stringify(merchantList)], JSON_FILE_NAME));
+//                 form.append('type', JSON_FILE_TYPE.MERCHANT);
+//
+//                 let merchantPath;
+//                 let themePath;
+//                 axios.putForm('/json', form)
+//                     .then(res => {
+//                         merchantPath = res.data;
+//                     })
+//                     .then(() => {
+//                         form = new FormData();
+//                         form.append('file', new File([JSON.stringify(themeList)], JSON_FILE_NAME));
+//                         form.append('type', JSON_FILE_TYPE.THEME);
+//                         axios.putForm('/json', form)
+//                             .then(res => {
+//                                 themePath = res.data;
+//                                 if (merchantPath && themePath) {
+//                                     alert(`지점 정보 주소: ${merchantPath}\n테마 정보 주소: ${themePath}\n 발행 완료되었습니다.`);
+//                                     return;
+//                                 }
+//                                 alert('발행에 실패했습니다.')
+//                             });
+//                     });
+//             }
+//
+//         });
+// });
+
+document.querySelector('#jsonPublishButton').addEventListener('click', function () {
+    axios.get('/themes')
         .then(res => {
             const {resultCode, result} = res.data;
             if (resultCode === SUCCESS) {
-                const merchantList = result;
-                const themeList = [];
-                merchantList.forEach(merchant => {
-                    merchant.themeList.forEach(theme => {
-                        themeList.push(theme);
-                    });
-                    delete merchant.themeList;
-                    delete merchant.bannerList;
-                });
+                const themeList = result;
 
                 let form = new FormData();
-                form.append('file', new File([JSON.stringify(merchantList)], JSON_FILE_NAME));
-                form.append('type', JSON_FILE_TYPE.MERCHANT);
+                form.append('file', new File([JSON.stringify(themeList)], JSON_FILE_NAME));
+                form.append('type', JSON_FILE_TYPE.THEME);
 
-                let merchantPath;
-                let themePath;
-                axios.putForm('/json', form)
+                axios.put('/json', form)
                     .then(res => {
-                        merchantPath = res.data;
-                    })
-                    .then(() => {
-                        form = new FormData();
-                        form.append('file', new File([JSON.stringify(themeList)], JSON_FILE_NAME));
-                        form.append('type', JSON_FILE_TYPE.THEME);
-                        axios.putForm('/json', form)
-                            .then(res => {
-                                themePath = res.data;
-                                if (merchantPath && themePath) {
-                                    alert(`지점 정보 주소: ${merchantPath}\n테마 정보 주소: ${themePath}\n 발행 완료되었습니다.`);
-                                    return;
-                                }
-                                alert('발행에 실패했습니다.')
-                            });
+                        const themePath = res.data;
+                        if (themePath) {
+                            alert(`테마 정보 주소: ${themePath}\n 발행 완료되었습니다.`);
+                            return;
+                        }
+                        alert('발행에 실패했습니다.');
                     });
             }
-
         });
+
 });
 
 const removeRow = element => {
@@ -589,30 +621,6 @@ document.querySelector('#themeCreateButton').addEventListener('click', () => {
         form.classList.add('was-validated')
     }
 });
-
-document.querySelector('#merchantCreateButton').addEventListener('click', () => {
-    const merchantCreateForm = document.querySelector('form[name="merchant"]');
-    const form = new FormData(merchantCreateForm);
-
-    if (merchantCreateForm.checkValidity()) {
-        form.set('useYn', document.querySelector('#useYn').checked);
-        form.set('parkingYn', document.querySelector('#parkingYn').checked);
-        axios.post('/merchants', form)
-            .then((res) => {
-                const {resultCode} = res.data;
-                if (SUCCESS === resultCode) {
-                    alert(SAVE_SUCCESS);
-                    location.reload();
-                } else {
-                    alert(SAVE_FAIL)
-                }
-            })
-            .catch(console.error);
-    } else {
-        merchantCreateForm.classList.add('was-validated')
-    }
-});
-
 
 const init = () => {
     addClickEventToAccordion();

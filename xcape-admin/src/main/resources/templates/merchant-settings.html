@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head}"></head>
+<body class="bg-light">
+<nav th:replace="~{fragments :: navbar (merchantSettings)}"></nav>
+<div class="container mb-3">
+    <div class="row py-2">
+        <div class="col text-start">
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                    data-bs-target="#merchantCreateModal">가맹점 만들기
+            </button>
+        </div>
+        <div class="col text-end">
+            <span class="fs-6 text-secondary">* 변경사항을 저장 후 발행해주세요.</span>
+            <button id="jsonPublishButton" type="button" class="btn btn-success">발행</button>
+        </div>
+    </div>
+    <table class="table table-hover table-responsive" id="merchantTable">
+        <thead>
+        <tr>
+            <th class="text-truncate" scope="col">순서</th>
+            <th class="text-truncate" scope="col">지점</th>
+            <th class="text-truncate" scope="col">사용여부</th>
+            <th class="text-truncate" scope="col">지점코드</th>
+            <th class="text-truncate" scope="col">주소</th>
+            <th class="text-truncate" scope="col">전화번호</th>
+            <th class="text-truncate" scope="col">운영시간</th>
+            <th class="text-truncate" scope="col">주차유무</th>
+            <th class="text-truncate" scope="col">대표</th>
+            <th class="text-truncate" scope="col">사업자번호</th>
+            <th class="text-truncate" scope="col">이메일</th>
+            <th class="text-truncate" scope="col">브랜드 소개(노션아이디)</th>
+            <th class="text-truncate" scope="col">이용안내(노션아이디)</th>
+            <th class="text-truncate" scope="col">오시는길(노션아이디)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="merchant : ${merchantList}" th:data-merchant-id="${merchant.id}">
+            <td class="text-truncate" th:text="${merchant.order}"></td>
+            <td class="text-truncate" th:text="${merchant.name}"></td>
+            <td class="text-truncate" th:text="${merchant.useYn} ? '사용' : '미사용'"></td>
+            <td class="text-truncate" th:text="${merchant.code}"></td>
+            <td class="text-truncate" th:text="${merchant.address}"></td>
+            <td class="text-truncate" th:text="${merchant.telNumber}"></td>
+            <td class="text-truncate" th:text="${merchant.businessHour}"></td>
+            <td class="text-truncate" th:text="${merchant.parkingYn} ? '가능' : '불가능'"></td>
+            <td class="text-truncate" th:text="${merchant.ceoName}"></td>
+            <td class="text-truncate" th:text="${merchant.businessRegistrationNumber}"></td>
+            <td class="text-truncate" th:text="${merchant.email}"></td>
+            <td class="text-truncate" th:text="${merchant.brandInfoNotionId}"></td>
+            <td class="text-truncate" th:text="${merchant.usingInfoNotionId}"></td>
+            <td class="text-truncate" th:text="${merchant.addressInfoNotionId}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div id="merchantCreateModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">가맹점 만들기</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-3">
+                <form name="merchant" class="needs-validation">
+                    <div class="mb-3 row">
+                        <div class="col">
+                            <label for="merchantName" class="form-label"><span class="requiredMark">*</span>가맹점
+                                이름</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="name"
+                                   id="merchantName"
+                                   required/>
+                        </div>
+                        <div class="col">
+                            <label for="telNumber" class="form-label">전화번호</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="telNumber"
+                                   id="telNumber"/>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col">
+                            <label for="address" class="form-label">주소</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="address"
+                                   id="address"/>
+                        </div>
+                        <div class="col">
+                            <label for="businessHour" class="form-label">영업시간</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="businessHour"
+                                   name="businessHour"
+                                   placeholder="10:00~01:00"/>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col">
+                            <label for="ceoName" class="form-label">대표자 성명</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="ceoName"
+                                   id="ceoName"/>
+                        </div>
+                        <div class="col">
+                            <label for="businessRegistrationNumber" class="form-label">사업자 번호</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="businessRegistrationNumber"
+                                   id="businessRegistrationNumber"/>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col">
+                            <label for="email" class="form-label">E-Mail</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="email"
+                                   id="email"/>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="code" class="form-label"><span class="requiredMark">*</span>가맹점
+                                        코드</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="code"
+                                           id="code"
+                                           placeholder="xc"
+                                           required/>
+                                </div>
+                                <div class="col mt-4">
+                                    <div class="form-switch">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               role="switch"
+                                               name="parkingYn"
+                                               id="parkingYn"/>
+                                        <label class="form-check-label overflow" for="parkingYn">주차가능 여부</label>
+                                    </div>
+                                    <div class="form-switch">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               role="switch"
+                                               name="useYn"
+                                               id="useYn"/>
+                                        <label class="form-check-label" for="useYn">사용 여부</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col">
+                            <label for="brandInfoNotionId" class="form-label"><span class="requiredMark">*</span>브랜드
+                                소개(노션 페이지 ID)</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="brandInfoNotionId"
+                                   id="brandInfoNotionId"
+                                   required/>
+                        </div>
+                        <div class="col">
+                            <label for="usingInfoNotionId" class="form-label"><span class="requiredMark">*</span>이용안내(노션
+                                페이지 ID)</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="usingInfoNotionId"
+                                   id="usingInfoNotionId"
+                                   required/>
+                        </div>
+                        <div class="col">
+                            <label for="addressInfoNotionId" class="form-label"><span class="requiredMark">*</span>오시는
+                                길(노션 페이지 ID)</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="addressInfoNotionId"
+                                   id="addressInfoNotionId"
+                                   required/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="merchantCreateButton" type="button" class="btn btn-primary">저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="merchantModifyModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">가맹점 수정하기</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-3">
+                <form action="#" name="modifyMerchantInfo" class="needs-validation">
+                    <input id="merchantId" name="merchantId" required type="hidden"/>
+                    <div class="mb-3 row">
+                        <div class="col">
+                            <label for="modifyMerchantName" class="form-label"><span class="requiredMark">*</span>가맹점
+                                이름</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="name"
+                                   id="modifyMerchantName"
+                                   required/>
+                        </div>
+                        <div class="col">
+                            <label for="modifyTelNumber" class="form-label">전화번호</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="telNumber"
+                                   id="modifyTelNumber"/>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col">
+                            <label for="modifyAddress" class="form-label">주소</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="address"
+                                   id="modifyAddress"/>
+                        </div>
+                        <div class="col">
+                            <label for="modifyBusinessHour" class="form-label">영업시간</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="modifyBusinessHour"
+                                   name="businessHour"
+                                   placeholder="10:00~01:00"/>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col">
+                            <label for="modifyCeoName" class="form-label">대표자 성명</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="ceoName"
+                                   id="modifyCeoName"/>
+                        </div>
+                        <div class="col">
+                            <label for="modifyBusinessRegistrationNumber" class="form-label">사업자 번호</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="businessRegistrationNumber"
+                                   id="modifyBusinessRegistrationNumber"/>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col">
+                            <label for="modifyEmail" class="form-label">E-Mail</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="email"
+                                   id="modifyEmail"/>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="modifyCode" class="form-label"><span class="requiredMark">*</span>가맹점
+                                        코드</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="code"
+                                           id="modifyCode"
+                                           placeholder="xc"
+                                           required/>
+                                </div>
+                                <div class="col mt-4">
+                                    <div class="form-switch">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               role="switch"
+                                               name="parkingYn"
+                                               id="modifyParkingYn"/>
+                                        <label class="form-check-label overflow" for="modifyParkingYn">주차가능 여부</label>
+                                    </div>
+                                    <div class="form-switch">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               role="switch"
+                                               name="useYn"
+                                               id="modifyUseYn"/>
+                                        <label class="form-check-label" for="modifyUseYn">사용 여부</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <div class="col">
+                            <label for="modifyBrandInfoNotionId" class="form-label"><span class="requiredMark">*</span>브랜드
+                                소개(노션 페이지 ID)</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="brandInfoNotionId"
+                                   id="modifyBrandInfoNotionId"
+                                   required/>
+                        </div>
+                        <div class="col">
+                            <label for="modifyUsingInfoNotionId" class="form-label"><span class="requiredMark">*</span>이용안내(노션
+                                페이지 ID)</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="usingInfoNotionId"
+                                   id="modifyUsingInfoNotionId"
+                                   required/>
+                        </div>
+                        <div class="col">
+                            <label for="modifyAddressInfoNotionId" class="form-label"><span
+                                    class="requiredMark">*</span>오시는
+                                길(노션 페이지 ID)</label>
+                            <input type="text"
+                                   class="form-control"
+                                   name="addressInfoNotionId"
+                                   id="modifyAddressInfoNotionId"
+                                   required/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="merchantModifyButton" type="button" class="btn btn-primary">수정</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script th:src="@{/js/merchant-settings.js}"></script>
+</html>

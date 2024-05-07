@@ -132,4 +132,8 @@ public class ThemeService {
             themeRepository.save(theme);
         });
     }
+
+    public List<ThemeDto> getThemeList() {
+        return themeRepository.findAll().stream().map(dtoConverter::toThemeDto).toList();
+    }
 }

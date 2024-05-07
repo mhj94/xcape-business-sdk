@@ -17,8 +17,12 @@ public class MerchantService {
     private final MerchantRepository merchantRepository;
     private final DtoConverter dtoConverter;
 
-    public List<MerchantDto> getAllMerchantList() {
+    public List<MerchantDto> getMerchantList() {
         return merchantRepository.findAll().stream().map(dtoConverter::toMerchantDto).toList();
+    }
+
+    public List<MerchantDto> getAllMerchantListOrderByOrder() {
+        return merchantRepository.findAllByOrderByOrderAsc().stream().map(dtoConverter::toMerchantDto).toList();
     }
 
     public MerchantDto getMerchant(Long merchantId) {
@@ -66,5 +70,11 @@ public class MerchantService {
                 .build();
 
         merchantRepository.save(newMerchant);
+    }
+
+    @Transactional
+    public void modifyMerchant(Long merchantId, MerchantDto requestDto) {
+        Merchant merchant = merchantRepository.findById(merchantId).orElseThrow(IllegalArgumentException::new);
+        merchant.update(requestDto);
     }
 }

@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments :: head}"></head>
 <body class="bg-light">
-<nav th:replace="~{fragments :: navbar (banner)}"></nav>
+<nav th:replace="~{fragments :: navbar (bannerSettings)}"></nav>
 <div class="container">
   <div class="row mt-1">
     <div class="col-1">
@@ -97,5 +97,5 @@
   <span>저장 중...</span>
 </template>
 </body>
-<script th:src="@{/js/banner.js}"></script>
+<script th:src="@{/js/banner-settings.js}"></script>
 </html>

@@ -32,8 +32,8 @@ public class AdminRestController {
     private final ReservationHistoryService reservationHistoryService;
 
     @GetMapping("/merchants")
-    public Response<List<MerchantDto>> getAllMerchantsWithThemes() {
-        List<MerchantDto> merchantDtoList = merchantService.getAllMerchantsWithThemes();
+    public Response<List<MerchantDto>> getMerchantList() {
+        List<MerchantDto> merchantDtoList = merchantService.getMerchantList();
         return Response.success(merchantDtoList);
     }
 
@@ -42,7 +42,11 @@ public class AdminRestController {
         MerchantDto merchantDto = merchantService.getMerchantWithThemeList(merchantId);
         return Response.success(merchantDto);
     }
-
+    @GetMapping("/themes")
+    public Response<List<ThemeDto>> getThemeList() {
+        List<ThemeDto> themeDtoList = themeService.getThemeList();
+        return Response.success(themeDtoList);
+    }
     @GetMapping("/themes/{themeId}")
     public Response<ThemeDto> getThemeDetail(@PathVariable Long themeId) {
         ThemeDto theme = themeService.getThemeDetail(themeId);
@@ -185,6 +189,13 @@ public class AdminRestController {
     @PostMapping("/merchants")
     public Response<Void> createMerchant(MerchantDto merchantDto) {
         merchantService.createMerchant(merchantDto);
+        return Response.success();
+    }
+
+    // 가맹점 수정
+    @PutMapping("/merchants/{merchantId}")
+    public Response<Void> modifyMerchant(@PathVariable Long merchantId, MerchantDto merchantDto) {
+        merchantService.modifyMerchant(merchantId, merchantDto);
         return Response.success();
     }
 }

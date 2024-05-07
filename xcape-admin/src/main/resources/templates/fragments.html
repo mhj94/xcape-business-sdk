@@ -40,10 +40,13 @@
                     <a class="nav-link" th:classappend="${currentMenu == 'reservationSettings'} ? active" href="/reservations">예약 관리</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:classappend="${currentMenu == 'merchantSettings'} ? active" href="/theme-settings">가맹점 관리</a>
+                    <a class="nav-link" th:classappend="${currentMenu == 'merchantSettings'} ? active" href="/merchant-settings">가맹점 관리</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:classappend="${currentMenu == 'banner'} ? active" href="/banner">배너 관리</a>
+                    <a class="nav-link" th:classappend="${currentMenu == 'themeSettings'} ? active" href="/theme-settings">테마 관리</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${currentMenu == 'bannerSettings'} ? active" href="/banner-settings">배너 관리</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:classappend="${currentMenu == 'mockReservations'} ? active" href="/mock-reservations">일괄예약 등록</a>
