@@ -50,17 +50,12 @@ jobs:
         run: |
           aws s3 cp xcape-admin-1.0-SNAPSHOT.jar $S3_BUCKET
 
-      - name: Deploy to EC2
-        env:
-          HOST: ${{ secrets.DEV_ADMIN_EC2_HOST }}
-          USERNAME: ${{ secrets.DEV_ADMIN_EC2_USERNAME }}
-          SSH_KEY: ${{ secrets.DEV_ADMIN_EC2_SSH_KEY }}
-        run: |
-          echo "$SSH_KEY" | tr -d '\r' > id_rsa.pem
-          chmod 400 id_rsa.pem
-          ssh -i "id_rsa.pem" $HOST@$USERNAME << 'EOF'
-          # TODO
-          echo "Connected to EC2 instance."
-          EOF
-          # aws s3 cp s3://$S3_BUCKET/xcape-admin-1.0-SNAPSHOT.jar .
-          # java -jar xcape-admin-1.0-SNAPSHOT.jar
+      - name: excuting remote ssh commands
+        uses: appleboy/ssh-action@v0.1.9 # ssh 접속하는 오픈소스
+        with:
+          host: ${{ secrets.DEV_ADMIN_EC2_HOST }} # ec2 인스턴스 ip
+          username: ${{ secrets.DEV_ADMIN_EC2_USERNAME }} # ubuntu 아이디
+          key: ${{ secrets.DEV_ADMIN_EC2_SSH_KEY }} # ec2 인스턴스 pem key
+          port: 22 # 접속포트번호 (보통 22)
+          script: | # 실행될 스크립트
+            echo "Connect EC2!!!"
