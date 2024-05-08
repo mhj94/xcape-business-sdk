@@ -58,7 +58,6 @@ jobs:
         run: |    # SSH into EC2 instance
           echo "$PEM_KEY" | tr -d '\r' > id_rsa.pem
           chmod 400 id_rsa.pem
-          ssh -i "id_rsa.pem" $USERNAME@$HOST << 'EOF'
-          # Pull and run the JAR file
-          aws s3 cp s3://$S3_BUCKET/xcape-admin-1.0-SNAPSHOT.jar .
-          java -jar xcape-admin-1.0-SNAPSHOT.jar
+          ssh -i "id_rsa.pem" $USERNAME@$HOST
+          # aws s3 cp s3://$S3_BUCKET/xcape-admin-1.0-SNAPSHOT.jar .
+          # java -jar xcape-admin-1.0-SNAPSHOT.jar
