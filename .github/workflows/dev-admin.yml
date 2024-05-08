@@ -57,7 +57,7 @@ jobs:
           SSH_KEY: ${{ secrets.DEV_ADMIN_EC2_SSH_KEY }}
         run: |
           # SSH into EC2 instance
-          ssh -o StrictHostKeyChecking=no -i $SSH_KEY $USERNAME@$HOST
+          ssh -o StrictHostKeyChecking=no -i "$SSH_KEY" $USERNAME@$HOST
           # Pull and run the JAR file
           aws s3 cp s3://$S3_BUCKET/*.jar .
           java -jar *.jar
