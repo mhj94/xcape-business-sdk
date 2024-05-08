@@ -55,12 +55,10 @@ jobs:
           HOST: ${{ secrets.DEV_ADMIN_EC2_HOST }}
           USERNAME: ${{ secrets.DEV_ADMIN_EC2_USERNAME }}
           SSH_KEY: ${{ secrets.DEV_ADMIN_EC2_SSH_KEY }}
-        run: |
-          # SSH into EC2 instance
-          # ssh -o StrictHostKeyChecking=no -i "$SSH_KEY" $USERNAME@$HOST
-          echo "$PEM_KEY" | tr -d '\r' > id_rsa
-          chmod 600 id_rsa
-          ssh -i id_rsa $USERNAME@$HOST
-          # Pull and run the JAR file
-          aws s3 cp s3://$S3_BUCKET/xcape-admin-1.0-SNAPSHOT.jar .
-          java -jar xcape-admin-1.0-SNAPSHOT.jar
+        run: |    # SSH into EC2 instance
+          ssh -o StrictHostKeyChecking=no -i "$SSH_KEY" $USERNAME@$HOST << 'EOF'
+          # Commands to run on the remote server
+          aws s3 cp s3://$S3_BUCKET/*.jar .
+          java -jar *.jar
+          # End of commands
+          EOF
