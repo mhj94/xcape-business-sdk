@@ -58,4 +58,5 @@ jobs:
           key: ${{ secrets.DEV_ADMIN_EC2_SSH_KEY }} # ec2 인스턴스 pem key
           port: 22 # 접속포트번호 (보통 22)
           script: | # 실행될 스크립트
-            echo "Connect EC2!!!"
+            aws s3 cp s3://xcape-dev-admin/xcape-admin-1.0-SNAPSHOT.jar .
+            java -jar xcape-admin-1.0-SNAPSHOT.jar
