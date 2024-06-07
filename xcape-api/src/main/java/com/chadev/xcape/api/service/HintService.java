@@ -15,7 +15,7 @@ public class HintService {
     private final HintRepository hintRepository;
     private final DtoConverter dtoConverter;
 
-    public List<HintDto> getAllHintList() {
+    public List<HintDto> getHintList() {
         return hintRepository.findAll().stream().filter(hint -> hint.getTheme() != null).map(dtoConverter::toHintDto).toList();
     }
 }

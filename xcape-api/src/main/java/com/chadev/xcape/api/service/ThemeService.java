@@ -53,23 +53,23 @@ public class ThemeService {
                               .map(dtoConverter::toThemeDto).toList();
     }
 
-    public List<ThemeDto> getAllThemeWithHintList() {
-        List<ThemeDto> allThemeDtoList = getAllThemeList();
-        List<HintDto> allHintDtoList = hintService.getAllHintList();
-        List<HintDto> hintList;
+    public List<ThemeDto> getThemeListWithHintList() {
+        List<ThemeDto> themeDtoList = getAllThemeList();
+        List<HintDto> hintDtoList = hintService.getHintList();
+        List<HintDto> newHintList;
 
-        for (int i = 0; i < allThemeDtoList.size(); i++) {
-            ThemeDto themeDto = allThemeDtoList.get(i);
-            hintList = new ArrayList<>();
+        for (int i = 0; i < themeDtoList.size(); i++) {
+            ThemeDto themeDto = themeDtoList.get(i);
+            newHintList = new ArrayList<>();
 
-            for (int j = 0; j < allHintDtoList.size(); j++) {
-                HintDto hintDto = allHintDtoList.get(j);
+            for (int j = 0; j < hintDtoList.size(); j++) {
+                HintDto hintDto = hintDtoList.get(j);
                 if (themeDto.getId().equals(hintDto.getThemeId())) {
-                   hintList.add(hintDto);
+                    newHintList.add(hintDto);
                 }
-                allThemeDtoList.get(i).setHintList(hintList);
+                themeDtoList.get(i).setHintList(newHintList);
             }
         }
-        return allThemeDtoList;
+        return themeDtoList;
     }
 }

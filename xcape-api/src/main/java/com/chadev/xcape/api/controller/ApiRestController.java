@@ -144,7 +144,7 @@ public class ApiRestController {
 
     @GetMapping("/hints")
     public Response<List<ThemeDto>> getThemeListWithHintList() {
-        List<ThemeDto> allThemeWithHintList = themeService.getAllThemeWithHintList();
-        return Response.success(allThemeWithHintList);
+        List<ThemeDto> themeDtoList = themeService.getThemeListWithHintList();
+        return Response.success(themeDtoList);
     }
 }
