@@ -66,4 +66,16 @@ public class DtoConverter {
     public HintDto toHintDto(Hint entity) {
         return new HintDto(entity);
     }
+
+    public TagDto toTagDto(Tag entity) {
+        return new TagDto(entity);
+    }
+
+    public ViewDto toViewDto(View entity) {
+        return new ViewDto(entity);
+    }
+
+    public StorageDto toStorageDto(Storage entity) {
+        return new StorageDto(entity);
+    }
 }
