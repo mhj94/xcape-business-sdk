@@ -21,3 +21,11 @@ const getHintList = (e) => {
 document.querySelectorAll('#treeArea .accordion-body button').forEach((button) => {
     button.addEventListener('click', getHintList)
 });
+
+// 테마 목록 클릭 시, active 추가
+document.querySelectorAll('.list-group button').forEach(list => {
+    list.addEventListener('click', () => {
+        document.querySelector('.list-group .active')?.classList.remove('active');
+        list.classList.add('active');
+    })
+})
