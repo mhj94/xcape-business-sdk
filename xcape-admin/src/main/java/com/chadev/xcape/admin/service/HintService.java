@@ -14,10 +14,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class HintService {
 
-    private final HintRepository hintRepository;
-    private final DtoConverter dtoConverter;
+	private final HintRepository hintRepository;
+	private final DtoConverter dtoConverter;
 
-    public List<HintDto> getHintList() {
-        return hintRepository.findAll().stream().filter(hint -> hint.getTheme() != null).map(dtoConverter::toHintDto).toList();
-    }
+	public List<HintDto> getHintList() {
+		return hintRepository.findAll()
+			.stream()
+			.filter(hint -> hint.getTheme() != null)
+			.map(dtoConverter::toHintDto)
+			.toList();
+	}
+
+	public List<HintDto> getHintListByThemeId(Long themeId) {
+		return hintRepository.findAllByThemeId(themeId)
+			.stream()
+			.map(dtoConverter::toHintDto)
+			.toList();
+	}
 }

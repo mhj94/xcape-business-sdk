@@ -1,16 +1,16 @@
 package com.chadev.xcape.api.service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.chadev.xcape.core.domain.converter.DtoConverter;
-import com.chadev.xcape.core.domain.dto.HintDto;
 import com.chadev.xcape.core.domain.dto.PriceDto;
 import com.chadev.xcape.core.domain.dto.ThemeDto;
 import com.chadev.xcape.core.domain.entity.Theme;
 import com.chadev.xcape.core.repository.ThemeRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +19,6 @@ public class ThemeService {
     private final ThemeRepository themeRepository;
     private final AbilityService abilityService;
     private final DtoConverter dtoConverter;
-    private final HintService hintService;
 
     public ThemeDto getThemeById(Long themeId) {
         Theme theme = themeRepository.findById(themeId).orElseThrow(IllegalArgumentException::new);

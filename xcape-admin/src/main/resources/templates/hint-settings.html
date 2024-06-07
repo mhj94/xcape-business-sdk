@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="col-lg-8 mb-3">
-            <table class="table table-hover table-responsive" id="merchantTable">
+            <table class="table table-hover table-responsive" id="hintTable">
                 <thead>
                 <tr>
                     <th class="text-truncate" scope="col">순서</th>
@@ -55,13 +55,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="hint : ${hintList}">
-                    <td class="text-truncate" th:text="${hint.id}"></td>
-                    <td class="text-truncate" th:text="${hint.code}"></td>
-                    <td class="text-truncate" th:text="${hint.message1}"></td>
-                    <td class="text-truncate" th:text="${hint.message2}"></td>
-                    <td class="text-truncate" th:text="${hint.isUsed} ? '사용' : '미사용'"></td>
-                </tr>
+
                 </tbody>
             </table>
         </div>
@@ -302,5 +296,15 @@
 </div>
 </body>
 
-<script th:src="@{/js/theme-settings.js}"></script>
+<template id="hintTemplate">
+    <tr>
+        <td>{id}</td>
+        <td>{code}</td>
+        <td>{message1}</td>
+        <td>{message2}</td>
+        <td>{isUsed}</td>
+    </tr>
+</template>
+
+<script th:src="@{/js/hint-settings.js}"></script>
 </html>
