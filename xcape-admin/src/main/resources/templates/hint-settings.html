@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head}"></head>
+<body class="bg-light">
+<nav th:replace="~{fragments :: navbar (hintSettings)}"></nav>
+<div class="container mb-3">
+    <div class="row mt-2">
+        <div class="col text-start">
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#themeCreateModal">힌트
+                만들기
+            </button>
+        </div>
+        <div class="col text-end">
+            <span class="fs-6 text-secondary">* 변경사항을 저장 후 발행해주세요.</span>
+            <button id="jsonPublishButton" type="button" class="btn btn-success">발행</button>
+        </div>
+    </div>
+    <div class="row mt-2 justify-content-between">
+        <div class="col-lg-4 mb-3">
+            <div id="treeArea" class="bg-white">
+                <div class="accordion">
+                    <div class="accordion-item" th:each="merchant, i : ${merchantList}">
+                        <h2 class="accordion-header" th:data-merchant-id="${merchant.getId()}">
+                            <button class="accordion-button" th:classappend="${i.index != 0} ? 'collapsed'"
+                                    type="button" data-bs-toggle="collapse"
+                                    th:data-bs-target="'#themeList-' + ${merchant.getId()}"
+                                    th:aria-expand="${i.index == 0} ? 'true' : 'false'"
+                                    th:text="${merchant.getName()}"></button>
+                        </h2>
+                        <div th:id="'themeList-' + ${merchant.getId()}" class="accordion-collapse collapse"
+                             th:classappend="${i.index == 0} ? 'show'"
+                             th:aria-labelledby="'merchant-' + ${merchant.getId()}">
+                            <div class="accordion-body">
+                                <div class="list-group list-group-flush">
+                                    <button th:data-theme-id="${theme.getId()}" type="button"
+                                            class="list-group-item list-group-item-action"
+                                            th:each="theme : ${merchant.getThemeList()}"
+                                            th:text="${theme.getNameKo()}"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 mb-3">
+            <table class="table table-hover table-responsive" id="merchantTable">
+                <thead>
+                <tr>
+                    <th class="text-truncate" scope="col">순서</th>
+                    <th class="text-truncate" scope="col">코드</th>
+                    <th style="width: 100px;" class="text-truncate" scope="col">메세지1</th>
+                    <th style="width: 100px;" class="text-truncate" scope="col">메세지2</th>
+                    <th class="text-truncate" scope="col">사용유무</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="hint : ${hintList}">
+                    <td class="text-truncate" th:text="${hint.id}"></td>
+                    <td class="text-truncate" th:text="${hint.code}"></td>
+                    <td class="text-truncate" th:text="${hint.message1}"></td>
+                    <td class="text-truncate" th:text="${hint.message2}"></td>
+                    <td class="text-truncate" th:text="${hint.isUsed} ? '사용' : '미사용'"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="themeCreateModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">테마 만들기</h5>
+                <select name="merchantId" class="form-control form-select w-25 ms-3">
+                    <option value="">지점 선택</option>
+                    <option th:each="merchant : ${merchantList}" th:value="${merchant.getId()}"
+                            th:text="${merchant.getName()}"></option>
+                </select>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-0">
+                <div class="row">
+                    <div class="col">
+                        <div>
+                            <div class="row justify-content-center mx-0 mb-3 border p-1 text-center">
+                                <h5><span class="requiredMark">*</span>메인 이미지</h5>
+                                <img id="createMainImagePreview" class="mb-1" width="250" height="250" src=""
+                                     style="object-fit: contain;" alt="">
+                                <input id="createMainImage" accept="image/*" class="form-control" name="mainImage"
+                                       onchange="imagePreview(this)" required="" type="file">
+                            </div>
+                            <div class="row justify-content-center mx-0 mb-3 border p-1 text-center">
+                                <h5><span class="requiredMark">*</span>배경 이미지</h5>
+                                <img id="createBgImagePreview" class="mb-1" width="250" height="250" src=""
+                                     style="object-fit: contain;" alt="">
+                                <input id="createBgImage" class="form-control" type="file" name="bgImage"
+                                       accept="image/*" onchange="imagePreview(this)" required="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <form name="theme">
+                            <div>
+                                <div class="row mx-0 mb-2">
+                                    <div class="col ps-0">
+                                        <div class="form-floating">
+                                            <input id="createThemeNameKo" class="form-control" name="nameKo" required=""
+                                                   type="text">
+                                            <label for="createThemeNameKo"><span class="requiredMark">*</span>테마명
+                                                (한글)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col pe-0">
+                                        <div class="form-floating">
+                                            <input id="createThemeNameEn" class="form-control" name="nameEn" type="text"
+                                                   required="">
+                                            <label for="createThemeNameEn"><span class="requiredMark">*</span>테마명
+                                                (영문)</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-0 mb-2">
+                                    <div class="col p-0">
+                                        <div class="form-floating">
+                                            <select id="createDifficulty" class="form-select" name="difficulty">
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                            <label for="createDifficulty">난이도</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row m-0">
+                                    <div class="col-lg px-0 form-floating">
+                                        <textarea class="form-control" id="createDescription" name="description"
+                                                  rows="6" required></textarea>
+                                        <label for="createDescription"><span class="requiredMark">*</span>테마 소개</label>
+                                    </div>
+                                </div>
+                                <div id="abilityList" class="row">
+                                    <div class="col-6 mt-2">
+                                        <div class="form-floating">
+                                            <select class="form-select ability" id="createTeamwork" data-name="팀워크"
+                                                    data-code="teamwork">
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                            <label for="createTeamwork">팀워크</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6 mt-2">
+                                        <div class="form-floating">
+                                            <select class="form-select ability" id="createReasoning" data-name="추리력"
+                                                    data-code="reasoning">
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                            <label for="createReasoning">추리력</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6 mt-2">
+                                        <div class="form-floating">
+                                            <select class="form-select ability" id="createObservation" data-name="관찰력"
+                                                    data-code="observation">
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                            <label for="createObservation">관찰력</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6 mt-2">
+                                        <div class="form-floating">
+                                            <select class="form-select ability" id="createActivity" data-name="활동성"
+                                                    data-code="activity">
+                                                <option value="0">0</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                            <label for="createActivity">활동성</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mx-0 mt-3">
+                                    <div class="col px-0">
+                                        <div class="input-group p-0">
+                                            <span class="input-group-text"><span
+                                                    class="requiredMark">*</span>인원 수</span>
+                                            <input class="form-control" aria-label="minParticipantCount"
+                                                   id="createMinParticipantCount" name="minParticipantCount"
+                                                   type="number" min="0" max="5" placeholder="최소 인원" required="">
+                                            <span class="input-group-text">~</span>
+                                            <input class="form-control" aria-label="maxParticipantCount"
+                                                   id="createMaxParticipantCount" name="maxParticipantCount"
+                                                   type="number" min="2" max="8" placeholder="최대 인원" required="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mx-0 mt-3">
+                                    <div class="col ps-0 form-floating">
+                                        <input class="form-control" id="createGenre" name="genre" type="text" required>
+                                        <label for="createGenre"><span class="requiredMark">*</span>장르</label>
+                                    </div>
+                                    <div class="col ps-0 form-floating">
+                                        <input type="color" class="form-control form-control-color" id="createColorCode"
+                                               name="colorCode">
+                                        <label for="createColorCode"><span class="requiredMark">*</span>색상</label>
+                                    </div>
+                                    <div class="col ps-0 form-floating">
+                                        <input class="form-control" id="createRunningTime" name="runningTime"
+                                               type="text" required>
+                                        <label for="createRunningTime"><span class="requiredMark">*</span>플레이타임</label>
+                                    </div>
+                                </div>
+                                <div class="row mx-0 mt-3">
+                                    <div class="col ps-0 form-floating">
+                                        <input class="form-control" id="createPoint" name="point" type="text">
+                                        <label for="createPoint"><span class="requiredMark">*</span>포인트</label>
+                                    </div>
+                                </div>
+                                <div class="row mx-0 mt-3">
+                                    <div class="col ps-0 form-floating">
+                                        <input class="form-control" id="createYoutubeLink" name="youtubeLink"
+                                               type="text">
+                                        <label for="createYoutubeLink"><span class="requiredMark">*</span>소개영상
+                                            링크</label>
+                                    </div>
+                                </div>
+                                <div class="row mx-0 mt-3">
+                                    <div class="col-sm px-0">
+                                        <label class="me-2">X-KIT</label>
+                                        <div class="form-check form-check-inline me-0">
+                                            <input class="form-check-input" id="createHasXKitY" name="hasXKit"
+                                                   type="radio" value="true" checked="">
+                                            <label class="form-check-label" for="createHasXKitY">Y</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" id="createHasXKitN" name="hasXKit"
+                                                   type="radio" value="false">
+                                            <label class="form-check-label" for="createHasXKitN">N</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm px-0">
+                                        <label class="me-2">크라임씬</label>
+                                        <div class="form-check form-check-inline me-0">
+                                            <input class="form-check-input" id="createIsCrimeSceneY" name="isCrimeScene"
+                                                   type="radio" value="true">
+                                            <label class="form-check-label" for="createIsCrimeSceneY">Y</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" id="createIsCrimeSceneN" name="isCrimeScene"
+                                                   type="radio" value="false" checked="">
+                                            <label class="form-check-label" for="createIsCrimeSceneN">N</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm px-0">
+                                        <label class="me-2">사용여부</label>
+                                        <div class="form-check form-check-inline me-0">
+                                            <input class="form-check-input" id="createUseY" name="useYn" type="radio"
+                                                   value="true">
+                                            <label class="form-check-label" for="createUseY">Y</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" id="createUseN" name="useYn" type="radio"
+                                                   value="false" checked="">
+                                            <label class="form-check-label" for="createUseN">N</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="themeCreateButton" type="button" class="btn btn-primary">저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script th:src="@{/js/theme-settings.js}"></script>
+</html>

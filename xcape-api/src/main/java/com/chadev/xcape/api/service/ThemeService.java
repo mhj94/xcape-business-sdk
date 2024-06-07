@@ -52,24 +52,4 @@ public class ThemeService {
                               .filter(Theme::getUseYn)
                               .map(dtoConverter::toThemeDto).toList();
     }
-
-    public List<ThemeDto> getThemeListWithHintList() {
-        List<ThemeDto> themeDtoList = getAllThemeList();
-        List<HintDto> hintDtoList = hintService.getHintList();
-        List<HintDto> newHintList;
-
-        for (int i = 0; i < themeDtoList.size(); i++) {
-            ThemeDto themeDto = themeDtoList.get(i);
-            newHintList = new ArrayList<>();
-
-            for (int j = 0; j < hintDtoList.size(); j++) {
-                HintDto hintDto = hintDtoList.get(j);
-                if (themeDto.getId().equals(hintDto.getThemeId())) {
-                    newHintList.add(hintDto);
-                }
-                themeDtoList.get(i).setHintList(newHintList);
-            }
-        }
-        return themeDtoList;
-    }
 }
