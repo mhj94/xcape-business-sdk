@@ -216,4 +216,10 @@ public class AdminRestController {
 		List<HintDto> hintListByThemeId = hintService.getHintListByThemeId(themeId);
 		return Response.success(hintListByThemeId);
 	}
+
+	@GetMapping("/hints")
+	public Response<List<HintDto>> getHintList() {
+		List<HintDto> hintListByThemeId = hintService.getHintList();
+		return Response.success(hintListByThemeId);
+	}
 }

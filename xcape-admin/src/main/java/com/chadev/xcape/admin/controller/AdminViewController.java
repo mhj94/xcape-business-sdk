@@ -98,10 +98,8 @@ public class AdminViewController {
     public String hint(Model model, Authentication authentication) {
         AccountDto accountDto = (AccountDto)authentication.getPrincipal();
         List<MerchantDto> merchantDtoList = new ArrayList<>();
-        List<HintDto> hintDtoList = new ArrayList<>();
         if (accountDto.getType() == AccountType.MASTER) {
             merchantDtoList = merchantService.getAllMerchantsWithThemes();
-            hintDtoList = hintService.getHintList();
         }
 
         if (accountDto.getType() == AccountType.MANAGER) {
@@ -109,7 +107,6 @@ public class AdminViewController {
         }
 
         model.addAttribute("merchantList", merchantDtoList);
-        model.addAttribute("hintList", hintDtoList);
         return "hint-settings";
     }
 
