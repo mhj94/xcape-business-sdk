@@ -1,5 +1,6 @@
 package com.chadev.xcape.core.domain.entity;
 
+import com.chadev.xcape.core.domain.dto.TagDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,4 +30,11 @@ public class Tag {
 
     @Column(length = 50)
     private String referenceCode;
+
+    public Tag(TagDto tagDto) {
+        this.merchantId = tagDto.getMerchantId();
+        this.themeId = tagDto.getThemeId();
+        this.tagName = tagDto.getTagName();
+        this.referenceCode = tagDto.getReferenceCode();
+    }
 }

@@ -1,5 +1,6 @@
 package com.chadev.xcape.core.domain.entity;
 
+import com.chadev.xcape.core.domain.dto.StorageDto;
 import com.chadev.xcape.core.domain.type.FileType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,9 +30,21 @@ public class Storage {
     @Enumerated(EnumType.STRING)
     private FileType fileType;
 
-    @Column(length = 255)
+    @Column(length = 600)
     private String url;
 
-    @Column(length = 50)
+    @Column(length = 100)
     private String filename;
+
+    @Column(length = 50)
+    private String storedFilename;
+
+    public Storage (StorageDto storageDto) {
+        this.merchantId = storageDto.getMerchantId();
+        this.themeId = storageDto.getThemeId();
+        this.fileType = storageDto.getFileType();
+        this.url = storageDto.getUrl();
+        this.filename = storageDto.getFilename();
+        this.storedFilename = storageDto.getStoredFilename();
+    }
 }

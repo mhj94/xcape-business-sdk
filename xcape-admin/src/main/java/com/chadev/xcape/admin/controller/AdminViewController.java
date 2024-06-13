@@ -48,6 +48,7 @@ public class AdminViewController {
         model.addAttribute("merchantList", merchantList);
         return "merchant-settings";
     }
+
     @GetMapping("/theme-settings")
     public String themeSettings(Model model, Authentication authentication) {
         AccountDto account = (AccountDto) authentication.getPrincipal();
@@ -114,5 +115,23 @@ public class AdminViewController {
         }
         model.addAttribute("merchantList", merchantList);
         return "mock-reservations";
+    }
+
+    @GetMapping("/file-upload")
+    public String fileUpload(Authentication authentication, Model model) {
+        AccountDto account = (AccountDto) authentication.getPrincipal();
+        List<MerchantDto> merchantList = new ArrayList<>();
+        if (account.getType() == AccountType.MASTER) {
+            merchantList = merchantService.getAllMerchantsWithThemes();
+        } else {
+            merchantList.add(merchantService.getMerchantWithThemeList(account.getMerchantId()));
+        }
+        model.addAttribute("merchantList", merchantList);
+        return "file-upload";
+    }
+
+    @GetMapping("/migration")
+    public String migration() {
+        return "migration";
     }
 }

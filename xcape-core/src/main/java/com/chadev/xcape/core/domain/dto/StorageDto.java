@@ -24,6 +24,8 @@ public class StorageDto {
 
     private String filename;
 
+    private String storedFilename;
+
     public StorageDto(Storage entity) {
         this.id = entity.getId();
         this.merchantId = entity.getMerchantId();
@@ -31,5 +33,6 @@ public class StorageDto {
         this.fileType = entity.getFileType();
         this.url = entity.getUrl();
         this.filename = entity.getFilename();
+        this.storedFilename = entity.getStoredFilename();
     }
 }
