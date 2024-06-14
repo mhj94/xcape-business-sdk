@@ -3,10 +3,14 @@ package com.chadev.xcape.admin.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.chadev.xcape.core.domain.converter.DtoConverter;
 import com.chadev.xcape.core.domain.dto.HintDto;
+import com.chadev.xcape.core.domain.entity.Hint;
+import com.chadev.xcape.core.domain.entity.Theme;
 import com.chadev.xcape.core.repository.HintRepository;
+import com.chadev.xcape.core.repository.ThemeRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class HintService {
 
 	private final HintRepository hintRepository;
+	private final ThemeRepository themeRepository;
 	private final DtoConverter dtoConverter;
 
 	public List<HintDto> getHintList() {
@@ -30,5 +35,21 @@ public class HintService {
 			.stream()
 			.map(dtoConverter::toHintDto)
 			.toList();
+	}
+
+	@Transactional
+	public void createHint(HintDto hintDto) {
+
+		Theme theme = themeRepository.findById(hintDto.getThemeId()).orElseThrow();
+
+		Hint hint = Hint.builder()
+			.theme(theme)
+			.code(hintDto.getCode())
+			.message1(hintDto.getMessage1())
+			.message2(hintDto.getMessage2())
+			.isUsed(hintDto.getIsUsed())
+			.build();
+
+		hintRepository.save(hint);
 	}
 }

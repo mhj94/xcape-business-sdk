@@ -217,6 +217,12 @@ public class AdminRestController {
 		return Response.success(hintListByThemeId);
 	}
 
+	@PostMapping("/hints")
+	public Response<Void> createHint(HintDto hintDto) {
+		hintService.createHint(hintDto);
+		return Response.success();
+	}
+
 	@GetMapping("/hints")
 	public Response<List<HintDto>> getHintList() {
 		List<HintDto> hintListByThemeId = hintService.getHintList();
