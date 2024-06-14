@@ -1,24 +1,18 @@
 let hintList = null;
-const getHintList = () => {
-    axios.get("/hints").then((res) => {
-        const {resultCode, result} = res.data;
+axios.get("/hints").then((res) => {
+    const {resultCode, result} = res.data;
 
-        if (resultCode === SUCCESS) {
-            hintList = result;
-        }
-    });
-}
-
-getHintList();
+    if (resultCode === SUCCESS) {
+        hintList = result;
+    }
+});
 
 // 무작위 힌트 코드 생성
-const generateHintCode = () => {
-
+const createHintCode = () => {
     const char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let code = '';
 
     for (let i = 0; i < 5; i++) {
-
         if (i < 3) {
             code += char[Math.floor(Math.random() * 26)];
         } else {
@@ -28,38 +22,22 @@ const generateHintCode = () => {
     return code;
 }
 
+
 // 힌트 코드 검증
-const duplicateHintCode = (hintCode) => {
+const hasCode = (hintCode) => {
     return hintList.some(hint => hint.code === hintCode);
 }
 
 // 최종 힌트 코드 생성
-const createHintCode = () => {
-    const code = generateHintCode();
-    if (!duplicateHintCode(code)) {
-        return code;
-    } else {
-        return console.log("중복");
+const generateHintCode = () => {
+    let code = createHintCode();
+
+    while (hasCode(code)) {
+        code = createHintCode();
     }
+
+    return code;
 };
-
-// const
-//     while(duplicateHintCode(code)) {
-//
-//         code = '';
-//
-//         for (let i = 0; i < 5; i++) {
-//
-//             if (i < 3) {
-//                 code += char[Math.floor(Math.random() * 26)];
-//             } else {
-//                 code += char[Math.floor(Math.random() * 10) + 26];
-//             }
-//         }
-//
-//         return code;
-
-//     }
 
 // const getHintList = (e) => {
 //     const id = e.currentTarget.dataset.themeId;
@@ -98,7 +76,6 @@ document.querySelectorAll('#treeArea .accordion-body button').forEach((button) =
 });
 
 
-
 // document.querySelector('#merchantSelect').addEventListener('change', function () {
 //     const merchantId = this.value;
 //     const themeSelect = document.querySelector('#themeSelect');
@@ -123,12 +100,12 @@ document.querySelectorAll('#treeArea .accordion-body button').forEach((button) =
 //         });
 //     }
 // });
-//
+
 // 힌트 만들기 버튼 클릭 시, 지점 및 테마 셀렉트 박스 초기화
 document.querySelector('#hintCreateModalButton').addEventListener('click', () => {
 
     // 힌트 코드 주입
-    document.querySelector('#createCode').value = createHintCode();
+    document.querySelector('#createCode').value = generateHintCode();
 
     const merchantSelect = document.querySelector('#merchantSelect');
     const themeSelect = document.querySelector('#themeSelect');
