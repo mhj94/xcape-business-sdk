@@ -25,8 +25,14 @@ public enum ErrorCode {
     // 인증
     AUTHENTICATION_INVALID_PHONE_NUMBER("9100", "예약자의 연락처와 일치하지 않는 연락처입니다."),
     AUTHENTICATION_TIME_OUT("9101", "인증 시간이 초과하였습니다."),
-    AUTHENTICATION_INVALID_NUMBER("9102", "인증번호가 일치하지 않습니다.");
+    AUTHENTICATION_INVALID_NUMBER("9102", "인증번호가 일치하지 않습니다."),
 
+    // File
+    FILE_NOT_FOUND("9200", "업로드 할 파일이 없습니다."),
+    FILE_FORMAT_EXCEPTION("9201", "업로드 할 수 없는 파일입니다."),
+    UNNAMED_FILE("9202", "파일 이름이 없습니다."),
+    FILE_UPLOAD_EXCEPTION("9203", "업로드에 실패했습니다."),
+    ;
 
     private final String code;
     private final String message;
