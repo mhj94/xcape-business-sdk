@@ -30,4 +30,8 @@ public class XcapeException extends RuntimeException {
     public static XcapeException OVERFLOW_RESERVATION() {return new XcapeException(ErrorCode.OVERFLOW_RESERVATION);}
 
     public static XcapeException NOT_EXISTENT_ROOM_TYPE() {return new XcapeException(ErrorCode.NOT_EXISTENT_ROOM_TYPE);}
+    public static XcapeException FILE_NOT_FOUND() {return new XcapeException(ErrorCode.FILE_NOT_FOUND);}
+    public static XcapeException FILE_FORMAT_EXCEPTION() {return new XcapeException(ErrorCode.FILE_FORMAT_EXCEPTION);}
+    public static XcapeException UNNAMED_FILE() {return new XcapeException(ErrorCode.UNNAMED_FILE);}
+    public static XcapeException FILE_UPLOAD_EXCEPTION() {return new XcapeException(ErrorCode.FILE_UPLOAD_EXCEPTION);}
 }

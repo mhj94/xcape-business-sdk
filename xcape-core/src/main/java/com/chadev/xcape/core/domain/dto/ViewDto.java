@@ -14,11 +14,13 @@ public class ViewDto {
 
     private Long id;
 
-    private Long storageId;
-
     private Long tagId;
 
     private ViewType type;
+
+    private String url;
+
+    private String filename;
 
     private String answer;
 
@@ -26,16 +28,23 @@ public class ViewDto {
 
     private String moveToPage;
 
-    private Long targetTag;
+    private Long targetTagId;
+
+    private String referenceCode;
+
+    private Integer orders;
 
     public ViewDto(View entity) {
         this.id = entity.getId();
-        this.storageId = entity.getStorageId();
         this.tagId = entity.getTagId();
         this.type = entity.getType();
+        this.url = entity.getUrl();
+        this.filename = entity.getFilename();
         this.answer = entity.getAnswer();
         this.height = entity.getHeight();
         this.moveToPage = entity.getMoveToPage();
-        this.targetTag = entity.getTargetTag();
+        this.targetTagId = entity.getTargetTagId();
+        this.referenceCode = entity.getReferenceCode();
+        this.orders = entity.getOrders();
     }
 }

@@ -30,6 +30,8 @@ public class AdminRestController {
     private final TimetableService timetableService;
     private final MockReservationService mockReservationService;
     private final ReservationHistoryService reservationHistoryService;
+    private final StorageService storageService;
+    private final MigrateService migrateService;
 
     @GetMapping("/merchants")
     public Response<List<MerchantDto>> getMerchantList() {
@@ -197,5 +199,26 @@ public class AdminRestController {
     public Response<Void> modifyMerchant(@PathVariable Long merchantId, MerchantDto merchantDto) {
         merchantService.modifyMerchant(merchantId, merchantDto);
         return Response.success();
+    }
+
+    @PostMapping("/files")
+    public Response<Void> createFile(FileUploadDto fileUploadDto) {
+        storageService.createFile(fileUploadDto);
+        return Response.success();
+    }
+
+    @PostMapping("/migrate-storage")
+    public void migrateStorageList(@RequestBody List<StorageDto> storageDataList) {
+        migrateService.migrateStorageData(storageDataList);
+    }
+
+    @PostMapping("/migrate-tag")
+    public void migrateTagList(@RequestBody List<TagDto> tagDtoList) {
+        migrateService.migrateTagData(tagDtoList);
+    }
+
+    @PostMapping("/migrate-view")
+    public void migrateViewList(@RequestBody List<ViewDto> viewDtoList) {
+        migrateService.migrateViewData(viewDtoList);
     }
 }

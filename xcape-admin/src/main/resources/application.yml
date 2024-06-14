@@ -69,6 +69,12 @@ sms:
   secretKey: ENC(erqLmX533rM+812LB2NPAoHQQ3Z5BWu3)
   appKey: ENC(dukcgC1Gns2PGtnOvgx/7XVgVUz4pTLL+1a99ZxeL2E=)
 
+firebase:
+  storage:
+    config-file: classpath:serviceAccountKeyDev.json
+    bucket: ENC(K4nrWxeJXLPHNNp1ytv9734teeMcknH5UpHAfLxSqTs=)
+    prefix: ENC(HMlHXm+9ft0WBUKKFrMmAnC2qqavZQdeps0+2+yInEQNZD6JgC+tqYoOF2+WfKI4B7b/ixBvuUwkrJlZFGuAD349OV4Afpol2eJF/9Zdf54=)
+
 ---
 spring:
   datasource:
@@ -128,3 +134,9 @@ cloud:
 
 server:
   port: 5000
+
+firebase:
+  storage:
+    config-file: classpath:serviceAccountKeyProd.json
+    bucket: ENC(7yH4kHTK1AU2Zm+ZNsZMismuFos7yhsKMYsb5dTq3P67tOWGtVYmjg==)
+    prefix: ENC(l/fgFbGcNxF6vZ16V5MnQDr26thg0swd0BuBB1paENH/mFCOUBNQkFN5xkKrZWMMMoMiQ54055iASpOuXlwg2lUgAuzfIcvMqSqFIYkN2eHt4kIRWhxi/A==)
