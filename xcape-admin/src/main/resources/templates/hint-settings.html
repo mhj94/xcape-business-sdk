@@ -6,7 +6,8 @@
 <div class="container mb-3">
     <div class="row mt-2">
         <div class="col text-start">
-            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#hintCreateModal" id="hintCreateModalButton">힌트
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#hintCreateModal"
+                    id="hintCreateModalButton">힌트
                 만들기
             </button>
         </div>
@@ -63,21 +64,22 @@
 </div>
 <div id="hintCreateModal" class="modal" tabindex="-1">
     <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">힌트 만들기</h5>
-                <select name="merchantId" class="form-control form-select w-25 ms-3" id="merchantSelect">
-                    <option value="">지점 선택</option>
-                    <option th:each="merchant : ${merchantList}" th:value="${merchant.getId()}"
-                            th:text="${merchant.getName()}"></option>
-                </select>
-                <select name="themeId" class="form-control form-select w-25 ms-3" id="themeSelect">
-                    <option value="">테마 선택</option>
-                </select>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body py-3">
-                <form name="hint" class="needs-validation">
+        <form name="hint" class="needs-validation">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">힌트 만들기</h5>
+                    <select name="merchantId" class="form-control form-select w-25 ms-3" id="merchantSelect" required>
+                        <option value="">지점 선택</option>
+                        <option th:each="merchant : ${merchantList}" th:value="${merchant.getId()}"
+                                th:text="${merchant.getName()}"></option>
+                    </select>
+                    <select name="themeId" class="form-control form-select w-25 ms-3" id="themeSelect" required>
+                        <option value="">테마 선택</option>
+                    </select>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-3">
+                    <!--                <form name="hint" class="needs-validation">-->
                     <div class="mb-3 row">
                         <div class="col-6">
                             <label for="createCode" class="form-label"><span class="requiredMark">*</span>코드</label>
@@ -88,21 +90,22 @@
                                    required/>
                         </div>
                         <div class="col-4">
-                                <div class="col mt-4">
-                                    <div class="form-switch">
-                                        <input class="form-check-input"
-                                               type="checkbox"
-                                               role="switch"
-                                               name="isUsed"
-                                               id="createIsUsed"/>
-                                        <label class="form-check-label" for="createIsUsed">사용 여부</label>
-                                    </div>
+                            <div class="col mt-4">
+                                <div class="form-switch">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           role="switch"
+                                           name="isUsed"
+                                           id="createIsUsed"/>
+                                    <label class="form-check-label" for="createIsUsed">사용 여부</label>
                                 </div>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <div class="col">
-                            <label for="createMessage1" class="form-label">메세지1</label>
+                            <label for="createMessage1" class="form-label"><span
+                                    class="requiredMark">*</span>메세지1</label>
                             <input type="text"
                                    class="form-control"
                                    name="message1"
@@ -111,19 +114,21 @@
                     </div>
                     <div class="mb-3 row">
                         <div class="col">
-                            <label for="createMessage2" class="form-label">메세지2</label>
+                            <label for="createMessage2" class="form-label"><span
+                                    class="requiredMark">*</span>메세지2</label>
                             <input type="text"
                                    class="form-control"
                                    name="message2"
                                    id="createMessage2"/>
                         </div>
                     </div>
-                </form>
+                    <!--                </form>-->
+                </div>
+                <div class="modal-footer">
+                    <button id="hintCreateButton" type="button" class="btn btn-primary">저장</button>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button id="hintCreateButton" type="button" class="btn btn-primary">저장</button>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 </body>

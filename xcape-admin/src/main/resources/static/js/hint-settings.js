@@ -62,6 +62,9 @@ const generateHintCode = () => {
     return code;
 };
 
+// 가맹점 테마 select box 검증
+// const checkSelectBox
+
 document.querySelectorAll('#treeArea .accordion-body button').forEach((button) => {
     // 테마 목록 클릭 시, active 추가
     button.addEventListener('click', (e) => {
@@ -101,6 +104,8 @@ document.querySelector('#merchantSelect').addEventListener('change', function ()
 // 힌트 만들기 버튼 클릭 시, 지점 및 테마 셀렉트 박스 초기화
 document.querySelector('#hintCreateModalButton').addEventListener('click', () => {
 
+    document.querySelector('form[name="hint"]').classList.remove('was-validated');
+
     // 힌트 코드 주입
     document.querySelector('#createCode').value = generateHintCode();
 
@@ -116,18 +121,19 @@ document.querySelector('#hintCreateModalButton').addEventListener('click', () =>
     themeSelect.appendChild(clone);
 });
 
+// 모달창 생성 시, validated 제거
+document.querySelector('#hintCreateModal').addEventListener('show.bs.modal', () => {
+    document.querySelector('form[name="hint"]').classList.remove('was-validated');
+});
 
 document.querySelector('#hintCreateButton').addEventListener('click', () => {
-
-    const hintCreateForm = document.querySelector('form[name=hint]');
+    const hintCreateForm = document.querySelector('form[name="hint"]');
     const form = new FormData(hintCreateForm);
-
-    const themeSelect = document.querySelector('#themeSelect');
-    const themeId = themeSelect.value;
 
     if (hintCreateForm.checkValidity()) {
         form.set('isUsed', document.querySelector('#createIsUsed').checked);
-        form.set('themeId', themeId);
+        form.set('themeId', document.querySelector('#themeSelect').value);
+
         axios.post('/hints', form)
             .then((res) => {
                 const {resultCode} = res.data;
