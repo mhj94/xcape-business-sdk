@@ -121,9 +121,10 @@ document.querySelector('#hintCreateModalButton').addEventListener('click', () =>
     themeSelect.appendChild(clone);
 });
 
-// 모달창 생성 시, validated 제거
+// 모달창 생성 시, 폼 초기화
 document.querySelector('#hintCreateModal').addEventListener('show.bs.modal', () => {
     document.querySelector('form[name="hint"]').classList.remove('was-validated');
+    document.querySelector('form[name="hint"]').reset();
 });
 
 document.querySelector('#hintCreateButton').addEventListener('click', () => {
