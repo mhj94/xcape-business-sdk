@@ -63,7 +63,7 @@
     </div>
 </div>
 <div id="hintCreateModal" class="modal" tabindex="-1">
-    <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <form name="hint" class="needs-validation">
             <div class="modal-content">
                 <div class="modal-header">
@@ -79,7 +79,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body py-3">
-                    <!--                <form name="hint" class="needs-validation">-->
                     <div class="mb-3 row">
                         <div class="col-6">
                             <label for="createCode" class="form-label"><span class="requiredMark">*</span>코드</label>
@@ -109,7 +108,7 @@
                             <input type="text"
                                    class="form-control"
                                    name="message1"
-                                   id="createMessage1"/>
+                                   id="createMessage1" required/>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -119,10 +118,9 @@
                             <input type="text"
                                    class="form-control"
                                    name="message2"
-                                   id="createMessage2"/>
+                                   id="createMessage2" required/>
                         </div>
                     </div>
-                    <!--                </form>-->
                 </div>
                 <div class="modal-footer">
                     <button id="hintCreateButton" type="button" class="btn btn-primary">저장</button>

@@ -9,6 +9,7 @@ import com.chadev.xcape.core.domain.converter.DtoConverter;
 import com.chadev.xcape.core.domain.dto.HintDto;
 import com.chadev.xcape.core.domain.entity.Hint;
 import com.chadev.xcape.core.domain.entity.Theme;
+import com.chadev.xcape.core.exception.XcapeException;
 import com.chadev.xcape.core.repository.HintRepository;
 import com.chadev.xcape.core.repository.ThemeRepository;
 
@@ -40,6 +41,10 @@ public class HintService {
 	@Transactional
 	public void createHint(HintDto hintDto) {
 
+		if (checkHintCode(hintDto.getCode())) {
+			throw XcapeException.EXISTENT_HINT_CODE();
+		}
+
 		Theme theme = themeRepository.findById(hintDto.getThemeId()).orElseThrow();
 
 		Hint hint = Hint.builder()
@@ -51,5 +56,12 @@ public class HintService {
 			.build();
 
 		hintRepository.save(hint);
+	}
+
+	// 힌트 코드 중복 체크
+	public boolean checkHintCode(String code) {
+
+		return hintRepository.findByCode(code).isPresent();
+
 	}
 }
