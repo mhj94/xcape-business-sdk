@@ -1,6 +1,6 @@
 let hintList = null;
 
-// 힌트 리스트 조회
+// 페이지 로딩 시, 힌트 리스트 조회
 axios.get("/hints").then((res) => {
     const {resultCode, result} = res.data;
 
@@ -28,6 +28,30 @@ const generateHintTable = (themeHintList) => {
             .replaceAll('{message2}', hint.message2)
             .replaceAll('{isUsed}', hint.isUsed ? '사용' : '미사용');
     }).join('');
+
+    document.querySelectorAll('#hintTable tbody tr').forEach(row => {
+        row.addEventListener('click', handleHintRowClick);
+    });
+};
+
+const handleHintRowClick = (e) => {
+    const roㅇw = e.currentTarget;
+    const id = row.querySelector('td:nth-child(1)').textContent;
+    const code = row.querySelector('td:nth-child(2)').textContent;
+    const message1 = row.querySelector('td:nth-child(3)').textContent;
+    const message2 = row.querySelector('td:nth-child(4)').textContent;
+    const isUsed = row.querySelector('td:nth-child(5)').textContent === '사용';
+
+    // 모달 창 데이터 바인딩
+    // document.querySelector('#modifyId').value = id;
+    // document.querySelector('#modifyCode').value = code;
+    // document.querySelector('#modifyMessage1').value = message1;
+    // document.querySelector('#modifyMessage2').value = message2;
+    // document.querySelector('#modifyIsUsed').checked = isUsed;
+
+    // 모달 창 표시
+    const modifyModal = new bootstrap.Modal(document.getElementById('hintModifyModal'));
+    modifyModal.show();
 };
 
 // 무작위 힌트 코드 생성
@@ -61,9 +85,6 @@ const generateHintCode = () => {
 
     return code;
 };
-
-// 가맹점 테마 select box 검증
-// const checkSelectBox
 
 document.querySelectorAll('#treeArea .accordion-body button').forEach((button) => {
     // 테마 목록 클릭 시, active 추가
@@ -150,3 +171,19 @@ document.querySelector('#hintCreateButton').addEventListener('click', () => {
         hintCreateForm.classList.add('was-validated');
     }
 });
+
+const test = new bootstrap.Modal(document.getElementById('hintModifyModal'),{});
+// document.querySelectorAll('#hintTable tbody tr').forEach(function (row) {
+//     row.addEventListener('click', function ()  {
+//
+//         test.show();
+//     });
+// });
+
+// const id = row.querySelector('td:nth-child(1)').textContent;
+// const code = row.querySelector('td:nth-child(2)').textContent;
+// const message1 = row.querySelector('td:nth-child(3)').textContent;
+// const message2 = row.querySelector('td:nth-child(4)').textContent;
+// const isUsed = row.querySelector('td:nth-child(5)').textContent;
+
+
