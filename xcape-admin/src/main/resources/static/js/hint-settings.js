@@ -20,9 +20,9 @@ const generateHintTable = (themeHintList) => {
     const tbody = document.querySelector('#hintTable tbody');
     const hintTemplate = document.querySelector('#hintTemplate').innerHTML;
 
-    tbody.innerHTML = themeHintList.map(hint => {
+    tbody.innerHTML = themeHintList.map((hint, index) => {
         return hintTemplate
-            .replaceAll('{id}', hint.id)
+            .replaceAll('{index}', index + 1)
             .replaceAll('{code}', hint.code)
             .replaceAll('{message1}', hint.message1)
             .replaceAll('{message2}', hint.message2)
@@ -36,14 +36,14 @@ const generateHintTable = (themeHintList) => {
 
 const handleHintRowClick = (e) => {
     const row = e.currentTarget;
-    const id = row.querySelector('.id').textContent;
+
     const code = row.querySelector('.code').textContent;
     const message1 = row.querySelector('.message1').textContent;
     const message2 = row.querySelector('.message2').textContent;
     const isUsed = row.querySelector('.isUsed').textContent === '사용';
 
     // 모달 창 데이터 바인딩
-    // document.querySelector('#modifyId').value = id;
+
     // document.querySelector('#modifyCode').value = code;
     // document.querySelector('#modifyMessage1').value = message1;
     // document.querySelector('#modifyMessage2').value = message2;
