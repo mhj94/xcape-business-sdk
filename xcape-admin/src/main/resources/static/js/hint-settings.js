@@ -35,12 +35,12 @@ const generateHintTable = (themeHintList) => {
 };
 
 const handleHintRowClick = (e) => {
-    const roㅇw = e.currentTarget;
-    const id = row.querySelector('td:nth-child(1)').textContent;
-    const code = row.querySelector('td:nth-child(2)').textContent;
-    const message1 = row.querySelector('td:nth-child(3)').textContent;
-    const message2 = row.querySelector('td:nth-child(4)').textContent;
-    const isUsed = row.querySelector('td:nth-child(5)').textContent === '사용';
+    const row = e.currentTarget;
+    const id = row.querySelector('.id').textContent;
+    const code = row.querySelector('.code').textContent;
+    const message1 = row.querySelector('.message1').textContent;
+    const message2 = row.querySelector('.message2').textContent;
+    const isUsed = row.querySelector('.isUsed').textContent === '사용';
 
     // 모달 창 데이터 바인딩
     // document.querySelector('#modifyId').value = id;
@@ -171,19 +171,5 @@ document.querySelector('#hintCreateButton').addEventListener('click', () => {
         hintCreateForm.classList.add('was-validated');
     }
 });
-
-const test = new bootstrap.Modal(document.getElementById('hintModifyModal'),{});
-// document.querySelectorAll('#hintTable tbody tr').forEach(function (row) {
-//     row.addEventListener('click', function ()  {
-//
-//         test.show();
-//     });
-// });
-
-// const id = row.querySelector('td:nth-child(1)').textContent;
-// const code = row.querySelector('td:nth-child(2)').textContent;
-// const message1 = row.querySelector('td:nth-child(3)').textContent;
-// const message2 = row.querySelector('td:nth-child(4)').textContent;
-// const isUsed = row.querySelector('td:nth-child(5)').textContent;
 
 

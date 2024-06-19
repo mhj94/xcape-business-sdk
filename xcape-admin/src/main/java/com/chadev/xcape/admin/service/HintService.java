@@ -40,12 +40,11 @@ public class HintService {
 
 	@Transactional
 	public void createHint(HintDto hintDto) {
-
-		if (checkHintCode(hintDto.getCode())) {
+		if (hasCode(hintDto.getCode())) {
 			throw XcapeException.EXISTENT_HINT_CODE();
 		}
 
-		Theme theme = themeRepository.findById(hintDto.getThemeId()).orElseThrow();
+		Theme theme = themeRepository.findById(hintDto.getThemeId()).orElseThrow(XcapeException::NOT_EXISTENT_THEME);
 
 		Hint hint = Hint.builder()
 			.theme(theme)
@@ -59,9 +58,7 @@ public class HintService {
 	}
 
 	// 힌트 코드 중복 체크
-	public boolean checkHintCode(String code) {
-
+	public boolean hasCode(String code) {
 		return hintRepository.findByCode(code).isPresent();
-
 	}
 }

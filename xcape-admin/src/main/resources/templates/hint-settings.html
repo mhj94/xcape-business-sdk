@@ -199,12 +199,12 @@
 </body>
 
 <template id="hintTemplate">
-    <tr>
-        <td>{id}</td>
-        <td>{code}</td>
-        <td>{message1}</td>
-        <td>{message2}</td>
-        <td>{isUsed}</td>
+    <tr data-hint-id="{id}">
+        <td>{index}</td>
+        <td class="code">{code}</td>
+        <td class="message1">{message1}</td>
+        <td class="message2">{message2}</td>
+        <td class="isUsed">{isUsed}</td>
     </tr>
 </template>
 
