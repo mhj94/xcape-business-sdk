@@ -1,7 +1,6 @@
 package com.chadev.xcape.admin.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,7 +59,7 @@ public class HintService {
 
 	@Transactional
 	public void modifyHint(Long hintId, HintDto hintDto) {
-		Hint hint = hintRepository.findById(hintId).orElseThrow();
+		Hint hint = hintRepository.findById(hintId).orElseThrow(XcapeException::EXISTENT_HINT);
 		hint.update(hintDto);
 	}
 
