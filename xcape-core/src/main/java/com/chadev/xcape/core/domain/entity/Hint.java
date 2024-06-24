@@ -1,5 +1,6 @@
 package com.chadev.xcape.core.domain.entity;
 
+import com.chadev.xcape.core.domain.dto.HintDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -48,5 +49,11 @@ public class Hint extends AuditingFields {
     @JoinColumn(name = "theme_id")
     private Theme theme;
 
+    public void update(HintDto hintDto) {
+        this.code = hintDto.getCode();
+        this.message1 = hintDto.getMessage1();
+        this.message2 = hintDto.getMessage2();
+        this.isUsed = hintDto.getIsUsed();
+    }
 }
 

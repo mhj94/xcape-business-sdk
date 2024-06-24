@@ -81,11 +81,11 @@
                 <div class="modal-body py-3">
                     <div class="mb-3 row">
                         <div class="col-6">
-                            <label for="createCode" class="form-label"><span class="requiredMark">*</span>코드</label>
+                            <label for="hintCode" class="form-label"><span class="requiredMark">*</span>코드</label>
                             <input type="text"
                                    class="form-control"
                                    name="code"
-                                   id="createCode"
+                                   id="hintCode"
                                    required/>
                         </div>
                         <div class="col-4">
@@ -95,30 +95,30 @@
                                            type="checkbox"
                                            role="switch"
                                            name="isUsed"
-                                           id="createIsUsed"/>
-                                    <label class="form-check-label" for="createIsUsed">사용 여부</label>
+                                           id="hintIsUsed"/>
+                                    <label class="form-check-label" for="hintIsUsed">사용 여부</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <div class="col">
-                            <label for="createMessage1" class="form-label"><span
+                            <label for="hintMessage1" class="form-label"><span
                                     class="requiredMark">*</span>메세지1</label>
                             <input type="text"
                                    class="form-control"
                                    name="message1"
-                                   id="createMessage1" required/>
+                                   id="hintMessage1" required/>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <div class="col">
-                            <label for="createMessage2" class="form-label"><span
+                            <label for="hintMessage2" class="form-label"><span
                                     class="requiredMark">*</span>메세지2</label>
                             <input type="text"
                                    class="form-control"
                                    name="message2"
-                                   id="createMessage2" required/>
+                                   id="hintMessage2" required/>
                         </div>
                     </div>
                 </div>
@@ -131,28 +131,21 @@
 </div>
 <div id="hintModifyModal" class="modal" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <form name="hint" class="needs-validation">
+        <form name="modifyHintInfo" class="needs-validation">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">힌트 만들기</h5>
-<!--                    <select name="merchantId" class="form-control form-select w-25 ms-3" id="merchantSelect" required>-->
-<!--                        <option value="">지점 선택</option>-->
-<!--                        <option th:each="merchant : ${merchantList}" th:value="${merchant.getId()}"-->
-<!--                                th:text="${merchant.getName()}"></option>-->
-<!--                    </select>-->
-<!--                    <select name="themeId" class="form-control form-select w-25 ms-3" id="themeSelect" required>-->
-<!--                        <option value="">테마 선택</option>-->
-<!--                    </select>-->
+                    <h5 class="modal-title">힌트 수정하기</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body py-3">
                     <div class="mb-3 row">
+                        <input type="hidden" name="id" id="modifyHintId" />
                         <div class="col-6">
-                            <label for="createCode" class="form-label"><span class="requiredMark">*</span>코드</label>
+                            <label for="modifyHintCode" class="form-label"><span class="requiredMark">*</span>코드</label>
                             <input type="text"
                                    class="form-control"
                                    name="code"
-                                   id="modifyCreateCode"
+                                   id="modifyHintCode"
                                    required/>
                         </div>
                         <div class="col-4">
@@ -162,35 +155,35 @@
                                            type="checkbox"
                                            role="switch"
                                            name="isUsed"
-                                           id="modifyCreateIsUsed"/>
-                                    <label class="form-check-label" for="createIsUsed">사용 여부</label>
+                                           id="modifyHintIsUsed"/>
+                                    <label class="form-check-label" for="modifyHintIsUsed">사용 여부</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <div class="col">
-                            <label for="createMessage1" class="form-label"><span
+                            <label for="modifyHintMessage1" class="form-label"><span
                                     class="requiredMark">*</span>메세지1</label>
                             <input type="text"
                                    class="form-control"
                                    name="message1"
-                                   id="modifyCreateMessage1" required/>
+                                   id="modifyHintMessage1" required/>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <div class="col">
-                            <label for="createMessage2" class="form-label"><span
+                            <label for="modifyHintMessage2" class="form-label"><span
                                     class="requiredMark">*</span>메세지2</label>
                             <input type="text"
                                    class="form-control"
                                    name="message2"
-                                   id="modifyCreateMessage2" required/>
+                                   id="modifyHintMessage2" required/>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="hintModifyButton" type="button" class="btn btn-primary">저장</button>
+                    <button id="hintModifyButton" type="button" class="btn btn-primary">수정</button>
                 </div>
             </div>
         </form>

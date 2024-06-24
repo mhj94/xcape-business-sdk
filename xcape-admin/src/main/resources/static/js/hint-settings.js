@@ -16,12 +16,14 @@ const getHintList = (e) => {
     generateHintTable(themeHintList);
 }
 
+// 힌트 테이블 생성
 const generateHintTable = (themeHintList) => {
     const tbody = document.querySelector('#hintTable tbody');
     const hintTemplate = document.querySelector('#hintTemplate').innerHTML;
 
     tbody.innerHTML = themeHintList.map((hint, index) => {
         return hintTemplate
+            .replaceAll('{id}', hint.id)
             .replaceAll('{index}', index + 1)
             .replaceAll('{code}', hint.code)
             .replaceAll('{message1}', hint.message1)
@@ -29,6 +31,7 @@ const generateHintTable = (themeHintList) => {
             .replaceAll('{isUsed}', hint.isUsed ? '사용' : '미사용');
     }).join('');
 
+    // 힌트 테이블 생성 시, row에 이벤트 추가
     document.querySelectorAll('#hintTable tbody tr').forEach(row => {
         row.addEventListener('click', handleHintRowClick);
     });
@@ -36,18 +39,18 @@ const generateHintTable = (themeHintList) => {
 
 const handleHintRowClick = (e) => {
     const row = e.currentTarget;
-
+    const hintId = parseInt(row.dataset.hintId);
     const code = row.querySelector('.code').textContent;
     const message1 = row.querySelector('.message1').textContent;
     const message2 = row.querySelector('.message2').textContent;
     const isUsed = row.querySelector('.isUsed').textContent === '사용';
 
     // 모달 창 데이터 바인딩
-
-    // document.querySelector('#modifyCode').value = code;
-    // document.querySelector('#modifyMessage1').value = message1;
-    // document.querySelector('#modifyMessage2').value = message2;
-    // document.querySelector('#modifyIsUsed').checked = isUsed;
+    document.querySelector('#modifyHintId').value = hintId;
+    document.querySelector('#modifyHintCode').value = code;
+    document.querySelector('#modifyHintMessage1').value = message1;
+    document.querySelector('#modifyHintMessage2').value = message2;
+    document.querySelector('#modifyHintIsUsed').checked = isUsed;
 
     // 모달 창 표시
     const modifyModal = new bootstrap.Modal(document.getElementById('hintModifyModal'));
@@ -150,13 +153,13 @@ document.querySelector('#hintCreateModal').addEventListener('show.bs.modal', () 
 
 document.querySelector('#hintCreateButton').addEventListener('click', () => {
     const hintCreateForm = document.querySelector('form[name="hint"]');
-    const form = new FormData(hintCreateForm);
+    const formData = new FormData(hintCreateForm);
 
     if (hintCreateForm.checkValidity()) {
-        form.set('isUsed', document.querySelector('#createIsUsed').checked);
-        form.set('themeId', document.querySelector('#themeSelect').value);
+        formData.set('isUsed', document.querySelector('#hintIsUsed').checked);
+        formData.set('themeId', document.querySelector('#themeSelect').value);
 
-        axios.post('/hints', form)
+        axios.post('/hints', formData)
             .then((res) => {
                 const {resultCode} = res.data;
                 if (resultCode === SUCCESS) {
@@ -172,4 +175,27 @@ document.querySelector('#hintCreateButton').addEventListener('click', () => {
     }
 });
 
+document.querySelector('#hintModifyButton').addEventListener('click', () => {
+    const hintModifyForm = document.querySelector('form[name="modifyHintInfo"]');
+    const formData = new FormData(hintModifyForm);
+    const hintId = formData.get('id');
+
+    if (hintModifyForm.checkValidity()) {
+        formData.set('isUsed', document.querySelector('#modifyHintIsUsed').checked);
+
+        axios.put(`/hints/${hintId}`, formData)
+            .then((res) => {
+                const {resultCode} = res.data;
+                if (resultCode === SUCCESS) {
+                    alert(SAVE_SUCCESS);
+                    location.reload();
+                } else {
+                    alert(SAVE_FAIL);
+                }
+            })
+            .catch(console.error);
+    } else {
+        hintModifyForm.classList.add('was-validated');
+    }
+});
 

@@ -1,6 +1,7 @@
 package com.chadev.xcape.admin.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,6 +56,12 @@ public class HintService {
 			.build();
 
 		hintRepository.save(hint);
+	}
+
+	@Transactional
+	public void modifyHint(Long hintId, HintDto hintDto) {
+		Hint hint = hintRepository.findById(hintId).orElseThrow();
+		hint.update(hintDto);
 	}
 
 	// 힌트 코드 중복 체크

@@ -219,9 +219,17 @@ public class AdminRestController {
 		return Response.success(hintListByThemeId);
 	}
 
+	// 힌트 생성
 	@PostMapping("/hints")
 	public Response<Void> createHint(HintDto hintDto) {
 		hintService.createHint(hintDto);
+		return Response.success();
+	}
+
+	// 힌트 수정
+	@PutMapping("/hints/{hintId}")
+	public Response<Void> modifyHint(@PathVariable Long hintId, HintDto hintDto) {
+		hintService.modifyHint(hintId, hintDto);
 		return Response.success();
 	}
 
@@ -230,6 +238,7 @@ public class AdminRestController {
 		List<HintDto> hintListByThemeId = hintService.getHintList();
 		return Response.success(hintListByThemeId);
 	}
+
 	@PostMapping("/files")
 	public Response<Void> createFile(FileUploadDto fileUploadDto) {
 		storageService.createFile(fileUploadDto);
