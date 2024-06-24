@@ -529,7 +529,7 @@ document.querySelector('#jsonPublishButton').addEventListener('click', function 
                 form.append('type', JSON_FILE_TYPE.THEME);
 
                 axios.put('/json', form)
-                    .then(res => {
+                    .then((res) => {
                         const themePath = res.data;
                         if (themePath) {
                             alert(`테마 정보 주소: ${themePath}\n 발행 완료되었습니다.`);
@@ -539,7 +539,6 @@ document.querySelector('#jsonPublishButton').addEventListener('click', function 
                     });
             }
         });
-
 });
 
 const removeRow = element => {

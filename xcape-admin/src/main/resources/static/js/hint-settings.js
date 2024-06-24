@@ -132,7 +132,7 @@ document.querySelector('#hintCreateModalButton').addEventListener('click', () =>
     document.querySelector('form[name="hint"]').classList.remove('was-validated');
 
     // 힌트 코드 주입
-    document.querySelector('#createCode').value = generateHintCode();
+    document.querySelector('#hintCode').value = generateHintCode();
 
     const merchantSelect = document.querySelector('#merchantSelect');
     const themeSelect = document.querySelector('#themeSelect');
@@ -152,6 +152,7 @@ document.querySelector('#hintCreateModal').addEventListener('show.bs.modal', () 
     document.querySelector('form[name="hint"]').reset();
 });
 
+// 힌트 생성
 document.querySelector('#hintCreateButton').addEventListener('click', () => {
     const hintCreateForm = document.querySelector('form[name="hint"]');
     const formData = new FormData(hintCreateForm);
@@ -165,7 +166,7 @@ document.querySelector('#hintCreateButton').addEventListener('click', () => {
                 const {resultCode} = res.data;
                 if (resultCode === SUCCESS) {
                     alert(SAVE_SUCCESS);
-                    // location.reload();
+                    location.reload();
                 } else {
                     alert(SAVE_FAIL);
                 }
@@ -176,6 +177,7 @@ document.querySelector('#hintCreateButton').addEventListener('click', () => {
     }
 });
 
+// 힌트 수정
 document.querySelector('#hintModifyButton').addEventListener('click', () => {
     const hintModifyForm = document.querySelector('form[name="modifyHintInfo"]');
     const formData = new FormData(hintModifyForm);
@@ -199,4 +201,29 @@ document.querySelector('#hintModifyButton').addEventListener('click', () => {
         hintModifyForm.classList.add('was-validated');
     }
 });
+
+document.querySelector('#jsonPublishButton').addEventListener('click', () => {
+    axios.get('/hints')
+        .then((res) => {
+            const {resultCode, result} = res.data;
+            if (resultCode === SUCCESS) {
+                const hintList = result;
+
+                let form = new FormData();
+                form.append('file', new File([JSON.stringify(hintList)], JSON_FILE_NAME));
+                form.append('type', JSON_FILE_TYPE.HINT);
+
+                axios.put('/json', form)
+                    .then((res) => {
+                        const hintPath = res.data;
+                        if (hintPath) {
+                            alert(`힌트 : ${hintPath}\n 발행 완료되었습니다.`);
+                            return;
+                        }
+                        alert('발행에 실패했습니다.');
+                    });
+            }
+        })
+});
+
 
