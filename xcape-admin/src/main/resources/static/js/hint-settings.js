@@ -52,6 +52,7 @@ const handleHintRowClick = (e) => {
     document.querySelector('#modifyHintMessage2').value = message2;
     document.querySelector('#modifyHintIsUsed').checked = isUsed;
 
+    document.querySelector('#hintModifyModal form').classList.remove('was-validated');
     // 모달 창 표시
     const modifyModal = new bootstrap.Modal(document.getElementById('hintModifyModal'));
     modifyModal.show();
@@ -164,7 +165,7 @@ document.querySelector('#hintCreateButton').addEventListener('click', () => {
                 const {resultCode} = res.data;
                 if (resultCode === SUCCESS) {
                     alert(SAVE_SUCCESS);
-                    location.reload();
+                    // location.reload();
                 } else {
                     alert(SAVE_FAIL);
                 }
