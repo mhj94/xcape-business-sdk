@@ -1,15 +1,19 @@
 let hintList = null;
 
 // 페이지 로딩 시, 힌트 리스트 조회
-axios.get("/hints").then((res) => {
-    const {resultCode, result} = res.data;
+const getHintList = () => {
+    return axios.get("/hints").then((res) => {
+        const {resultCode, result} = res.data;
 
-    if (resultCode === SUCCESS) {
-        hintList = result;
-    }
-});
+        if (resultCode === SUCCESS) {
+            hintList = result;
+        }
+    });
+}
 
-const getHintList = (e) => {
+getHintList();
+
+const getHintListByTheme = (e) => {
     const id = e.currentTarget.dataset.themeId;
     const themeHintList = hintList.filter((hint) => hint.themeId === parseInt(id));
 
@@ -18,23 +22,27 @@ const getHintList = (e) => {
 
 // 힌트 테이블 생성
 const generateHintTable = (themeHintList) => {
-    const tbody = document.querySelector('#hintTable tbody');
+    const tbody = document.querySelector('#hintTableBody');
     const hintTemplate = document.querySelector('#hintTemplate').innerHTML;
 
-    tbody.innerHTML = themeHintList.map((hint, index) => {
-        return hintTemplate
-            .replaceAll('{id}', hint.id)
-            .replaceAll('{index}', index + 1)
-            .replaceAll('{code}', hint.code)
-            .replaceAll('{message1}', hint.message1)
-            .replaceAll('{message2}', hint.message2)
-            .replaceAll('{isUsed}', hint.isUsed ? '사용' : '미사용');
-    }).join('');
+    if (themeHintList.length === 0) {
+        document.querySelector('#hintTableBody').innerHTML = '<div class="text-center bg-white py-2">데이터가 없습니다.</div>';
+    } else {
+        tbody.innerHTML = themeHintList.map((hint, index) => {
+            return hintTemplate
+                .replaceAll('{id}', hint.id)
+                .replaceAll('{index}', index + 1)
+                .replaceAll('{code}', hint.code)
+                .replaceAll('{message1}', hint.message1)
+                .replaceAll('{message2}', hint.message2)
+                .replaceAll('{isUsed}', hint.isUsed ? '사용' : '미사용');
+        }).join('');
 
-    // 힌트 테이블 생성 시, row에 이벤트 추가
-    document.querySelectorAll('#hintTable tbody tr').forEach(row => {
-        row.addEventListener('click', handleHintRowClick);
-    });
+        // 힌트 테이블 생성 시, row에 이벤트 추가
+        document.querySelectorAll('.hintTableData').forEach(row => {
+            row.addEventListener('click', handleHintRowClick);
+        });
+    }
 };
 
 const handleHintRowClick = (e) => {
@@ -96,7 +104,7 @@ document.querySelectorAll('#treeArea .accordion-body button').forEach((button) =
         document.querySelector('.list-group .active')?.classList.remove('active');
         button.classList.add('active');
 
-        getHintList(e);
+        getHintListByTheme(e);
     });
 
 });
@@ -166,7 +174,21 @@ document.querySelector('#hintCreateButton').addEventListener('click', () => {
                 const {resultCode} = res.data;
                 if (resultCode === SUCCESS) {
                     alert(SAVE_SUCCESS);
-                    location.reload();
+
+                    getHintList().then(() => {
+                        // 현재 선택된 테마의 ID를 가져와서 필터링
+                        const currentTheme = document.querySelector('.list-group-item.active');
+                        if (currentTheme) {
+                            const themeId = currentTheme.dataset.themeId;
+                            const data = {currentTarget: {dataset: {themeId: themeId}}};
+                            getHintListByTheme(data);
+                        }
+
+                    });
+
+                    const hintCreateModal = bootstrap.Modal.getInstance(document.getElementById('hintCreateModal'));
+                    hintCreateModal.hide();
+
                 } else {
                     alert(SAVE_FAIL);
                 }
@@ -191,7 +213,20 @@ document.querySelector('#hintModifyButton').addEventListener('click', () => {
                 const {resultCode} = res.data;
                 if (resultCode === SUCCESS) {
                     alert(SAVE_SUCCESS);
-                    location.reload();
+
+                    getHintList().then(() => {
+                        // 현재 선택된 테마의 ID를 가져와서 필터링
+                        const currentTheme = document.querySelector('.list-group-item.active');
+                        if (currentTheme) {
+                            const themeId = currentTheme.dataset.themeId;
+                            const data = {currentTarget: {dataset: {themeId: themeId}}};
+                            getHintListByTheme(data);
+                        }
+                    });
+
+                    const hintModifyModal = bootstrap.Modal.getInstance(document.getElementById('hintModifyModal'));
+                    hintModifyModal.hide();
+
                 } else {
                     alert(SAVE_FAIL);
                 }
@@ -202,6 +237,7 @@ document.querySelector('#hintModifyButton').addEventListener('click', () => {
     }
 });
 
+// 힌트 발행
 document.querySelector('#jsonPublishButton').addEventListener('click', () => {
     axios.get('/hints')
         .then((res) => {

@@ -45,27 +45,25 @@
             </div>
         </div>
         <div class="col-lg-8 mb-3">
-            <table class="table table-hover table-responsive" id="hintTable">
-                <thead>
-                <tr>
-                    <th class="text-truncate" scope="col">순서</th>
-                    <th class="text-truncate" scope="col">코드</th>
-                    <th style="width: 100px;" class="text-truncate" scope="col">메세지1</th>
-                    <th style="width: 100px;" class="text-truncate" scope="col">메세지2</th>
-                    <th class="text-truncate" scope="col">사용유무</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
+            <div class="w-100" id="hintTable">
+                <div class="border-bottom hintTableHeader">
+                    <div class="fw-bold px-2">순서</div>
+                    <div class="fw-bold px-2">코드</div>
+                    <div class="fw-bold px-2">메세지1</div>
+                    <div class="fw-bold px-2">메세지2</div>
+                    <div class="fw-bold px-2">사용유무</div>
+                </div>
+                <div id="hintTableBody">
+                    <div class="text-center fw-bold bg-white py-2">가맹점을 선택해주세요.</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <div id="hintCreateModal" class="modal" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <form name="hint" class="needs-validation">
-            <div class="modal-content">
+        <div class="modal-content">
+            <form name="hint" class="needs-validation">
                 <div class="modal-header">
                     <h5 class="modal-title">힌트 만들기</h5>
                     <select name="merchantId" class="form-control form-select w-25 ms-3" id="merchantSelect" required>
@@ -95,7 +93,8 @@
                                            type="checkbox"
                                            role="switch"
                                            name="isUsed"
-                                           id="hintIsUsed"/>
+                                           id="hintIsUsed"
+                                           checked/>
                                     <label class="form-check-label" for="hintIsUsed">사용 여부</label>
                                 </div>
                             </div>
@@ -125,21 +124,21 @@
                 <div class="modal-footer">
                     <button id="hintCreateButton" type="button" class="btn btn-primary">저장</button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 <div id="hintModifyModal" class="modal" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <form name="modifyHintInfo" class="needs-validation">
-            <div class="modal-content">
+        <div class="modal-content">
+            <form name="modifyHintInfo" class="needs-validation">
                 <div class="modal-header">
                     <h5 class="modal-title">힌트 수정하기</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body py-3">
                     <div class="mb-3 row">
-                        <input type="hidden" name="id" id="modifyHintId" />
+                        <input type="hidden" name="id" id="modifyHintId"/>
                         <div class="col-6">
                             <label for="modifyHintCode" class="form-label"><span class="requiredMark">*</span>코드</label>
                             <input type="text"
@@ -185,20 +184,20 @@
                 <div class="modal-footer">
                     <button id="hintModifyButton" type="button" class="btn btn-primary">수정</button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 </body>
 
 <template id="hintTemplate">
-    <tr data-hint-id="{id}">
-        <td>{index}</td>
-        <td class="code">{code}</td>
-        <td class="message1">{message1}</td>
-        <td class="message2">{message2}</td>
-        <td class="isUsed">{isUsed}</td>
-    </tr>
+    <div class="hintTableData" data-hint-id="{id}">
+        <div class="px-2">{index}</div>
+        <div class="text-truncate code px-2">{code}</div>
+        <div class="text-truncate message1 px-2">{message1}</div>
+        <div class="text-truncate message2 px-2">{message2}</div>
+        <div class="text-truncate isUsed px-2">{isUsed}</div>
+    </div>
 </template>
 
 <template id="themeOptionTemplate">
