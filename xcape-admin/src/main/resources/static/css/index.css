@@ -6,7 +6,7 @@
 .hintTableHeader,
 .hintTableData {
     display: grid;
-    grid-template-columns: 50px 70px 1fr 1fr 80px;
+    grid-template-columns: 50px 80px 1fr 1fr 80px;
     padding: 8px;
     border-bottom: 1px solid #dee2e6;
     background-color: white;

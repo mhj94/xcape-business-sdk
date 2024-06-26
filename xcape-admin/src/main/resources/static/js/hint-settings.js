@@ -15,7 +15,8 @@ getHintList();
 
 const getHintListByTheme = (e) => {
     const id = e.currentTarget.dataset.themeId;
-    const themeHintList = hintList.filter((hint) => hint.themeId === parseInt(id));
+    const themeHintList = hintList.filter((hint) => hint.themeId === parseInt(id))
+        .sort((a, b) => new Date(b.registeredAt) - new Date(a.registeredAt));
 
     generateHintTable(themeHintList);
 }
@@ -171,7 +172,7 @@ document.querySelector('#hintCreateButton').addEventListener('click', () => {
 
         axios.post('/hints', formData)
             .then((res) => {
-                const {resultCode} = res.data;
+                const {resultCode, resultMessage} = res.data;
                 if (resultCode === SUCCESS) {
                     alert(SAVE_SUCCESS);
 
@@ -190,7 +191,7 @@ document.querySelector('#hintCreateButton').addEventListener('click', () => {
                     hintCreateModal.hide();
 
                 } else {
-                    alert(SAVE_FAIL);
+                    alert(resultMessage);
                 }
             })
             .catch(console.error);
@@ -210,7 +211,7 @@ document.querySelector('#hintModifyButton').addEventListener('click', () => {
 
         axios.put(`/hints/${hintId}`, formData)
             .then((res) => {
-                const {resultCode} = res.data;
+                const {resultCode, resultMessage} = res.data;
                 if (resultCode === SUCCESS) {
                     alert(SAVE_SUCCESS);
 
@@ -228,7 +229,7 @@ document.querySelector('#hintModifyButton').addEventListener('click', () => {
                     hintModifyModal.hide();
 
                 } else {
-                    alert(SAVE_FAIL);
+                    alert(resultMessage);
                 }
             })
             .catch(console.error);
