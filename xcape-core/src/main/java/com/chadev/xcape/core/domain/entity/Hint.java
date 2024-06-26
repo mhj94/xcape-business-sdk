@@ -1,9 +1,12 @@
 package com.chadev.xcape.core.domain.entity;
 
+import com.chadev.xcape.core.domain.dto.HintDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,12 +14,13 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "hint")
 public class Hint extends AuditingFields {
 
     @Setter(AccessLevel.NONE)
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "hint_id")
@@ -45,5 +49,11 @@ public class Hint extends AuditingFields {
     @JoinColumn(name = "theme_id")
     private Theme theme;
 
+    public void update(HintDto hintDto) {
+        this.code = hintDto.getCode();
+        this.message1 = hintDto.getMessage1();
+        this.message2 = hintDto.getMessage2();
+        this.isUsed = hintDto.getIsUsed();
+    }
 }
 

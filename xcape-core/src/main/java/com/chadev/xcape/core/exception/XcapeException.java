@@ -34,4 +34,6 @@ public class XcapeException extends RuntimeException {
     public static XcapeException FILE_FORMAT_EXCEPTION() {return new XcapeException(ErrorCode.FILE_FORMAT_EXCEPTION);}
     public static XcapeException UNNAMED_FILE() {return new XcapeException(ErrorCode.UNNAMED_FILE);}
     public static XcapeException FILE_UPLOAD_EXCEPTION() {return new XcapeException(ErrorCode.FILE_UPLOAD_EXCEPTION);}
+    public static XcapeException EXISTENT_HINT_CODE() {return new XcapeException(ErrorCode.EXISTENT_HINT_CODE);}
+    public static XcapeException EXISTENT_HINT() {return new XcapeException(ErrorCode.EXISTENT_HINT);}
 }

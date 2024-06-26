@@ -12,7 +12,8 @@ const JSON_FILE_NAME = 'release.json';
 const JSON_FILE_TYPE = {
     MERCHANT: 'merchant',
     THEME: 'theme',
-    BANNER: 'banner'
+    BANNER: 'banner',
+    HINT: 'hint'
 }
 const FAKE_RESERVATION = (reservationId) => {
     return {

@@ -1,9 +1,11 @@
 package com.chadev.xcape.admin.controller;
 
+import com.chadev.xcape.admin.service.HintService;
 import com.chadev.xcape.admin.service.MerchantService;
 import com.chadev.xcape.admin.service.ReservationService;
 import com.chadev.xcape.admin.service.SchedulerService;
 import com.chadev.xcape.core.domain.dto.AccountDto;
+import com.chadev.xcape.core.domain.dto.HintDto;
 import com.chadev.xcape.core.domain.dto.MerchantDto;
 import com.chadev.xcape.core.domain.dto.ThemeDto;
 import com.chadev.xcape.core.domain.type.AccountType;
@@ -16,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,7 @@ public class AdminViewController {
 
     private final MerchantService merchantService;
     private final ReservationService reservationService;
+    private final HintService hintService;
     public final SchedulerService schedulerService;
 
     @GetMapping("/login")
@@ -37,15 +41,15 @@ public class AdminViewController {
     @GetMapping("/merchant-settings")
     public String merchant(Model model, Authentication authentication){
         AccountDto accountDto = (AccountDto) authentication.getPrincipal();
-        List<MerchantDto> merchantList = new ArrayList<>();
+        List<MerchantDto> merchantDtoList = new ArrayList<>();
         if (accountDto.getType() == AccountType.MASTER) {
-            merchantList = merchantService.getAllMerchantListOrderByOrder();
+            merchantDtoList = merchantService.getAllMerchantListOrderByOrder();
         }
 
         if (accountDto.getType() == AccountType.MANAGER) {
-            merchantList.add(merchantService.getMerchant(accountDto.getMerchantId()));
+            merchantDtoList.add(merchantService.getMerchant(accountDto.getMerchantId()));
         }
-        model.addAttribute("merchantList", merchantList);
+        model.addAttribute("merchantList", merchantDtoList);
         return "merchant-settings";
     }
 
@@ -89,6 +93,22 @@ public class AdminViewController {
         }
 
         return "reservation";
+    }
+
+    @GetMapping("/hint-settings")
+    public String hint(Model model, Authentication authentication) {
+        AccountDto accountDto = (AccountDto)authentication.getPrincipal();
+        List<MerchantDto> merchantDtoList = new ArrayList<>();
+        if (accountDto.getType() == AccountType.MASTER) {
+            merchantDtoList = merchantService.getAllMerchantsWithThemes();
+        }
+
+        if (accountDto.getType() == AccountType.MANAGER) {
+            merchantDtoList.add(merchantService.getMerchantWithThemeList(accountDto.getMerchantId()));
+        }
+
+        model.addAttribute("merchantList", merchantDtoList);
+        return "hint-settings";
     }
 
     @GetMapping("/banner-settings")

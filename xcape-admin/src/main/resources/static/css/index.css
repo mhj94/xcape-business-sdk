@@ -2,3 +2,17 @@
     color: red;
     margin-right: 3px;
 }
+
+.hintTableHeader,
+.hintTableData {
+    display: grid;
+    grid-template-columns: 50px 80px 1fr 1fr 80px;
+    padding: 8px;
+    border-bottom: 1px solid #dee2e6;
+    background-color: white;
+}
+
+.hintTableData:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
