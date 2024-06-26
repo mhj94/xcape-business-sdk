@@ -4,6 +4,7 @@ import com.chadev.xcape.admin.service.HintService;
 import com.chadev.xcape.admin.service.MerchantService;
 import com.chadev.xcape.admin.service.ReservationService;
 import com.chadev.xcape.admin.service.SchedulerService;
+import com.chadev.xcape.admin.service.TagService;
 import com.chadev.xcape.core.domain.dto.AccountDto;
 import com.chadev.xcape.core.domain.dto.HintDto;
 import com.chadev.xcape.core.domain.dto.MerchantDto;
@@ -32,6 +33,7 @@ public class AdminViewController {
     private final ReservationService reservationService;
     private final HintService hintService;
     public final SchedulerService schedulerService;
+    private final TagService tagService;
 
     @GetMapping("/login")
     public String login() {
@@ -148,6 +150,19 @@ public class AdminViewController {
         }
         model.addAttribute("merchantList", merchantList);
         return "file-upload";
+    }
+
+    @GetMapping("/tag-settings")
+    public String tagSettings(Authentication authentication, Model model) {
+        AccountDto account = (AccountDto) authentication.getPrincipal();
+        List<MerchantDto> merchantList = new ArrayList<>();
+        if (account.getType() == AccountType.MASTER) {
+            merchantList = merchantService.getAllMerchantsWithThemes();
+        } else {
+            merchantList.add(merchantService.getMerchantWithThemeList(account.getMerchantId()));
+        }
+        model.addAttribute("merchantList", merchantList);
+        return "tag-settings";
     }
 
     @GetMapping("/migration")

@@ -16,3 +16,7 @@
     background-color: rgba(0, 0, 0, 0.05);
     cursor: pointer;
 }
+
+.list-group-item {
+    margin-bottom: 0;
+}

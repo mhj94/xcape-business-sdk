@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head}"></head>
+<body class="bg-light d-flex flex-column" style="height: 100vh;">
+<nav th:replace="~{fragments :: navbar (tagSettings)}"></nav>
+<div class="row mx-0 justify-content-between flex-grow-1">
+    <div class="col-4">
+        <div class="mb-3">
+            <label for="merchantSelect" class="col-form-label">가맹점</label>
+            <select id="merchantSelect" class="form-select" aria-label="Default select example">
+                <option value="" selected>-선택-</option>
+                <option th:each="merchant : ${merchantList}" th:text="${merchant.getName()}" th:value="${merchant.getId()}"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="themeSelect" class="col-form-label">테마</label>
+            <select id="themeSelect" class="form-select" aria-label="Default select example">
+                <option selected>가맹점을 선택해주세요.</option>
+            </select>
+        </div>
+        <div id="tagListGroupArea" class="list-group overflow-scroll px-3" style="height: 200px;">
+            <button class="list-group-item">비어잇음</button>
+        </div>
+    </div>
+    <div class="col-4"></div>
+    <div class="col-4 d-flex flex-column">
+        <div style="background: aliceblue; flex-grow: 1;">
+
+        </div>
+        <div class="py-2" style="background: salmon">
+            <label>dddd</label>
+            <input type="text" />
+            <button>zzzzz</button>
+        </div>
+        <div class="py-2" style="background: brown">
+            <label>dddd</label>
+            <input type="text" />
+            <button>zzzzz</button>
+        </div>
+    </div>
+</div>
+
+<template id="defaultSelect">
+    <option value="" selected>선택</option>
+</template>
+<template id="themeSelectOption">
+    <option value="${themeId}">${themeName}</option>
+</template>
+<template id="tagListGroupItem">
+    <button class="list-group-item list-group-item-action" data-tag-id="${tagId}">${tagName}</button>
+</template>
+<script th:src="@{/js/tag-settings.js}"></script>
+</body>
+</html>

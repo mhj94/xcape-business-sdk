@@ -25,8 +25,8 @@ public class Tag {
     @Column
     private Long themeId;
 
-    @Column(length = 50)
-    private String tagName;
+    @Column(name = "tag_name", length = 50)
+    private String name;
 
     @Column(length = 50)
     private String referenceCode;
@@ -34,7 +34,7 @@ public class Tag {
     public Tag(TagDto tagDto) {
         this.merchantId = tagDto.getMerchantId();
         this.themeId = tagDto.getThemeId();
-        this.tagName = tagDto.getTagName();
+        this.name = tagDto.getName();
         this.referenceCode = tagDto.getReferenceCode();
     }
 }
