@@ -17,7 +17,7 @@ public class TagDto {
 
     private Long themeId;
 
-    private String tagName;
+    private String name;
 
     private String referenceCode;
 
@@ -25,7 +25,7 @@ public class TagDto {
         this.id = entity.getId();
         this.merchantId = entity.getMerchantId();
         this.themeId = entity.getThemeId();
-        this.tagName = entity.getTagName();
+        this.name = entity.getName();
         this.referenceCode = entity.getReferenceCode();
     }
 }

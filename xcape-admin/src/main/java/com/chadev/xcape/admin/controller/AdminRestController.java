@@ -24,23 +24,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminRestController {
 
-	private final MerchantService merchantService;
-	private final ThemeService themeService;
-	private final PriceService priceService;
-	private final ReservationService reservationService;
-	private final BannerService bannerService;
-	private final TimetableService timetableService;
-	private final HintService hintService;
-	private final MockReservationService mockReservationService;
-	private final ReservationHistoryService reservationHistoryService;
-	private final StorageService storageService;
-	private final MigrateService migrateService;
+    private final MerchantService merchantService;
+    private final ThemeService themeService;
+    private final PriceService priceService;
+    private final ReservationService reservationService;
+    private final BannerService bannerService;
+    private final TimetableService timetableService;
+    private final MockReservationService mockReservationService;
+    private final ReservationHistoryService reservationHistoryService;
+    private final StorageService storageService;
+    private final TagService tagService;
+    private final MigrateService migrateService;
+    private final HintService hintService;
 
-	@GetMapping("/merchants")
-	public Response<List<MerchantDto>> getMerchantList() {
-		List<MerchantDto> merchantDtoList = merchantService.getMerchantList();
-		return Response.success(merchantDtoList);
-	}
+    @GetMapping("/merchants")
+    public Response<List<MerchantDto>> getMerchantList() {
+        List<MerchantDto> merchantDtoList = merchantService.getMerchantList();
+        return Response.success(merchantDtoList);
+    }
 
 	@GetMapping("/merchants/{merchantId}")
 	public Response<MerchantDto> getMerchantById(@PathVariable Long merchantId) {
@@ -245,19 +246,30 @@ public class AdminRestController {
 		return Response.success();
 	}
 
-	@PostMapping("/migrate-storage")
-	public void migrateStorageList(@RequestBody List<StorageDto> storageDataList) {
-		migrateService.migrateStorageData(storageDataList);
-	}
+    @GetMapping("/tags")
+    public Response<List<TagDto>> getTagList() {
+        List<TagDto> tagList = tagService.getTagList();
+        return Response.success(tagList);
+    }
 
-	@PostMapping("/migrate-tag")
-	public void migrateTagList(@RequestBody List<TagDto> tagDtoList) {
-		migrateService.migrateTagData(tagDtoList);
-	}
+    @GetMapping("/tag-search")
+    public Response<List<TagDto>> getTagListByThemeId(Long themeId) {
+        List<TagDto> tagList = tagService.getTagListByThemeId(themeId);
+        return Response.success(tagList);
+    }
 
-	@PostMapping("/migrate-view")
-	public void migrateViewList(@RequestBody List<ViewDto> viewDtoList) {
-		migrateService.migrateViewData(viewDtoList);
-	}
+    @PostMapping("/migrate-storage")
+    public void migrateStorageList(@RequestBody List<StorageDto> storageDataList) {
+        migrateService.migrateStorageData(storageDataList);
+    }
 
+    @PostMapping("/migrate-tag")
+    public void migrateTagList(@RequestBody List<TagDto> tagDtoList) {
+        migrateService.migrateTagData(tagDtoList);
+    }
+
+    @PostMapping("/migrate-view")
+    public void migrateViewList(@RequestBody List<ViewDto> viewDtoList) {
+        migrateService.migrateViewData(viewDtoList);
+    }
 }

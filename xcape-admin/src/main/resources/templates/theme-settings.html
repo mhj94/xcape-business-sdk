@@ -16,14 +16,20 @@
         <div class="row mt-2 justify-content-evenly">
             <div class="col-lg-4 mb-3">
                 <div id="treeArea" class="bg-white">
-                    <div class="accordion">
+                    <div id="accordion" class="accordion">
                         <div class="accordion-item" th:each="merchant, i : ${merchantList}">
                             <h2 class="accordion-header" th:data-merchant-id="${merchant.getId()}">
                                 <button class="accordion-button" th:classappend="${i.index != 0} ? 'collapsed'" type="button" data-bs-toggle="collapse"
-                                        th:data-bs-target="'#themeList-' + ${merchant.getId()}" th:aria-expand="${i.index == 0} ? 'true' : 'false'" th:text="${merchant.getName()}"></button>
+                                        th:data-bs-target="'#themeList-' + ${merchant.getId()}"
+                                        th:aria-expand="${i.index == 0} ? 'true' : 'false'"
+                                        th:text="${merchant.getName()}"></button>
                             </h2>
-                            <div th:id="'themeList-' + ${merchant.getId()}" class="accordion-collapse collapse" th:classappend="${i.index == 0} ? 'show'"
-                                 th:aria-labelledby="'merchant-' + ${merchant.getId()}">
+                            <div th:id="'themeList-' + ${merchant.getId()}"
+                                 class="accordion-collapse collapse"
+                                 th:classappend="${i.index == 0} ? 'show'"
+                                 th:aria-labelledby="'merchant-' + ${merchant.getId()}"
+                                 data-bs-parent="#accordion"
+                            >
                                 <div class="accordion-body">
                                     <div class="list-group list-group-flush">
                                         <button th:data-theme-id="${theme.getId()}" type="button" class="list-group-item list-group-item-action"
