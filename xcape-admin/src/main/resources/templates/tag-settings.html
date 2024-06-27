@@ -3,6 +3,12 @@
 <head th:replace="~{fragments :: head}"></head>
 <body class="bg-light d-flex flex-column" style="height: 100vh;">
 <nav th:replace="~{fragments :: navbar (tagSettings)}"></nav>
+<div class="row mt-2">
+    <div class="col text-end">
+        <span class="fs-6 text-secondary">* 변경사항을 저장 후 발행해주세요.</span>
+        <button id="jsonPublishButton" type="button" class="btn btn-success">발행</button>
+    </div>
+</div>
 <div class="row mx-0 justify-content-between flex-grow-1">
     <div class="col-4">
         <div class="mb-3">
