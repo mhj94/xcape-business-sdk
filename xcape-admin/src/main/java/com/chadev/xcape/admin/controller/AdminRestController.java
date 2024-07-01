@@ -36,6 +36,7 @@ public class AdminRestController {
     private final TagService tagService;
     private final MigrateService migrateService;
     private final HintService hintService;
+	private final ViewService viewService;
 
     @GetMapping("/merchants")
     public Response<List<MerchantDto>> getMerchantList() {
@@ -257,6 +258,12 @@ public class AdminRestController {
         List<TagDto> tagList = tagService.getTagListByThemeId(themeId);
         return Response.success(tagList);
     }
+
+	@GetMapping("/views")
+	public Response<List<ViewDto>> getViewList() {
+		List<ViewDto> viewList = viewService.getViewList();
+		return Response.success(viewList);
+	}
 
     @PostMapping("/migrate-storage")
     public void migrateStorageList(@RequestBody List<StorageDto> storageDataList) {

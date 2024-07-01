@@ -68,5 +68,45 @@ document.querySelector('#themeSelect').addEventListener('change', (e) => {
     }
 });
 
+// 발행 버튼 클릭시 이벤트
+document.querySelector('#jsonPublishButton').addEventListener('click', async () => {
+    try {
+        const [tagResponse, viewResponse] = await Promise.all([
+            axios.get('/tags'),
+            axios.get('/views')
+        ]);
 
+        await handleDataResponse(tagResponse, viewResponse);
+    } catch (error) {
+        alert('발행에 실패했습니다.');
+    }
+});
 
+const handleDataResponse = async (tagResponse, viewResponse) => {
+    const {resultCode: tagResultCode, result: tagResult} = tagResponse.data;
+    const {resultCode: viewResultCode, result: viewResult} = viewResponse.data;
+
+    if (tagResultCode !== SUCCESS || viewResultCode !== SUCCESS) {
+        throw new Error('조회 실패');
+    }
+
+    const tagUploadResponse = await uploadJsonFile(tagResult, JSON_FILE_TYPE.TAG);
+    const viewUploadResponse = await uploadJsonFile(viewResult, JSON_FILE_TYPE.VIEW);
+
+    const tagPath = tagUploadResponse.data;
+    const viewPath = viewUploadResponse.data;
+
+    if (!tagPath || !viewPath) {
+        throw new Error('파일 업로드 실패');
+    }
+    alert(`태그 : ${tagPath} 및 뷰 : ${viewPath}\n 발행이 완료되었습니다.`);
+};
+
+// 업로드
+const uploadJsonFile = async (data, type) => {
+    let form = new FormData();
+    form.append('file', new File([JSON.stringify(data)], JSON_FILE_NAME));
+    form.append('type', type);
+
+    return await axios.put('/json', form);
+};
