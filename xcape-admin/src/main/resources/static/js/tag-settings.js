@@ -71,12 +71,14 @@ document.querySelector('#themeSelect').addEventListener('change', (e) => {
 // 발행 버튼 클릭시 이벤트
 document.querySelector('#jsonPublishButton').addEventListener('click', async () => {
     try {
-        const [tagResponse, viewResponse] = await Promise.all([
+        const responses = await axios.all([
             axios.get('/tags'),
             axios.get('/views')
         ]);
 
+        const [tagResponse, viewResponse] = responses;
         await handleDataResponse(tagResponse, viewResponse);
+
     } catch (error) {
         alert('발행에 실패했습니다.');
     }
