@@ -12,18 +12,14 @@ pipeline {
 
     stages {
         stage('Prepare') {
-            script {
-                // workspace 경로 설정
-                sh """
-                cd xcape-admin
-                """
+            steps {
+                script {
+                    // workspace 설정
+                    sh """
+                    cd xcape-admin
+                    """
+                }
             }
-        }
-
-    }
-
-    stages {
-        stage('Prepare') {
             steps {
                 script {
                     // 커밋 해시값 가져오기 및 환경 변수로 설정
