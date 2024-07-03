@@ -1,0 +1,103 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_ECR_URL = credentials('aws-ecr-xcape-dev-admin')
+        AWS_ACCESS_KEY = credentials('awsAccessKey')
+        AWS_SECRET_ACCESS_KEY = credentials('awsSecretAccessKey')
+        JASYPT_KEY = credentials('jasypt-key')
+        AWS_REGION = credentials('aws-region')
+        COMMIT_HASH = ''
+    }
+
+    stages {
+        stage('Prepare') {
+            script {
+                // workspace 경로 설정
+                sh """
+                cd xcape-admin
+                """
+            }
+        }
+
+    }
+
+    stages {
+        stage('Prepare') {
+            steps {
+                script {
+                    // 커밋 해시값 가져오기 및 환경 변수로 설정
+                    COMMIT_HASH = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+                    env.COMMIT_HASH = COMMIT_HASH
+                }
+            }
+        }
+
+        stage('AWS 자격증명 설정') {
+            steps {
+                script {
+                    // AWS 자격증명
+                    sh """
+                    aws configure set aws_access_key_id ${AWS_ACCESS_KEY}
+                    aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
+                    aws configure set default.region ${AWS_REGION}
+                    """
+                }
+            }
+        }
+
+        stage('AWS ECR 로그인') {
+            steps {
+                script {
+                    // AWS ECR 로그인
+                    sh """
+                    aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ECR_URL}
+                    """
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                script {
+                    // Docker 이미지를 빌드하고 두 개의 태그 추가
+                    sh """
+                    docker build --build-arg JASYPT_KEY=${JASYPT_KEY} -t ${AWS_ECR_URL}:latest -t ${AWS_ECR_URL}:${COMMIT_HASH} -f Dockerfile .
+                    """
+                }
+            }
+        }
+
+        stage('ECR에 빌드한 이미지 업로드') {
+            steps {
+                script {
+                    // Docker 이미지를 ECR에 푸시 (latest와 커밋 해시 태그)
+                    sh """
+                    docker push ${AWS_ECR_URL}:latest
+                    docker push ${AWS_ECR_URL}:${COMMIT_HASH}
+                    """
+                }
+            }
+        }
+
+        stage('Docker Container 실행') {
+            steps {
+                script {
+                    // Docker 컨테이너 실행 (latest와 커밋 해시 태그 중 하나 선택 가능)
+                    sh """
+                    docker run -d -p 8000:8000 ${AWS_ECR_URL}:latest
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // 빌드 후 클린업 작업을 여기에 추가할 수 있습니다.
+            script {
+                // 예: 사용된 자격증명을 제거하거나 필요한 후속 작업
+            }
+        }
+    }
+}
