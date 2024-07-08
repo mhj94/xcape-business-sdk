@@ -80,6 +80,9 @@ public class Merchant extends AuditingFields {
     @Column(name = "use_yn", length = 1)
     private Boolean useYn;
 
+    @Column(name= "display_name")
+    private String displayName;
+
     public void update(MerchantDto requestDto) {
         this.name = requestDto.getName();
         this.address = requestDto.getAddress();
@@ -94,5 +97,6 @@ public class Merchant extends AuditingFields {
         this.usingInfoNotionId = requestDto.getUsingInfoNotionId();
         this.addressInfoNotionId = requestDto.getAddressInfoNotionId();
         this.useYn = requestDto.getUseYn();
+        this.displayName = requestDto.getDisplayName();
     }
 }
