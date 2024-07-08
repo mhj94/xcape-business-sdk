@@ -6,5 +6,6 @@ public enum ViewType {
     VIDEO,
     CAMERA,
     ANSWER,
+    HINT,
     ;
 }

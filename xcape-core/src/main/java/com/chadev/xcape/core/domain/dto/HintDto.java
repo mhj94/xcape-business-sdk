@@ -21,13 +21,20 @@ import lombok.*;
 public class HintDto {
 
     private Long id;
+
     private Long themeId;
+
     private String code;
+
     private String message1;
+
     private String message2;
+
     private Boolean isUsed;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime registeredAt;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime modifiedAt;
 
