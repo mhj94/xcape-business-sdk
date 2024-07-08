@@ -14,6 +14,7 @@ const getMerchantInformation = (e) => {
             document.querySelector('#modifyBusinessRegistrationNumber').value = merchant.businessRegistrationNumber;
             document.querySelector('#modifyEmail').value = merchant.email;
             document.querySelector('#modifyCode').value = merchant.code;
+            document.querySelector('#modifyDisplayName').value = merchant.displayName;
             document.querySelector('form[name="modifyMerchantInfo"] input[name="parkingYn"]').checked = merchant.parkingYn;
             document.querySelector('form[name="modifyMerchantInfo"] input[name="useYn"]').checked = merchant.useYn;
             document.querySelector('#modifyBrandInfoNotionId').value = merchant.brandInfoNotionId;

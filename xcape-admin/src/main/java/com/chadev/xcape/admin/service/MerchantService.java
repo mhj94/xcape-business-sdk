@@ -53,21 +53,22 @@ public class MerchantService {
         int merchantSize = merchantRepository.findAll().size();
 
         Merchant newMerchant = Merchant.builder()
-                .name(requestDto.getName())
-                .telNumber(requestDto.getTelNumber())
-                .address(requestDto.getAddress())
-                .businessHour(requestDto.getBusinessHour())
-                .ceoName(requestDto.getCeoName())
-                .businessRegistrationNumber(requestDto.getBusinessRegistrationNumber())
-                .email(requestDto.getEmail())
-                .code(requestDto.getCode())
-                .useYn(requestDto.getUseYn())
-                .parkingYn(requestDto.getParkingYn())
-                .brandInfoNotionId(requestDto.getBrandInfoNotionId())
-                .usingInfoNotionId(requestDto.getUsingInfoNotionId())
-                .addressInfoNotionId(requestDto.getAddressInfoNotionId())
-                .order(merchantSize + 1)
-                .build();
+            .name(requestDto.getName())
+            .telNumber(requestDto.getTelNumber())
+            .address(requestDto.getAddress())
+            .businessHour(requestDto.getBusinessHour())
+            .ceoName(requestDto.getCeoName())
+            .businessRegistrationNumber(requestDto.getBusinessRegistrationNumber())
+            .email(requestDto.getEmail())
+            .code(requestDto.getCode())
+            .useYn(requestDto.getUseYn())
+            .parkingYn(requestDto.getParkingYn())
+            .brandInfoNotionId(requestDto.getBrandInfoNotionId())
+            .usingInfoNotionId(requestDto.getUsingInfoNotionId())
+            .addressInfoNotionId(requestDto.getAddressInfoNotionId())
+            .displayName(requestDto.getDisplayName())
+            .order(merchantSize + 1)
+            .build();
 
         merchantRepository.save(newMerchant);
     }
