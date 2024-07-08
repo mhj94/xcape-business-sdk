@@ -59,11 +59,13 @@ public class HintService {
 
 	@Transactional
 	public void modifyHint(Long hintId, HintDto hintDto) {
-		if (hasCode(hintDto.getCode())) {
+
+		Hint hint = hintRepository.findById(hintId).orElseThrow(XcapeException::NOT_EXISTENT_HINT);
+
+		if (!hint.getCode().equals(hintDto.getCode()) && hasCode(hintDto.getCode())) {
 			throw XcapeException.EXISTENT_HINT_CODE();
 		}
 
-		Hint hint = hintRepository.findById(hintId).orElseThrow(XcapeException::EXISTENT_HINT);
 		hint.update(hintDto);
 	}
 
