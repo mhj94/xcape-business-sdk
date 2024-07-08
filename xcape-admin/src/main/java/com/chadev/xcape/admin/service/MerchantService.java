@@ -66,7 +66,7 @@ public class MerchantService {
             .brandInfoNotionId(requestDto.getBrandInfoNotionId())
             .usingInfoNotionId(requestDto.getUsingInfoNotionId())
             .addressInfoNotionId(requestDto.getAddressInfoNotionId())
-            .displayName(requestDto.getDisplayName())
+            .displayName(requestDto.getDisplayName().toUpperCase())
             .order(merchantSize + 1)
             .build();
 

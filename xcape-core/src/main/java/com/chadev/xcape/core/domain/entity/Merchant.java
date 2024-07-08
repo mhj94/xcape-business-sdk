@@ -97,6 +97,6 @@ public class Merchant extends AuditingFields {
         this.usingInfoNotionId = requestDto.getUsingInfoNotionId();
         this.addressInfoNotionId = requestDto.getAddressInfoNotionId();
         this.useYn = requestDto.getUseYn();
-        this.displayName = requestDto.getDisplayName();
+        this.displayName = requestDto.getDisplayName().toUpperCase();
     }
 }
