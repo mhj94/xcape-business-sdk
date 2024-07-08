@@ -36,4 +36,5 @@ public class XcapeException extends RuntimeException {
     public static XcapeException FILE_UPLOAD_EXCEPTION() {return new XcapeException(ErrorCode.FILE_UPLOAD_EXCEPTION);}
     public static XcapeException EXISTENT_HINT_CODE() {return new XcapeException(ErrorCode.EXISTENT_HINT_CODE);}
     public static XcapeException EXISTENT_HINT() {return new XcapeException(ErrorCode.EXISTENT_HINT);}
+    public static XcapeException NOT_EXISTENT_HINT() {return new XcapeException(ErrorCode.NOT_EXISTENT_HINT);}
 }
