@@ -45,6 +45,12 @@ public class View {
     @Column
     private Long targetTagId;
 
+    @Column
+    private String message1;
+
+    @Column
+    private String message2;
+
     @Column(length = 100)
     private String referenceCode;
 
@@ -60,6 +66,8 @@ public class View {
         this.height = viewDto.getHeight();
         this.moveToPage = viewDto.getMoveToPage();
         this.targetTagId = viewDto.getTargetTagId();
+        this.message1 = viewDto.getMessage1();
+        this.message2 = viewDto.getMessage2();
         this.referenceCode = viewDto.getReferenceCode();
         this.orders = viewDto.getOrders();
     }
