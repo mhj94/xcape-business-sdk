@@ -2,53 +2,49 @@ pipeline {
     agent any
 
     environment {
-        AWS_ECR_URL = credentials('aws-ecr-xcape-dev-admin')
-        AWS_ACCESS_KEY = credentials('awsAccessKey')
-        AWS_SECRET_ACCESS_KEY = credentials('awsSecretAccessKey')
-        JASYPT_KEY = credentials('jasypt-key')
-        AWS_REGION = credentials('aws-region')
+        AWS_CREDENTIALS_ID = 'XCAPE_DEV_AWS_CREDENTIALS'
+        AWS_ECR_URL = credentials('AWS_ECR_URL_XCAPE_DEV_ADMIN')
+        JASYPT_KEY = credentials('XCAPE_JASYPT_KEY')
+        AWS_REGION = credentials('AWS_REGION')
         COMMIT_HASH = ''
     }
 
     stages {
-        stage('Prepare') {
+        stage('Clone Repository') {
             steps {
                 script {
-                    // workspace 설정
-                    sh """
-                    cd xcape-admin
-                    """
+                    // Git Clone
+                    git url: 'https://github.com/hanseongseo/xcape-business-sdk.git', branch: 'develop'
                 }
             }
+        }
+
+        stage('Prepare') {
             steps {
                 script {
                     // 커밋 해시값 가져오기 및 환경 변수로 설정
                     COMMIT_HASH = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
                     env.COMMIT_HASH = COMMIT_HASH
                 }
-            }
-        }
 
-        stage('AWS 자격증명 설정') {
-            steps {
-                script {
-                    // AWS 자격증명
-                    sh """
-                    aws configure set aws_access_key_id ${AWS_ACCESS_KEY}
-                    aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
-                    aws configure set default.region ${AWS_REGION}
-                    """
+                // firebase account 특정 경로로 복사
+                withCredentials([file(credentialsId: 'FIREBASE_ACCOUNT_KEY_DEV', variable: 'FIREBASE_ACCOUNT_KEY')]) {
+                    sh "cp $FIREBASE_ACCOUNT_KEY xcape-admin/src/main/resources"
                 }
             }
         }
 
-        stage('AWS ECR 로그인') {
+        stage('Login to ECR') {
             steps {
-                script {
-                    // AWS ECR 로그인
-                    sh """
-                    aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ECR_URL}
-                    """
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: "${AWS_CREDENTIALS_ID}" // AWS 자격 증명의 ID
+                ]]) {
+                    script {
+                        sh '''
+                        aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ECR_URL
+                        '''
+                    }
                 }
             }
         }
@@ -58,7 +54,7 @@ pipeline {
                 script {
                     // Docker 이미지를 빌드하고 두 개의 태그 추가
                     sh """
-                    docker build --build-arg JASYPT_KEY=${JASYPT_KEY} -t ${AWS_ECR_URL}:latest -t ${AWS_ECR_URL}:${COMMIT_HASH} -f Dockerfile .
+                    docker build --build-arg JASYPT_KEY=${JASYPT_KEY} -t ${AWS_ECR_URL}:latest -t ${AWS_ECR_URL}:${COMMIT_HASH} -f xcape-admin/Dockerfile .
                     """
                 }
             }
@@ -87,13 +83,15 @@ pipeline {
             }
         }
     }
-
     post {
+        success {
+            echo 'Build success'
+        }
+        failure {
+            echo 'Build Failed'
+        }
         always {
-            // 빌드 후 클린업 작업을 여기에 추가할 수 있습니다.
-            script {
-                // 예: 사용된 자격증명을 제거하거나 필요한 후속 작업
-            }
+            cleanWs()
         }
     }
 }
