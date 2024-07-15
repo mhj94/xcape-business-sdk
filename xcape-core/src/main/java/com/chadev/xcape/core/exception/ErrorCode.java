@@ -23,6 +23,7 @@ public enum ErrorCode {
     NOT_EXISTENT_ROOM_TYPE("9012", "존재하지 않는 룸 타입입니다."),
     EXISTENT_HINT_CODE("9013", "존재하는 힌트 코드입니다."),
     EXISTENT_HINT("9014", "존재하는 힌트입니다."),
+    NOT_EXISTENT_HINT("9014", "존재하지 않는 힌트입니다."),
 
     // 인증
     AUTHENTICATION_INVALID_PHONE_NUMBER("9100", "예약자의 연락처와 일치하지 않는 연락처입니다."),

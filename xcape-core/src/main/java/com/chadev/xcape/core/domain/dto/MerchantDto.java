@@ -30,6 +30,7 @@ public class MerchantDto {
     private String usingInfoNotionId;
     private String addressInfoNotionId;
     private Boolean useYn;
+    private String displayName;
 
     private List<ThemeDto> themeList = new ArrayList<>();
     private List<BannerDto> bannerList = new ArrayList<>();
@@ -51,6 +52,7 @@ public class MerchantDto {
         this.usingInfoNotionId = entity.getUsingInfoNotionId();
         this.addressInfoNotionId = entity.getAddressInfoNotionId();
         this.useYn = entity.getUseYn();
+        this.displayName = entity.getDisplayName();
     }
 
     public MerchantDto(Long id, String name) {

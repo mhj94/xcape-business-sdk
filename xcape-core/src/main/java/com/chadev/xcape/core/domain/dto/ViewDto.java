@@ -30,6 +30,10 @@ public class ViewDto {
 
     private Long targetTagId;
 
+    private String message1;
+
+    private String message2;
+
     private String referenceCode;
 
     private Integer orders;
@@ -44,6 +48,8 @@ public class ViewDto {
         this.height = entity.getHeight();
         this.moveToPage = entity.getMoveToPage();
         this.targetTagId = entity.getTargetTagId();
+        this.message1 = entity.getMessage1();
+        this.message2 = entity.getMessage2();
         this.referenceCode = entity.getReferenceCode();
         this.orders = entity.getOrders();
     }
