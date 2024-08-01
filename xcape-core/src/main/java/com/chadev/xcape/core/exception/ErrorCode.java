@@ -35,6 +35,8 @@ public enum ErrorCode {
     FILE_FORMAT_EXCEPTION("9201", "업로드 할 수 없는 파일입니다."),
     UNNAMED_FILE("9202", "파일 이름이 없습니다."),
     FILE_UPLOAD_EXCEPTION("9203", "업로드에 실패했습니다."),
+
+    NOT_EXISTENT_VIEW_LIST("9300", "업데이트 할 VIEW가 없습니다.")
     ;
 
     private final String code;

@@ -8,10 +8,8 @@ import com.chadev.xcape.core.domain.dto.history.ReservationHistoryDto;
 import com.chadev.xcape.core.domain.request.ReservationRequest;
 import com.chadev.xcape.core.domain.request.ThemeModifyRequestDto;
 import com.chadev.xcape.core.response.Response;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -263,6 +261,18 @@ public class AdminRestController {
 	public Response<List<ViewDto>> getViewList() {
 		List<ViewDto> viewList = viewService.getViewList();
 		return Response.success(viewList);
+	}
+
+	@GetMapping("/storage")
+	public Response<List<StorageDto>> getStorageList() {
+		List<StorageDto> storageList = storageService.getStorageList();
+		return Response.success(storageList);
+	}
+
+	@PutMapping("/views")
+	public Response<Void> modifyViewList(@RequestBody List<ViewDto> viewList) {
+		viewService.modifyViewList(viewList);
+		return Response.success();
 	}
 
     @PostMapping("/migrate-storage")
