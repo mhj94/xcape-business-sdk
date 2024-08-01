@@ -1,6 +1,8 @@
 package com.chadev.xcape.admin.service;
 
+import com.chadev.xcape.core.domain.converter.DtoConverter;
 import com.chadev.xcape.core.domain.dto.FileUploadDto;
+import com.chadev.xcape.core.domain.dto.StorageDto;
 import com.chadev.xcape.core.domain.entity.Storage;
 import com.chadev.xcape.core.domain.type.FileType;
 import com.chadev.xcape.core.exception.XcapeException;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -26,6 +29,8 @@ public class StorageService {
 
     private final StorageRepository storageRepository;
     private final FirebaseService firebaseService;
+
+    private final DtoConverter dtoConverter;
 
     private String getExtension(String filename) {
         return filename.substring(filename.lastIndexOf("."));
@@ -77,5 +82,9 @@ public class StorageService {
                 .build();
 
         storageRepository.save(storage);
+    }
+
+    public List<StorageDto> getStorageList() {
+        return storageRepository.findAll().stream().map(dtoConverter::toStorageDto).toList();
     }
 }

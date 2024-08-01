@@ -3,45 +3,221 @@
 <head th:replace="~{fragments :: head}"></head>
 <body class="bg-light d-flex flex-column" style="height: 100vh;">
 <nav th:replace="~{fragments :: navbar (tagSettings)}"></nav>
-<div class="row mt-2">
+<div class="row px-3 py-2">
+    <div class="col">
+        <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#tagCreateModal">태그 생성
+        </button>
+    </div>
     <div class="col text-end">
         <span class="fs-6 text-secondary">* 변경사항을 저장 후 발행해주세요.</span>
         <button id="jsonPublishButton" type="button" class="btn btn-success">발행</button>
     </div>
 </div>
-<div class="row mx-0 justify-content-between flex-grow-1">
-    <div class="col-4">
-        <div class="mb-3">
-            <label for="merchantSelect" class="col-form-label">가맹점</label>
-            <select id="merchantSelect" class="form-select" aria-label="Default select example">
-                <option value="" selected>-선택-</option>
-                <option th:each="merchant : ${merchantList}" th:text="${merchant.getName()}" th:value="${merchant.getId()}"></option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="themeSelect" class="col-form-label">테마</label>
-            <select id="themeSelect" class="form-select" aria-label="Default select example">
-                <option selected>가맹점을 선택해주세요.</option>
-            </select>
-        </div>
-        <div id="tagListGroupArea" class="list-group overflow-scroll px-3" style="height: 200px;">
-            <button class="list-group-item">비어잇음</button>
+<div class="d-flex justify-content-between flex-grow-1 px-3">
+    <div style="min-width: 300px;">
+        <div id="treeArea" class="bg-white">
+            <div id="accordion" class="accordion">
+                <div class="accordion-item" th:each="merchant, i : ${merchantList}">
+                    <h2 class="accordion-header" th:data-merchant-id="${merchant.getId()}">
+                        <button class="accordion-button" th:classappend="${i.index != 0} ? 'collapsed'" type="button"
+                                data-bs-toggle="collapse"
+                                th:data-bs-target="'#themeList-' + ${merchant.getId()}"
+                                th:aria-expand="${i.index == 0} ? 'true' : 'false'"
+                                th:text="${merchant.getName()}"></button>
+                    </h2>
+                    <div th:id="'themeList-' + ${merchant.getId()}"
+                         class="accordion-collapse collapse"
+                         th:classappend="${i.index == 0} ? 'show'"
+                         th:aria-labelledby="'merchant-' + ${merchant.getId()}"
+                         data-bs-parent="#accordion"
+                    >
+                        <div class="accordion-body">
+                            <div class="list-group list-group-flush">
+                                <button th:data-theme-id="${theme.getId()}" type="button"
+                                        class="list-group-item list-group-item-action"
+                                        th:each="theme : ${merchant.getThemeList()}"
+                                        th:text="${theme.getNameKo()}"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col-4"></div>
-    <div class="col-4 d-flex flex-column">
-        <div style="background: aliceblue; flex-grow: 1;">
+    <div class="d-flex flex-column" style="min-width: 500px; width: 100%; margin: 0 10px;">
+        <div class="btn-group mb-3" role="group">
+            <input type="radio" class="btn-check" name="viewType" id="imageView" value="IMAGE" autocomplete="off"
+                   checked>
+            <label class="btn btn-outline-primary" for="imageView">이미지</label>
+            <input type="radio" class="btn-check" name="viewType" id="audioView" value="AUDIO" autocomplete="off">
+            <label class="btn btn-outline-primary" for="audioView">오디오</label>
+            <input type="radio" class="btn-check" name="viewType" id="videoView" value="VIDEO" autocomplete="off">
+            <label class="btn btn-outline-primary" for="videoView">비디오</label>
+            <input type="radio" class="btn-check" name="viewType" id="hintView" value="HINT" autocomplete="off">
+            <label class="btn btn-outline-primary" for="hintView">힌트</label>
+        </div>
+        <div style="height: 500px;">
+            <div id="storageItemList"
+                 class="p-2 h-100 overflow-scroll d-flex flex-column align-items-center text-center border">
+                <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                    <p>비어있음</p>
+                </div>
+            </div>
+        </div>
+        <div class="px-2">
+            <h5>카메라</h5>
+            <div class="input-group mb-3">
+                <span class="input-group-text">높이</span>
+                <input id="cameraHeight" type="number" class="form-control" value="400" placeholder="400"
+                       aria-label="camera height"/>
+                <button id="cameraAddButton" class="btn btn-primary">추가</button>
+            </div>
+        </div>
+        <div class="px-2">
+            <h5>문제</h5>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="padlockCategory">자물쇠 종류</label>
+                <select class="form-select" id="padlockCategory">
+                    <option value="ANSWER" selected>입력 자물쇠</option>
+                    <option value="KEYPAD_LOCK">키패드 자물쇠</option>
+                    <option value="ALPHABET_SCROLL_LOCK">알파벳 스크롤 자물쇠</option>
+                    <option value="NUMBER_SCROLL_LOCK">숫자 스크롤 자물쇠</option>
+                    <option value="BUTTON_PADLOCK">버튼식 자물쇠</option>
+<!--                    <option value="DIRECTION_PADLOCK">방향 자물쇠</option>-->
+                </select>
+                <label class="input-group-text" for="targetTagId">이동 할 태그</label>
+                <select class="form-select" id="targetTagId">
+                    <option value="" selected>선택</option>
+                </select>
+            </div>
+            <div class="input-group mb-3 answerInput" id="answerArea">
+                <span class="input-group-text">답변</span>
+                <input id="answer" type="text" class="form-control" aria-label="answer"/>
+                <button id="answerAddButton" class="btn btn-primary">추가</button>
+            </div>
+            <div class="answerInput mb-3 d-none" id="keypadArea">
+                <div class="input-group">
+                    <span class="input-group-text">답변</span>
+                    <input id="keypadLock" type="text" class="form-control" aria-label="answer"/>
+                    <button id="keypadAddButton" class="btn btn-primary">추가</button>
+                </div>
+                <span class="requiredMark">* 숫자만 가능합니다.</span>
+            </div>
+            <div class="answerInput mb-3 d-none" id="alphabetScrollLockArea">
+                <div class="input-group">
+                    <span class="input-group-text">답변</span>
+                    <input id="alphabet" type="text" class="form-control" aria-label="answer" pattern="[A-Z]{4}"
+                           maxlength="4"/>
+                    <button id="alphabetAddButton" class="btn btn-primary">추가</button>
+                </div>
+                <span class="requiredMark">* 4개의 알파벳만 가능합니다.</span>
+            </div>
+            <div class="answerInput mb-3 d-none" id="numberScrollLockArea">
+                <div class="input-group">
+                    <span class="input-group-text">답변</span>
+                    <input id="numberPadlock" type="text" class="form-control" aria-label="answer" maxlength="3"/>
+                    <button id="numberPadlockAddButton" class="btn btn-primary">추가</button>
+                </div>
+                <span class="requiredMark">* 3개의 숫자만 가능합니다.</span>
+            </div>
+            <div class="answerInput mb-3 d-none" id="buttonPadlockArea">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">답변</span>
+                    <span id="buttonPadlock" class="form-control" aria-label="answer"></span>
+                    <button id="buttonPadlockAddButton" class="btn btn-primary">추가</button>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div class="btn-group" role="group" aria-label="Second group">
+                        <button class="btn btn-primary" data-number="1">1</button>
+                        <button class="btn btn-primary" data-number="2">2</button>
+                        <button class="btn btn-primary" data-number="3">3</button>
+                        <button class="btn btn-primary" data-number="4">4</button>
+                        <button class="btn btn-primary" data-number="5">5</button>
+                        <button class="btn btn-primary" data-number="6">6</button>
+                        <button class="btn btn-primary" data-number="7">7</button>
+                        <button class="btn btn-primary" data-number="8">8</button>
+                    </div>
+                    <div>
+                        <button class="btn btn-danger" id="removeButtonPadlockNumbers">초기화</button>
+                    </div>
+                </div>
+            </div>
+            <div class="answerInput d-none mb-3" id="directionPadlockArea">
+                <div class="input-group">
+                    <span class="input-group-text">답변</span>
+                    <span id="directionPadlock" class="form-control"></span>
+                    <button id="directionPadlockAddButton" class="btn btn-primary">추가</button>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <div class="btn-group" role="group" aria-label="directionButton">
+                        <button type="button" class="btn btn-primary" data-direction="LEFT">Left</button>
+                        <button type="button" class="btn btn-primary" data-direction="UP">UP</button>
+                        <button type="button" class="btn btn-primary" data-direction="RIGHT">Right</button>
+                        <button type="button" class="btn btn-primary" data-direction="DOWN">Down</button>
+                    </div>
+                    <button id="removeAllDirection" class="btn btn-danger">초기화</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-column" style="min-width: 500px;">
+        <div class="mb-3">
+            <select id="tagSelect" class="form-select" aria-label="Default select example">
+                <option value="" selected>태그를 선택해주세요.</option>
+            </select>
+        </div>
+        <div class="mb-2 border">
+            <div id="tagListContainer" style="height: 710px;">
+                <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                    <p>태그를 선택해주세요.</p>
+                </div>
+            </div>
+        </div>
+        <button id="saveTagButton" class="btn btn-primary">저장</button>
+    </div>
+</div>
 
-        </div>
-        <div class="py-2" style="background: salmon">
-            <label>dddd</label>
-            <input type="text" />
-            <button>zzzzz</button>
-        </div>
-        <div class="py-2" style="background: brown">
-            <label>dddd</label>
-            <input type="text" />
-            <button>zzzzz</button>
+<div id="tagCreateModal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <form name="createTagForm" class="needs-validation">
+                <div class="modal-header">
+                    <h5 class="modal-title">태그 만들기</h5>
+                    <select name="merchantId" class="form-control form-select w-25 ms-3" id="merchantSelect" required>
+                        <option value="">지점 선택</option>
+                        <option th:each="merchant : ${merchantList}" th:value="${merchant.getId()}"
+                                th:text="${merchant.getName()}"></option>
+                    </select>
+                    <select name="themeId" class="form-control form-select w-25 ms-3" id="themeSelect" required>
+                        <option value="">테마 선택</option>
+                    </select>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-3">
+                    <div class="mb-3 row">
+                        <div class="col-10">
+                            <div class="border-bottom">
+                                <div class="fw-bold px-2">이름</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <div class="row align-items-center">
+                        <label for="tagName" class="col-4 form-label"><span class="requiredMark">*</span>태그이름</label>
+                        <div class="col-8">
+                            <input type="text"
+                                   class="form-control"
+                                   name="tagName"
+                                   id="tagName"
+                                   required/>
+                        </div>
+                    </div>
+                    <div>
+                        <button id="tagCreateButton" type="button" class="btn btn-primary">저장</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -49,12 +225,101 @@
 <template id="defaultSelect">
     <option value="" selected>선택</option>
 </template>
-<template id="themeSelectOption">
-    <option value="${themeId}">${themeName}</option>
+
+<template id="themeOptionTemplate">
+    <option value="${id}">${name}</option>
 </template>
-<template id="tagListGroupItem">
-    <button class="list-group-item list-group-item-action" data-tag-id="${tagId}">${tagName}</button>
+
+<template id="tagOptionsTemplate">
+    <option value="${id}">${name}</option>
 </template>
+
+<template id="imageCard">
+    <div class="card mb-3 py-2" style="width: 300px;" data-type="IMAGE" data-url="${url}" data-filename="${filename}">
+        <img src="${url}" class="card-img-top" alt="..." height="200" style="object-fit: contain;">
+        <div class="card-body">
+            <p class="card-text text-truncate">${filename}</p>
+        </div>
+    </div>
+</template>
+
+<template id="audioCard">
+    <div class="card mb-3 py-2" style="width: 300px;" data-type="AUDIO" data-url="${url}" data-filename="${filename}">
+        <img src="/images/tape-play.gif" class="card-img-top" alt="...">
+        <div class="card-body">
+            <p class="card-text text-truncate">${filename}</p>
+            <audio controls class="w-100">
+                <source src="${url}"/>
+            </audio>
+        </div>
+    </div>
+</template>
+
+<template id="videoCard">
+    <div class="card mb-3 py-2" style="width: 300px;" data-type="VIDEO" data-url="${url}" data-filename="${filename}">
+        <video src="${url}" width="100%" height="300" controls></video>
+        <div class="card-body">
+            <p class="card-text text-truncate">${filename}</p>
+        </div>
+    </div>
+</template>
+
+<template id="cameraCard">
+    <div class="card mb-3 py-2" style="width: 300px;" data-type="CAMERA" data-height="${height}">
+        <div class="card-body">
+            <p class="card-text text-truncate">카메라 높이 : ${height}</p>
+        </div>
+    </div>
+</template>
+
+<template id="padlockCard">
+    <div class="card mb-3 py-2" style="width: 300px;" data-type="${type}" data-answer="${answer}"
+         data-target-tag-id="${targetTagId}">
+        <div class="card-body">
+            <p class="card-text text-truncate">종류 : ${typeKo}</p>
+            <p class="card-text text-truncate">정답 : ${answer}</p>
+            <p class="card-text text-truncate">이동 할 태그 : ${targetTagName}</p>
+        </div>
+    </div>
+</template>
+
+<template id="hintCard">
+    <div class="card mb-3 py-2" style="width: 100%; text-align: start;" data-type="HINT" data-message1="${message1}"
+         data-message2="${message2}">
+        <div class="card-body">
+            <p class="card-text text-truncate">${message1}</p>
+        </div>
+        <hr/>
+        <div class="card-body">
+            <p class="card-text text-truncate">${message2}</p>
+        </div>
+    </div>
+</template>
+
+<template id="tagListTemplate">
+    <div id="tagList" class="p-2 h-100 overflow-scroll d-flex flex-column align-items-center text-center"></div>
+</template>
+
+<template id="emptyTemplate">
+    <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+        <p>비어있음</p>
+    </div>
+</template>
+
+<template id="tagGuide">
+    <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+        <p>태그를 선택해주세요.</p>
+    </div>
+</template>
+
+<template id="directionBadge">
+    <span class="badge text-bg-primary" data-direction="${direction}">${direction}</span>
+</template>
+
+<template id="numberBadge">
+    <span class="badge text-bg-primary number" data-number="${number}">${number}</span>
+</template>
+
 <script th:src="@{/js/tag-settings.js}"></script>
 </body>
 </html>
