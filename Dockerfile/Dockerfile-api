@@ -1,0 +1,13 @@
+FROM openjdk:17-jdk-slim
+
+VOLUME /tmp
+
+ARG JASYPT_KEY
+
+ENV JASYPT_KEY=${JASYPT_KEY}
+
+COPY xcape-api/build/libs/xcape-api-1.0-SNAPSHOT.jar xcape-api.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-Djasypt.encryptor.password=${JASYPT_KEY}", "-jar", "xcape-api.jar"]
